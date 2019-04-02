@@ -1,0 +1,242 @@
+﻿<UserControl x:Class="O2Micro.BCLabManager.Shell.MainControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="480" d:DesignWidth="640">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Editor">
+                <TabControl>
+                    <TabItem Header="Battery">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">Battery Name</TextBlock>
+                            <TextBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">Model</TextBlock>
+                            <ComboBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></ComboBox>
+                            <DataGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4"></DataGrid>
+                            <Button Grid.Row="3" Grid.Column ="1" Margin="10">Load</Button>
+                            <Button Grid.Row="3" Grid.Column ="2" Margin="10">Create</Button>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Model">
+                        <Grid Margin="80,0,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50*"></ColumnDefinition>
+                                <ColumnDefinition Width="15*"></ColumnDefinition>
+                                <ColumnDefinition Width="20*"></ColumnDefinition>
+                                <ColumnDefinition Width="15*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">Model Name</TextBlock>
+                            <TextBox Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                            <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">Rated Capacity</TextBlock>
+                            <TextBox Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                            <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">Limited Charge Voltage</TextBlock>
+                            <TextBox Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                            <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">Upper Limited Charge Voltage</TextBlock>
+                            <TextBox Grid.Row="3" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                            <TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">Standard Charge Current</TextBlock>
+                            <TextBox Grid.Row="4" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                            <TextBlock Grid.Row="5" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">Max Discharge Current</TextBlock>
+                            <TextBox Grid.Row="5" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                            <TextBlock Grid.Row="6" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">Upper Limited Charge Voltage</TextBlock>
+                            <TextBox Grid.Row="6" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                            <TextBlock Grid.Row="7" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">Operation Temperature Range</TextBlock>
+                            <TextBox Grid.Row="7" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="60" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                            <TextBlock Grid.Row="7" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">Charge</TextBlock>
+                            <TextBox Grid.Row="7" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Width="60" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                            <TextBox Grid.Row="8" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="60" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                            <TextBlock Grid.Row="8" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">Discharge</TextBlock>
+                            <TextBox Grid.Row="8" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Width="60" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                            <Button Grid.Row="9" Grid.Column ="2" Margin="10">Create</Button>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Test Plan">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">Test Plan Name</TextBlock>
+                            <TextBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">Model</TextBlock>
+                            <ComboBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></ComboBox>
+                            <DataGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4"></DataGrid>
+                            <Button Grid.Row="3" Grid.Column ="1" Margin="10">Load</Button>
+                            <Button Grid.Row="3" Grid.Column ="2" Margin="10">Create</Button>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Recipe">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">Recipe Name</TextBlock>
+                            <TextBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">Model</TextBlock>
+                            <ComboBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></ComboBox>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">Steps</TextBlock>
+                            <TextBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="90" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                            <Button Grid.Row="3" Grid.Column ="1" Margin="10">Load</Button>
+                            <Button Grid.Row="3" Grid.Column ="2" Margin="10">Create</Button>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+            <TabItem Header="Viewer">
+                <TabControl>
+                    <TabItem Header="Battery"></TabItem>
+                    <TabItem Header="Model"></TabItem>
+                    <TabItem Header="Test Plan">
+                    </TabItem>
+                    <TabItem Header="Recipe"></TabItem>
+                </TabControl></TabItem>
+            <TabItem Header="Executor">
+                <TabControl>
+                    <TabItem Header="Check In/Check Out">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0"  HorizontalAlignment="Center" VerticalAlignment="Center">Battery Name</TextBlock>
+                            <ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></ComboBox>
+                            <TextBlock Grid.Row="1" Grid.Column="0"  HorizontalAlignment="Center" VerticalAlignment="Center">Status</TextBlock>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"  HorizontalAlignment="Center" VerticalAlignment="Center">Out</TextBlock>
+                            <TextBlock Grid.Row="2" Grid.Column="0"  HorizontalAlignment="Center" VerticalAlignment="Center">Slot</TextBlock>
+                            <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                            <TextBox Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                            <TextBlock Grid.Row="3" Grid.Column="0"  HorizontalAlignment="Center" VerticalAlignment="Center">Operator</TextBlock>
+                            <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                            <TextBox Grid.Row="3" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                            <TextBlock Grid.Row="4" Grid.Column="0"  HorizontalAlignment="Center" VerticalAlignment="Center">Time</TextBlock>
+                            <TextBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                            <TextBox Grid.Row="4" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                            <TextBlock Grid.Row="5" Grid.Column="0"  HorizontalAlignment="Center" VerticalAlignment="Center">Description</TextBlock>
+                            <TextBox Grid.Row="5" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                            <TextBox Grid.Row="5" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                            <TextBlock Grid.Row="6" Grid.Column="0"  HorizontalAlignment="Center" VerticalAlignment="Center">Update CC</TextBlock>
+                            <CheckBox Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0"></CheckBox>
+                            <TextBox Grid.Row="6" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                            <Button Grid.Row="7" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Check In</Button>
+                            <Button Grid.Row="7" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Check Out</Button>
+                            <Border Grid.Row="2" Grid.Column="1" Grid.RowSpan="6" BorderThickness="2" BorderBrush="Black" Margin="15,0"></Border>
+                            <Border Grid.Row="2" Grid.Column="2" Grid.RowSpan="6" BorderThickness="2" BorderBrush="Black" Margin="15,0"></Border>
+                            <Button Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Storage Records</Button>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Experiment">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="60*"></RowDefinition>
+                                <RowDefinition Height="40*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" Margin="10">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Row="0" Grid.Column="0"  HorizontalAlignment="Center" VerticalAlignment="Center">Battery Name</TextBlock>
+                                    <ComboBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></ComboBox>
+                                    <TextBlock Grid.Row="1" Grid.Column="0"  HorizontalAlignment="Center" VerticalAlignment="Center">Test Plan</TextBlock>
+                                    <ComboBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></ComboBox>
+                                    <TextBlock Grid.Row="2" Grid.Column="0"  HorizontalAlignment="Center" VerticalAlignment="Center">Recipe and Temperature</TextBlock>
+                                    <Grid Grid.Row="2" Grid.Column="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <ComboBox HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></ComboBox>
+                                        <ComboBox Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></ComboBox>
+                                    </Grid>
+                                    <TextBlock Grid.Row="3" Grid.Column="0"  HorizontalAlignment="Center" VerticalAlignment="Center">Channel</TextBlock>
+                                    <ComboBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></ComboBox>
+                                    <TextBlock Grid.Row="4" Grid.Column="0"  HorizontalAlignment="Center" VerticalAlignment="Center">Start Time</TextBlock>
+                                    <TextBlock Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">2019-3-12 16:22:57</TextBlock>
+                                    <Button Grid.Row="5" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">Execute</Button>
+                                </Grid>
+                            </Border>
+                            <Border Grid.Row="1" Margin="10">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

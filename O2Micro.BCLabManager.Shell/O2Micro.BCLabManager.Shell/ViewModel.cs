@@ -10,6 +10,6 @@ namespace O2Micro.BCLabManager.Shell
         List<Battery> Batteries = new List<Battery>();
         List<BatteryModel> Models = new List<BatteryModel>();
         List<BatteryTestPlan> TestPlans = new List<BatteryTestPlan>();
-        List<Recipe> Recipes = new List<Recipe>();
+        List<CurrRecipe> Recipes = new List<CurrRecipe>();
     }
 }

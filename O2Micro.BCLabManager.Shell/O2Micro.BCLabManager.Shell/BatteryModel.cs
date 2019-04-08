@@ -5,6 +5,18 @@ using System.Text;
 
 namespace O2Micro.BCLabManager.Shell
 {
+    public class BatteryModels
+    {
+        public List<BatteryModel> BMs { get; set; }
+        public void SaveToDB()
+        { }
+        public void LoadFromDB()
+        { }
+    }
+
+
+    // Summary:
+    //     Represents a certain battery type
     public class BatteryModel
     {
         public Int32 BatteryModelID { get; set; }
@@ -30,12 +42,6 @@ namespace O2Micro.BCLabManager.Shell
             this.NominalVoltage = NominalVoltage;
             this.TypicalCapacity = TypicalCapacity;
             this.CutoffDischargeVoltage = CutoffDischargeVoltage;
-        }
-
-        public void AddTestPlan(String TestPlanName, String Requester, DateTime RequestDate, List<Double> CurrentPoints, List<Double> TempPoints)
-        {
-            Program tp = new Program(1, TargetType.Model, this.BatteryModelID, TestPlanName, Requester, RequestDate, CurrentPoints, TempPoints);
-            TestPlans.Add(tp);
         }
     }
 }

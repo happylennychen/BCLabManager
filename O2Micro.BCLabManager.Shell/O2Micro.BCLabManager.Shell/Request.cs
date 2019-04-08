@@ -5,6 +5,16 @@ using System.Text;
 
 namespace O2Micro.BCLabManager.Shell
 {
+    public class Requests
+    {
+        public List<Request> Rs { get; set; }
+        public void SaveToDB()
+        { }
+        public void LoadFromDB()
+        { }
+    }
+    // Summary:
+    //     Represents a test request
     class Request
     {
         //public Int32 ScheduledItemID { get; set; }

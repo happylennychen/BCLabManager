@@ -21,7 +21,12 @@ namespace O2Micro.BCLabManager.Shell
     public partial class MainControl : UserControl
     {
         private DBManager dbmanager = new DBManager();
-
+        public List<BatteryModel> BatteryModels { get; set; }
+        public List<Battery> Batteries { get; set; }
+        public List<Program> Programs { get; set; }
+        public List<SubProgram> SubPrograms { get; set; }
+        public List<Recipe> Recipes { get; set; }
+        public TestItemScheduler Scheduler { get; set; }
         public MainControl()
         {
             InitializeComponent();

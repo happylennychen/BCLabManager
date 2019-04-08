@@ -44,6 +44,7 @@ namespace O2Micro.BCLabManager.Shell
     }
     public enum TestStatus
     {
+        Invalid,
         Waiting,
         Executing,
         Abandoned,
@@ -52,8 +53,9 @@ namespace O2Micro.BCLabManager.Shell
     }
     class SchedulerItem
     {
-        //public Int32 ScheduledItemID { get; set; }
-        public Int32 TestItemID { get; set; }
+        public Int32 RequestID { get; set; }
+        public Int32 SubProgramID { get; set; }
+        public Int32 RecipeID { get; set; }
         public TestStatus Status { get; set; }
         public String RedoReason { get; set; }
         public Int32 BatteryID { get; set; }
@@ -62,13 +64,15 @@ namespace O2Micro.BCLabManager.Shell
         public Int32 ChamberID { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public Double StartCC { get; set; }
-        public Double EndCC { get; set; }
+        //public Double StartCC { get; set; }
+        //public Double EndCC { get; set; }
 
-        public SchedulerItem(Int32 TestItemID, TestStatus Status, String RedoReason, Int32 BatteryID = 0)
+        public SchedulerItem(Int32 RequestID, Int32 SubProgramID, Int32 RecipeID, String RedoReason, Int32 BatteryID = 0)
         {
-            this.TestItemID = TestItemID;
-            this.Status = Status;
+            this.RequestID = RequestID;
+            this.SubProgramID = SubProgramID;
+            this.RecipeID = RecipeID;
+            this.Status = TestStatus.Invalid;       //New Item are all invalid untill been added to Queue
             this.RedoReason = RedoReason;
             this.BatteryID = BatteryID;
         }

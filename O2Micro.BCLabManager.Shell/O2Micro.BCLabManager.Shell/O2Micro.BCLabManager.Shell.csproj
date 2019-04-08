@@ -50,10 +50,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BatteryModel.cs" />
+    <Compile Include="Chamber.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Recipe.cs" />
+    <Compile Include="Request.cs" />
     <Compile Include="Scheduler.cs" />
-    <Compile Include="TestItem.cs" />
-    <Compile Include="TestPlan.cs" />
+    <Compile Include="SubProgram.cs" />
+    <Compile Include="Tester.cs" />
     <Compile Include="ViewModel.cs" />
     <Page Include="MainControl.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -88,12 +91,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\O2Micro.BCLabManager.Database\O2Micro.BCLabManager.Database.csproj">
-      <Project>{1CD3F8AB-9C44-4423-9238-D561ADA3F0DF}</Project>
-      <Name>O2Micro.BCLabManager.Database</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

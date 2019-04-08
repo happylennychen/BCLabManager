@@ -9,41 +9,47 @@ namespace O2Micro.BCLabManager.Shell
     //     Represents a recipe which can be united to form a subprogram
     public class Recipe
     {
-        public CurrRecipe CR { get; set; }
-        public TempRecipe TR { get; set; }
+        public Int32 RecipeID { get; set; }
+        public TesterRecipe TR { get; set; }
+        public ChamberRecipe CR { get; set; }
 
-        public Recipe(CurrRecipe CR, TempRecipe TR)
+        public Recipe(Int32 RecipeID, TesterRecipe TR, ChamberRecipe CR)
         {
-            this.CR = CR;
+            this.RecipeID = RecipeID;
             this.TR = TR;
+            this.CR = CR;
         }
     }
 
-    public class CurrRecipe
-    {        
-        public Int32 CurrRecipeID { get; set; }
+    public class TesterRecipe
+    {
+        public Int32 TesterRecipeID { get; set; }
+        public Int32 TesterID { get; set; }
         public String Name { get; set; }
         public Int32 BatteryModelID { get; set; }
         public String Steps { get; set; }
 
-        public CurrRecipe(Int32 CurrRecipeID, String Name, Int32 BatteryModelID, String Steps)
+        public TesterRecipe(Int32 TesterRecipeID, Int32 TesterID, String Name, Int32 BatteryModelID, String Steps)
         {
-            this.CurrRecipeID = CurrRecipeID;
+            this.TesterRecipeID = TesterRecipeID;
+            this.TesterID = TesterID;
             this.Name = Name;
             this.BatteryModelID = BatteryModelID;
             this.Steps = Steps;
         }
     }
 
-    public class TempRecipe
+    public class ChamberRecipe
     {
-        public Int32 TempRecipeID { get; set; }
+        public Int32 ChamberRecipeID { get; set; }
+        public Int32 ChamberID { get; set; }
         public String Name { get; set; }
         public String Steps { get; set; }
 
-        public TempRecipe(Int32 TempRecipeID, String Name, String Steps)
+        public ChamberRecipe(Int32 ChamberRecipeID, Int32 ChamberID, String Name, String Steps)
         {
-            this.TempRecipeID = TempRecipeID;
+            this.ChamberRecipeID = ChamberRecipeID;
+            this.ChamberID = ChamberID;
             this.Name = Name;
             this.Steps = Steps;
         }

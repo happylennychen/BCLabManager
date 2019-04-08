@@ -5,14 +5,14 @@ using System.Text;
 
 namespace O2Micro.BCLabManager.Shell
 {
-    public class BatteryModels
-    {
-        public List<BatteryModel> BMs { get; set; }
-        public void SaveToDB()
-        { }
-        public void LoadFromDB()
-        { }
-    }
+    //public class BatteryModels
+    //{
+    //    public List<BatteryModel> BMs { get; set; }
+    //    public void SaveToDB()
+    //    { }
+    //    public void LoadFromDB()
+    //    { }
+    //}
 
 
     // Summary:
@@ -28,8 +28,8 @@ namespace O2Micro.BCLabManager.Shell
         public Int32 NominalVoltage { get; set; }
         public Int32 TypicalCapacity { get; set; }
         public Int32 CutoffDischargeVoltage { get; set; }
-        public List<Battery> Batteries { get; set; }
-        public List<Program> TestPlans { get; set; }
+        //public List<Battery> Batteries { get; set; }
+        //public List<Program> TestPlans { get; set; }
 
         public BatteryModel(Int32 BatteryModelID, String Manufactor, String Name, String Material, Int32 LimitedChargeVoltage, Int32 RatedCapacity, Int32 NominalVoltage, Int32 TypicalCapacity, Int32 CutoffDischargeVoltage)
         {

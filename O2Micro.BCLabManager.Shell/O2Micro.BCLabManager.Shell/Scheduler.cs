@@ -5,7 +5,7 @@ using System.Text;
 
 namespace O2Micro.BCLabManager.Shell
 {
-    class TestItemScheduler
+    public class TestItemScheduler
     {
         private Dictionary<Int32, SchedulerItem> fixedItems;
         public Dictionary<Int32, SchedulerItem> FixedItems
@@ -41,6 +41,26 @@ namespace O2Micro.BCLabManager.Shell
                 return schedulerItems;
             }
         }
+        public void OrderItems()
+        { }
+        //Summary:
+        //      Auto assign assets and run
+        public void AutoRun()
+        {
+            AutoAssignAssets();
+            RunTopTasks();
+        }
+        public void AutoAssignAssets()
+        { }
+        public void RunTopTasks()
+        { }
+        public void CloseRunningTask()
+        { 
+            //ChangeRequestStatus();
+            ReleaseAssets();
+        }
+        public void ReleaseAssets()
+        { }
     }
     public enum TestStatus
     {
@@ -51,7 +71,7 @@ namespace O2Micro.BCLabManager.Shell
         Failed,
         Completed
     }
-    class SchedulerItem
+    public class SchedulerItem
     {
         public Int32 RequestID { get; set; }
         public Int32 SubProgramID { get; set; }

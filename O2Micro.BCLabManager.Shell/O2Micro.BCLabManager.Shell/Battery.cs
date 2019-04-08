@@ -5,14 +5,14 @@ using System.Text;
 
 namespace O2Micro.BCLabManager.Shell
 {
-    public class Batteries
-    {
-        public List<Battery> Bs { get; set; }
-        public void SaveToDB()
-        { }
-        public void LoadFromDB()
-        { }
-    }
+    //public class Batteries
+    //{
+    //    public List<Battery> Bs { get; set; }
+    //    public void SaveToDB()
+    //    { }
+    //    public void LoadFromDB()
+    //    { }
+    //}
     public enum AssestStatus
     {
         Idle,

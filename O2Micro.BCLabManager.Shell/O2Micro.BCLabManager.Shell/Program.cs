@@ -5,17 +5,17 @@ using System.Text;
 
 namespace O2Micro.BCLabManager.Shell
 {
-    public class Program
-    {
-        public List<Program> Ps { get; set; }
-        public void SaveToDB()
-        { }
-        public void LoadFromDB()
-        { }
-    }
+    //public class Programs
+    //{
+    //    public List<Program> Ps { get; set; }
+    //    public void SaveToDB()
+    //    { }
+    //    public void LoadFromDB()
+    //    { }
+    //}
     // Summary:
     //     Represents a test program which can be requested and executed over and over again
-    class Program
+    public class Program
     {
         public Int32 ProgramID { get; set; }
         public Int32 BatteryModelID { get; set; }

@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "O2Micro.BCLabManager.Shell"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "O2Micro.BCLabManager.App", "..\O2Micro.BCLabManager.App\O2Micro.BCLabManager.App.csproj", "{09699659-4A7E-4572-AD6E-DBAD3EC4FD2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "O2Micro.BCLabManager.Database", "..\O2Micro.BCLabManager.Database\O2Micro.BCLabManager.Database.csproj", "{1CD3F8AB-9C44-4423-9238-D561ADA3F0DF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,16 +35,6 @@ Global
 		{09699659-4A7E-4572-AD6E-DBAD3EC4FD2C}.Release|Mixed Platforms.Build.0 = Release|x86
 		{09699659-4A7E-4572-AD6E-DBAD3EC4FD2C}.Release|x86.ActiveCfg = Release|x86
 		{09699659-4A7E-4572-AD6E-DBAD3EC4FD2C}.Release|x86.Build.0 = Release|x86
-		{1CD3F8AB-9C44-4423-9238-D561ADA3F0DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1CD3F8AB-9C44-4423-9238-D561ADA3F0DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1CD3F8AB-9C44-4423-9238-D561ADA3F0DF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{1CD3F8AB-9C44-4423-9238-D561ADA3F0DF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{1CD3F8AB-9C44-4423-9238-D561ADA3F0DF}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{1CD3F8AB-9C44-4423-9238-D561ADA3F0DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1CD3F8AB-9C44-4423-9238-D561ADA3F0DF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1CD3F8AB-9C44-4423-9238-D561ADA3F0DF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{1CD3F8AB-9C44-4423-9238-D561ADA3F0DF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{1CD3F8AB-9C44-4423-9238-D561ADA3F0DF}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

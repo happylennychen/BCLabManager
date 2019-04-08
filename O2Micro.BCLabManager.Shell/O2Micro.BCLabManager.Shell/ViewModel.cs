@@ -7,9 +7,5 @@ namespace O2Micro.BCLabManager.Shell
 {
     public class ViewModel
     {
-        List<Battery> Batteries = new List<Battery>();
-        List<BatteryModel> Models = new List<BatteryModel>();
-        List<BatteryTestPlan> TestPlans = new List<BatteryTestPlan>();
-        List<CurrRecipe> Recipes = new List<CurrRecipe>();
     }
 }

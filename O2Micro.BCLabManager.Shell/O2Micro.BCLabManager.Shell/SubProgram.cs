@@ -5,17 +5,17 @@ using System.Text;
 
 namespace O2Micro.BCLabManager.Shell
 {
-    public class SubPrograms
-    {
-        public List<SubProgram> Ss { get; set; }
-        public void SaveToDB()
-        { }
-        public void LoadFromDB()
-        { }
-    }
+    //public class SubPrograms
+    //{
+    //    public List<SubProgram> Ss { get; set; }
+    //    public void SaveToDB()
+    //    { }
+    //    public void LoadFromDB()
+    //    { }
+    //}
     // Summary:
     //     Represents a sub program which can be united to form a program
-    class SubProgram
+    public class SubProgram
     {
         public Int32 SubProgramID { get; set; }
         public List<Recipe> Recipes { get; set; }

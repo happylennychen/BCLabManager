@@ -5,6 +5,37 @@ using System.Text;
 
 namespace O2Micro.BCLabManager.Shell
 {
+    public enum TestStatus
+    {
+        Invalid,
+        Waiting,
+        Executing,
+        Abandoned,
+        Failed,
+        Completed
+    }
+    public class ResultClass
+    {
+        public TestStatus Status { get; set; }
+        public String RedoReason { get; set; }
+        public BatteryClass Battery { get; set; }
+        //public TesterClass Tester { get; set; }
+        public TesterChannelClass TesterChannel { get; set; }
+        public ChamberClass Chamber { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+
+        public ResultClass()
+        {
+            this.Status = TestStatus.Waiting;
+            this.RedoReason = String.Empty;
+            this.Battery = null;
+            this.TesterChannel = null;
+            this.Chamber = null;
+            //this.StartTime = null;
+            //this.EndTime = DateTime.;
+        }
+    }
     //public class Requests
     //{
     //    public List<Request> Rs { get; set; }
@@ -13,16 +44,46 @@ namespace O2Micro.BCLabManager.Shell
     //    public void LoadFromDB()
     //    { }
     //}
-    public class RequestedProgram : ProgramClass
-    { }
-
-    public class RequestedSubProgram : SubProgram
-    { }
-
-    public class RequestedRecipe : Recipe
+    public class RequestedProgram
     {
-        public RequestedRecipe()
-        { }
+        public Int32 ProgramID { get; set; }
+        public List<RequestedSubProgram> RequestedSubPrograms { get; set; }
+
+        public RequestedProgram(ProgramClass pro)
+        {
+            this.ProgramID = pro.ProgramID;
+            foreach (var sp in pro.SubPrograms)
+            {
+                RequestedSubPrograms.Add(new RequestedSubProgram(sp));
+            }
+        }
+    }
+
+    public class RequestedSubProgram
+    {
+        public Int32 SubProgramID { get; set; }
+        public List<RequestedRecipe> RequestedRecipes { get; set; }
+
+        public RequestedSubProgram(SubProgram sp)
+        {
+            this.SubProgramID = sp.SubProgramID;
+            foreach (var rec in sp.Recipes)
+            {
+                RequestedRecipes.Add(new RequestedRecipe(rec));
+            }
+        }
+    }
+
+    public class RequestedRecipe
+    {
+        public Int32 RecipeID { get; set; }
+        public List<ResultClass> Results { get; set; }
+
+        public RequestedRecipe(Recipe rec)
+        {
+            this.RecipeID = rec.RecipeID;
+            this.Results.Add( new ResultClass());
+        }
     }
     // Summary:
     //     Represents a test request
@@ -56,8 +117,25 @@ namespace O2Micro.BCLabManager.Shell
             this.Requester = Requester;
             this.RequestDate = RequestDate;
             this.Battery = Battery;
+            this.rqstPro = new RequestedProgram(this.Program);
             //InitRequestedProgram();
             //Scheduler.Import(rqst);
         }
+
+        //private void InitRequestedProgram()
+        //{
+        //    List<RequestedRecipe> RequestedRecipes = new List<RequestedRecipe>();
+        //    List<RequestedSubProgram> RequestedSubPrograms = new List<RequestedSubProgram>();
+ 
+        //    foreach (var sp in Program.SubPrograms)
+        //    {
+        //        foreach (var rec in sp.Recipes)
+        //        {
+        //            RequestedRecipes.Add(new RequestedRecipe(rec));
+        //        }
+        //        RequestedSubPrograms.Add(new RequestedSubProgram(sp));
+        //    }
+        //    rqstPro = new RequestedProgram(Program);
+        //}
     }
 }

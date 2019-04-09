@@ -46,7 +46,7 @@ namespace O2Micro.BCLabManager.Shell
             BatteryModelClass bm = new BatteryModelClass(1, "Oppo", "BLP663", "Li-on", 4400, 3350, 3700, 3450, 3200);
             BatteryModels.Add(bm);
 
-            Batteries = new List<BatteryClass>();
+            /*Batteries = new List<BatteryClass>();
             BatteryClass bat = new BatteryClass(1, "pack1", BatteryModels[0].BatteryModelID, 0);
             Batteries.Add(bat);
             bat = new BatteryClass(2, "pack2", BatteryModels[0].BatteryModelID, 0);
@@ -116,7 +116,7 @@ namespace O2Micro.BCLabManager.Shell
 
             Scheduler.AutoRun();
 
-            Scheduler.CloseRunningTask();
+            Scheduler.CloseRunningTask();*/
         }
     }
 }

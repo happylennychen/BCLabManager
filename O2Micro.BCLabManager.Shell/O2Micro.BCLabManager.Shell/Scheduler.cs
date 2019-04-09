@@ -62,15 +62,6 @@ namespace O2Micro.BCLabManager.Shell
         public void ReleaseAssets()
         { }
     }
-    public enum TestStatus
-    {
-        Invalid,
-        Waiting,
-        Executing,
-        Abandoned,
-        Failed,
-        Completed
-    }
     public class SchedulerItem
     {
         public Int32 RequestID { get; set; }

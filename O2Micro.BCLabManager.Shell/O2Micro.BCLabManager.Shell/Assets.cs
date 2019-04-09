@@ -92,9 +92,9 @@ namespace O2Micro.BCLabManager.Shell
         public Int32 TesterID { get; set; }
         public String Manufactor { get; set; }
         public String Name { get; set; }
-        public List<TesterChannel> TesterChannels { get; set; }
+        public List<TesterChannelClass> TesterChannels { get; set; }
 
-        public TesterClass(Int32 TesterID, String Manufactor, String Name, List<TesterChannel> TesterChannels)
+        public TesterClass(Int32 TesterID, String Manufactor, String Name, List<TesterChannelClass> TesterChannels)
         {
             this.TesterID = TesterID;
             this.Manufactor = Manufactor;
@@ -102,13 +102,15 @@ namespace O2Micro.BCLabManager.Shell
             this.TesterChannels = TesterChannels;
         }
     }
-    public class TesterChannel : AssetClass
+    public class TesterChannelClass : AssetClass
     {
         public Int32 TesterChannelID { get; set; }
+        public TesterClass Tester { get; set; }
 
-        public TesterChannel(Int32 TesterChannelID)
+        public TesterChannelClass(Int32 TesterChannelID, TesterClass Tester)
         {
             this.TesterChannelID = TesterChannelID;
+            this.Tester = Tester;
         }
     }
 

@@ -21,11 +21,11 @@ namespace O2Micro.BCLabManager.Shell
     public partial class MainControl : UserControl
     {
         //private DBManager dbmanager = new DBManager();
-        public List<BatteryModel> BatteryModels { get; set; }
-        public List<Battery> Batteries { get; set; }
-        public List<Tester> Testers { get; set; }
-        public List<Chamber> Chambers { get; set; }
-        public List<Program> Programs { get; set; }
+        public List<BatteryModelClass> BatteryModels { get; set; }
+        public List<BatteryClass> Batteries { get; set; }
+        public List<TesterClass> Testers { get; set; }
+        public List<ChamberClass> Chambers { get; set; }
+        public List<ProgramClass> Programs { get; set; }
         public List<SubProgram> SubPrograms { get; set; }
         public List<Recipe> Recipes { get; set; }
         public List<ChamberRecipe> ChamberRecipes { get; set; }
@@ -42,26 +42,26 @@ namespace O2Micro.BCLabManager.Shell
 
         private void FakeData()
         {
-            BatteryModels = new List<BatteryModel>();
-            BatteryModel bm = new BatteryModel(1, "Oppo", "BLP663", "Li-on", 4400, 3350, 3700, 3450, 3200);
+            BatteryModels = new List<BatteryModelClass>();
+            BatteryModelClass bm = new BatteryModelClass(1, "Oppo", "BLP663", "Li-on", 4400, 3350, 3700, 3450, 3200);
             BatteryModels.Add(bm);
 
-            Batteries = new List<Battery>();
-            Battery bat = new Battery(1, "pack1", BatteryModels[0].BatteryModelID, 0);
+            Batteries = new List<BatteryClass>();
+            BatteryClass bat = new BatteryClass(1, "pack1", BatteryModels[0].BatteryModelID, 0);
             Batteries.Add(bat);
-            bat = new Battery(2, "pack2", BatteryModels[0].BatteryModelID, 0);
+            bat = new BatteryClass(2, "pack2", BatteryModels[0].BatteryModelID, 0);
             Batteries.Add(bat);
-            bat = new Battery(3, "pack3", BatteryModels[0].BatteryModelID, 0);
+            bat = new BatteryClass(3, "pack3", BatteryModels[0].BatteryModelID, 0);
             Batteries.Add(bat);
-            bat = new Battery(4, "pack4", BatteryModels[0].BatteryModelID, 0);
+            bat = new BatteryClass(4, "pack4", BatteryModels[0].BatteryModelID, 0);
             Batteries.Add(bat);
 
-            Chambers = new List<Chamber>();
-            Chamber chm = new Chamber();
+            Chambers = new List<ChamberClass>();
+            ChamberClass chm = new ChamberClass();
             Chambers.Add(chm);
 
-            Testers = new List<Tester>();
-            Tester tst = new Tester();
+            Testers = new List<TesterClass>();
+            TesterClass tst = new TesterClass();
             Testers.Add(tst);
 
             TesterRecipes = new List<TesterRecipe>();
@@ -104,8 +104,8 @@ namespace O2Micro.BCLabManager.Shell
             SubProgram subPro = new SubProgram(1, new List<Recipe> { Recipes[0] });
             SubPrograms.Add(subPro);
 
-            Programs = new List<Program>();
-            Program pro = new Program(1, 1, "RC table generation", new List<SubProgram> { SubPrograms[0] });
+            Programs = new List<ProgramClass>();
+            ProgramClass pro = new ProgramClass(1, 1, "RC table generation", new List<SubProgram> { SubPrograms[0] });
             Programs.Add(pro);
 
             Requests = new List<Request>();

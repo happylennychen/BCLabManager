@@ -44,50 +44,59 @@ namespace O2Micro.BCLabManager.Shell
     //    public void LoadFromDB()
     //    { }
     //}
-    public class RequestedProgram
+    public class RequestedProgramClass
     {
-        public Int32 ProgramID { get; set; }
-        public List<RequestedSubProgram> RequestedSubPrograms { get; set; }
+        public ProgramClass Program { get; set; }
+        public Int32 Priority { get; set; }
+        public List<RequestedSubProgramClass> RequestedSubPrograms { get; set; }
 
-        public RequestedProgram(ProgramClass pro)
+        public RequestedProgramClass(ProgramClass pro, Int32 Priority)
         {
-            this.ProgramID = pro.ProgramID;
+            this.Program = pro;
+            this.Priority = Priority;
+            this.RequestedSubPrograms = new List<RequestedSubProgramClass>();
             foreach (var sp in pro.SubPrograms)
             {
-                RequestedSubPrograms.Add(new RequestedSubProgram(sp));
+                RequestedSubPrograms.Add(new RequestedSubProgramClass(sp, this.Priority));
             }
         }
     }
 
-    public class RequestedSubProgram
+    public class RequestedSubProgramClass
     {
-        public Int32 SubProgramID { get; set; }
-        public List<RequestedRecipe> RequestedRecipes { get; set; }
+        public SubProgramClass SubProgram { get; set; }
+        public Int32 Priority { get; set; }
+        public List<RequestedRecipeClass> RequestedRecipes { get; set; }
 
-        public RequestedSubProgram(SubProgram sp)
+        public RequestedSubProgramClass(SubProgramClass sp, Int32 Priority)
         {
-            this.SubProgramID = sp.SubProgramID;
+            this.SubProgram = sp;
+            this.Priority = Priority;
+            RequestedRecipes = new List<RequestedRecipeClass>();
             foreach (var rec in sp.Recipes)
             {
-                RequestedRecipes.Add(new RequestedRecipe(rec));
+                RequestedRecipes.Add(new RequestedRecipeClass(rec, this.Priority));
             }
         }
     }
 
-    public class RequestedRecipe
+    public class RequestedRecipeClass
     {
-        public Int32 RecipeID { get; set; }
+        public RecipeClass Recipe { get; set; }
+        public Int32 Priority { get; set; }
         public List<ResultClass> Results { get; set; }
 
-        public RequestedRecipe(Recipe rec)
+        public RequestedRecipeClass(RecipeClass rec, Int32 Priority)
         {
-            this.RecipeID = rec.RecipeID;
+            this.Recipe = rec;
+            this.Priority = Priority;
+            this.Results = new List<ResultClass>();
             this.Results.Add( new ResultClass());
         }
     }
     // Summary:
     //     Represents a test request
-    public class Request
+    public class RequestClass
     {
         //public Int32 ScheduledItemID { get; set; }
         public Int32 RequestID { get; set; }
@@ -96,7 +105,7 @@ namespace O2Micro.BCLabManager.Shell
         public String Requester { get; set; }
         public DateTime RequestDate { get; set; }
         public Int32 Priority { get; set; }
-        public RequestedProgram rqstPro { get; set; }
+        public RequestedProgramClass RequestedProgram { get; set; }
 
         public Int32 CurrentNumber { get; set; }
         public Int32 TemperatureNumber { get; set; }
@@ -110,32 +119,16 @@ namespace O2Micro.BCLabManager.Shell
         public Int32 FailedNumber { get; set; }
         public DateTime CompleteDate { get; set; }
 
-        public Request(Int32 RequestID, ProgramClass Program, String Requester, DateTime RequestDate, Int32 Priority, BatteryClass Battery = null)
+        public RequestClass(Int32 RequestID, ProgramClass Program, String Requester, DateTime RequestDate, Int32 Priority, BatteryClass Battery = null)
         {
             this.RequestID = RequestID;
             this.Program = Program;
             this.Requester = Requester;
             this.RequestDate = RequestDate;
+            this.Priority = Priority;
             this.Battery = Battery;
-            this.rqstPro = new RequestedProgram(this.Program);
-            //InitRequestedProgram();
-            //Scheduler.Import(rqst);
+            this.RequestedProgram = new RequestedProgramClass(this.Program, this.Priority);
+            Scheduler.ImportTasks(RequestedProgram.RequestedSubPrograms);
         }
-
-        //private void InitRequestedProgram()
-        //{
-        //    List<RequestedRecipe> RequestedRecipes = new List<RequestedRecipe>();
-        //    List<RequestedSubProgram> RequestedSubPrograms = new List<RequestedSubProgram>();
- 
-        //    foreach (var sp in Program.SubPrograms)
-        //    {
-        //        foreach (var rec in sp.Recipes)
-        //        {
-        //            RequestedRecipes.Add(new RequestedRecipe(rec));
-        //        }
-        //        RequestedSubPrograms.Add(new RequestedSubProgram(sp));
-        //    }
-        //    rqstPro = new RequestedProgram(Program);
-        //}
     }
 }

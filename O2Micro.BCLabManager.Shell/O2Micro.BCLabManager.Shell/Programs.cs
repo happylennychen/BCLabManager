@@ -20,10 +20,10 @@ namespace O2Micro.BCLabManager.Shell
         public Int32 ProgramID { get; set; }
         public BatteryModelClass BatteryModel { get; set; }
         public String Name { get; set; }
-        public List<SubProgram> SubPrograms { get; set; }
+        public List<SubProgramClass> SubPrograms { get; set; }
         public TimeSpan EstimateDuration { get; set; }
 
-        public ProgramClass(Int32 ProgramID, BatteryModelClass BatteryModel, String Name, List<SubProgram> SubPrograms)
+        public ProgramClass(Int32 ProgramID, BatteryModelClass BatteryModel, String Name, List<SubProgramClass> SubPrograms)
         {
             this.ProgramID = ProgramID;
             this.BatteryModel = BatteryModel;
@@ -42,13 +42,13 @@ namespace O2Micro.BCLabManager.Shell
     //}
     // Summary:
     //     Represents a sub program which can be united to form a program
-    public class SubProgram
+    public class SubProgramClass
     {
         public Int32 SubProgramID { get; set; }
-        public List<Recipe> Recipes { get; set; }
+        public List<RecipeClass> Recipes { get; set; }
         public TimeSpan EstimateDuration { get; set; }
 
-        public SubProgram(Int32 SubProgramID, List<Recipe> Recipes)
+        public SubProgramClass(Int32 SubProgramID, List<RecipeClass> Recipes)
         {
             this.SubProgramID = SubProgramID;
             this.Recipes = Recipes;
@@ -57,14 +57,14 @@ namespace O2Micro.BCLabManager.Shell
 
     // Summary:
     //     Represents a recipe which can be united to form a subprogram
-    public class Recipe
+    public class RecipeClass
     {
         public Int32 RecipeID { get; set; }
         public TesterRecipe TR { get; set; }
         public ChamberRecipe CR { get; set; }
         public TimeSpan EstimateDuration { get; set; }
 
-        public Recipe(Int32 RecipeID, TesterRecipe TR, ChamberRecipe CR)
+        public RecipeClass(Int32 RecipeID, TesterRecipe TR, ChamberRecipe CR)
         {
             this.RecipeID = RecipeID;
             this.TR = TR;

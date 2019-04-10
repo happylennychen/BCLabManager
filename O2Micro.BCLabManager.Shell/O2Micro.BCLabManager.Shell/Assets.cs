@@ -129,4 +129,11 @@ namespace O2Micro.BCLabManager.Shell
             this.TemperatureRange = TemperatureRange;
         }
     }
+
+    public static class AssetsPool
+    {
+        public static List<AssetClass> AllAssets { get; set; }
+        public static List<AssetClass> IdleAssets { get; set; }
+        public static List<AssetClass> UsingAssets { get; set; }
+    }
 }

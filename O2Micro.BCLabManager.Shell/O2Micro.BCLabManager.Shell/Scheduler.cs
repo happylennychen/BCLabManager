@@ -5,87 +5,33 @@ using System.Text;
 
 namespace O2Micro.BCLabManager.Shell
 {
-    public class TestItemScheduler
+    public static class Scheduler
     {
-        private Dictionary<Int32, SchedulerItem> fixedItems;
-        public Dictionary<Int32, SchedulerItem> FixedItems
-        {
-            get { return fixedItems; }
-            set
-            {
-                fixedItems = value;
-                schedulerItems = null;
-            }
-        }
-
-        private Dictionary<Int32, SchedulerItem> orderableItems;
-        public Dictionary<Int32, SchedulerItem> OrderableItems
-        {
-            get { return orderableItems; }
-            set
-            {
-                orderableItems = value;
-                schedulerItems = null;
-            }
-        }
-
-        private Dictionary<Int32, SchedulerItem> schedulerItems;
-        public Dictionary<Int32, SchedulerItem> SchedulerItems
+        private static List<RequestedSubProgramClass> requestedSubPrograms = new List<RequestedSubProgramClass>();
+        public static List<RequestedSubProgramClass> RequestedSubPrograms 
         {
             get 
             {
-                if (schedulerItems == null)
-                {
-                    //Todo: Combine FixedItems and OrderableItems, then copy into schedulerItems
-                }
-                return schedulerItems;
+                return requestedSubPrograms;
+            }
+            set
+            {
+                requestedSubPrograms = value;
             }
         }
-        public void OrderItems()
-        { }
-        //Summary:
-        //      Auto assign assets and run
-        public void AutoRun()
+        public static RequestedRecipeClass TopRequestedRecipe { get; set; }
+        public static void ImportTasks(List<RequestedSubProgramClass> newlist)
         {
-            AutoAssignAssets();
-            RunTopTasks();
+            foreach (var sp in newlist)
+                RequestedSubPrograms.Add(sp);
         }
-        public void AutoAssignAssets()
-        { }
-        public void RunTopTasks()
-        { }
-        public void CloseRunningTask()
-        { 
-            //ChangeRequestStatus();
-            ReleaseAssets();
-        }
-        public void ReleaseAssets()
-        { }
-    }
-    public class SchedulerItem
-    {
-        public Int32 RequestID { get; set; }
-        public Int32 SubProgramID { get; set; }
-        public Int32 RecipeID { get; set; }
-        public TestStatus Status { get; set; }
-        public String RedoReason { get; set; }
-        public Int32 BatteryID { get; set; }
-        public Int32 TesterID { get; set; }
-        public Int32 ChannelID { get; set; }
-        public Int32 ChamberID { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
-        //public Double StartCC { get; set; }
-        //public Double EndCC { get; set; }
 
-        public SchedulerItem(Int32 RequestID, Int32 SubProgramID, Int32 RecipeID, String RedoReason, Int32 BatteryID = 0)
+        public static void OrderTasks()
+        { 
+        }
+
+        public static void AssignAssets(BatteryClass Battery, ChamberClass Chamber, TesterChannelClass TesterChannel)
         {
-            this.RequestID = RequestID;
-            this.SubProgramID = SubProgramID;
-            this.RecipeID = RecipeID;
-            this.Status = TestStatus.Invalid;       //New Item are all invalid untill been added to Queue
-            this.RedoReason = RedoReason;
-            this.BatteryID = BatteryID;
         }
     }
 }

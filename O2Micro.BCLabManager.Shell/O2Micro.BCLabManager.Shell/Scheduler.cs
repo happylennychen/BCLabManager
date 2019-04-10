@@ -7,27 +7,38 @@ namespace O2Micro.BCLabManager.Shell
 {
     public static class Scheduler
     {
-        private static List<RequestedSubProgramClass> requestedSubPrograms = new List<RequestedSubProgramClass>();
-        public static List<RequestedSubProgramClass> RequestedSubPrograms 
+        private static List<RequestedSubProgramClass> waitingRequestedSubPrograms = new List<RequestedSubProgramClass>();
+        public static List<RequestedSubProgramClass> WaitingRequestedSubPrograms 
         {
             get 
             {
-                return requestedSubPrograms;
+                return waitingRequestedSubPrograms;
             }
             set
             {
-                requestedSubPrograms = value;
+                waitingRequestedSubPrograms = value;
             }
         }
-        public static RequestedRecipeClass TopRequestedRecipe { get; set; }
+        public static RequestedSubProgramClass TopRequestedSubProgram 
+        {
+            get
+            {
+                return waitingRequestedSubPrograms[0];
+            }
+            set
+            {
+                waitingRequestedSubPrograms[0] = value;
+            }
+        }
         public static void ImportTasks(List<RequestedSubProgramClass> newlist)
         {
             foreach (var sp in newlist)
-                RequestedSubPrograms.Add(sp);
+                WaitingRequestedSubPrograms.Add(sp);
         }
 
         public static void OrderTasks()
-        { 
+        {
+            waitingRequestedSubPrograms.OrderBy(o => o.Priority).ThenBy(o => o.RequestedRecipes[0].Recipe.ChamberRecipe);
         }
 
         public static void AssignAssets(BatteryClass Battery, ChamberClass Chamber, TesterChannelClass TesterChannel)

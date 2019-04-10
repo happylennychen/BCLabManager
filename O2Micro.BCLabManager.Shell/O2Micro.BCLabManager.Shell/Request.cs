@@ -36,14 +36,7 @@ namespace O2Micro.BCLabManager.Shell
             //this.EndTime = DateTime.;
         }
     }
-    //public class Requests
-    //{
-    //    public List<Request> Rs { get; set; }
-    //    public void SaveToDB()
-    //    { }
-    //    public void LoadFromDB()
-    //    { }
-    //}
+
     public class RequestedProgramClass
     {
         public ProgramClass Program { get; set; }

@@ -5,14 +5,6 @@ using System.Text;
 
 namespace O2Micro.BCLabManager.Shell
 {
-    //public class Programs
-    //{
-    //    public List<Program> Ps { get; set; }
-    //    public void SaveToDB()
-    //    { }
-    //    public void LoadFromDB()
-    //    { }
-    //}
     // Summary:
     //     Represents a test program which can be requested and executed over and over again
     public class ProgramClass
@@ -32,14 +24,6 @@ namespace O2Micro.BCLabManager.Shell
         }
     }
 
-    //public class SubPrograms
-    //{
-    //    public List<SubProgram> Ss { get; set; }
-    //    public void SaveToDB()
-    //    { }
-    //    public void LoadFromDB()
-    //    { }
-    //}
     // Summary:
     //     Represents a sub program which can be united to form a program
     public class SubProgramClass
@@ -60,19 +44,19 @@ namespace O2Micro.BCLabManager.Shell
     public class RecipeClass
     {
         public Int32 RecipeID { get; set; }
-        public TesterRecipe TR { get; set; }
-        public ChamberRecipe CR { get; set; }
+        public TesterRecipeClass TesterRecipe { get; set; }
+        public ChamberRecipeClass ChamberRecipe { get; set; }
         public TimeSpan EstimateDuration { get; set; }
 
-        public RecipeClass(Int32 RecipeID, TesterRecipe TR, ChamberRecipe CR)
+        public RecipeClass(Int32 RecipeID, TesterRecipeClass TesterRecipe, ChamberRecipeClass ChamberRecipe)
         {
             this.RecipeID = RecipeID;
-            this.TR = TR;
-            this.CR = CR;
+            this.TesterRecipe = TesterRecipe;
+            this.ChamberRecipe = ChamberRecipe;
         }
     }
 
-    public class TesterRecipe
+    public class TesterRecipeClass
     {
         public Int32 TesterRecipeID { get; set; }
         public TesterClass Tester { get; set; }
@@ -81,7 +65,7 @@ namespace O2Micro.BCLabManager.Shell
         public String Steps { get; set; }
         public TimeSpan EstimateDuration { get; set; }
 
-        public TesterRecipe(Int32 TesterRecipeID, TesterClass Tester, String Name, BatteryModelClass BatteryModel, String Steps)
+        public TesterRecipeClass(Int32 TesterRecipeID, TesterClass Tester, String Name, BatteryModelClass BatteryModel, String Steps)
         {
             this.TesterRecipeID = TesterRecipeID;
             this.Tester = Tester;
@@ -91,14 +75,14 @@ namespace O2Micro.BCLabManager.Shell
         }
     }
 
-    public class ChamberRecipe
+    public class ChamberRecipeClass
     {
         public Int32 ChamberRecipeID { get; set; }
         public ChamberClass Chamber { get; set; }
         public String Name { get; set; }
         public String Steps { get; set; }
 
-        public ChamberRecipe(Int32 ChamberRecipeID, ChamberClass Chamber, String Name, String Steps)
+        public ChamberRecipeClass(Int32 ChamberRecipeID, ChamberClass Chamber, String Name, String Steps)
         {
             this.ChamberRecipeID = ChamberRecipeID;
             this.Chamber = Chamber;

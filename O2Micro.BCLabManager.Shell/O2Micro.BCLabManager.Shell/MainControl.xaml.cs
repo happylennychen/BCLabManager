@@ -28,8 +28,8 @@ namespace O2Micro.BCLabManager.Shell
         public List<ProgramClass> Programs { get; set; }
         public List<SubProgramClass> SubPrograms { get; set; }
         public List<RecipeClass> Recipes { get; set; }
-        public List<ChamberRecipe> ChamberRecipes { get; set; }
-        public List<TesterRecipe> TesterRecipes { get; set; }
+        public List<ChamberRecipeClass> ChamberRecipes { get; set; }
+        public List<TesterRecipeClass> TesterRecipes { get; set; }
         public List<RequestClass> Requests { get; set; }
 
         public MainControl()
@@ -69,44 +69,44 @@ namespace O2Micro.BCLabManager.Shell
                 new TesterChannelClass(4,Tester)};
             Testers.Add(Tester);
 
-            TesterRecipes = new List<TesterRecipe>();
-            TesterRecipe tr = new TesterRecipe(1, Testers[0], "500mA_CD", BatteryModels[0], "1234");
+            TesterRecipes = new List<TesterRecipeClass>();
+            TesterRecipeClass tr = new TesterRecipeClass(1, Testers[0], "500mA_CD", BatteryModels[0], "1234");
             TesterRecipes.Add(tr);
-            tr = new TesterRecipe(2, Testers[0], "1700mA_CD", BatteryModels[0], "1234");
+            tr = new TesterRecipeClass(2, Testers[0], "1700mA_CD", BatteryModels[0], "1234");
             TesterRecipes.Add(tr);
-            tr = new TesterRecipe(3, Testers[0], "3000mA_CD", BatteryModels[0], "1234");
+            tr = new TesterRecipeClass(3, Testers[0], "3000mA_CD", BatteryModels[0], "1234");
             TesterRecipes.Add(tr);
-            tr = new TesterRecipe(4, Testers[0], "D01_CD", BatteryModels[0], "1234");
+            tr = new TesterRecipeClass(4, Testers[0], "D01_CD", BatteryModels[0], "1234");
             TesterRecipes.Add(tr);
-            tr = new TesterRecipe(5, Testers[0], "D02_CD", BatteryModels[0], "1234");
+            tr = new TesterRecipeClass(5, Testers[0], "D02_CD", BatteryModels[0], "1234");
             TesterRecipes.Add(tr);
-            tr = new TesterRecipe(6, Testers[0], "C", BatteryModels[0], "1234");
+            tr = new TesterRecipeClass(6, Testers[0], "C", BatteryModels[0], "1234");
             TesterRecipes.Add(tr);
-            tr = new TesterRecipe(7, Testers[0], "D02_D", BatteryModels[0], "1234");
+            tr = new TesterRecipeClass(7, Testers[0], "D02_D", BatteryModels[0], "1234");
             TesterRecipes.Add(tr);
-            tr = new TesterRecipe(8, Testers[0], "D03_CD", BatteryModels[0], "1234");
+            tr = new TesterRecipeClass(8, Testers[0], "D03_CD", BatteryModels[0], "1234");
             TesterRecipes.Add(tr);
-            tr = new TesterRecipe(9, Testers[0], "D03_D", BatteryModels[0], "1234");
+            tr = new TesterRecipeClass(9, Testers[0], "D03_D", BatteryModels[0], "1234");
             TesterRecipes.Add(tr);
-            tr = new TesterRecipe(10, Testers[0], "2000mA_CD", BatteryModels[0], "1234");
+            tr = new TesterRecipeClass(10, Testers[0], "2000mA_CD", BatteryModels[0], "1234");
             TesterRecipes.Add(tr);
-            tr = new TesterRecipe(11, Testers[0], "3450_CD_500", BatteryModels[0], "1234");
+            tr = new TesterRecipeClass(11, Testers[0], "3450_CD_500", BatteryModels[0], "1234");
             TesterRecipes.Add(tr);
-            tr = new TesterRecipe(12, Testers[0], "2000mA_CD_5", BatteryModels[0], "1234");
+            tr = new TesterRecipeClass(12, Testers[0], "2000mA_CD_5", BatteryModels[0], "1234");
             TesterRecipes.Add(tr);
 
-            ChamberRecipes = new List<ChamberRecipe>();
-            ChamberRecipe cr = new ChamberRecipe(1, Chambers[0], "-10deg", "1234");
+            ChamberRecipes = new List<ChamberRecipeClass>();
+            ChamberRecipeClass cr = new ChamberRecipeClass(1, Chambers[0], "-10deg", "1234");
             ChamberRecipes.Add(cr);
-            cr = new ChamberRecipe(1, Chambers[0], "-10 deg", "1234");
+            cr = new ChamberRecipeClass(1, Chambers[0], "-10 deg", "1234");
             ChamberRecipes.Add(cr);
-            cr = new ChamberRecipe(2, Chambers[0], "0 deg", "1234");
+            cr = new ChamberRecipeClass(2, Chambers[0], "0 deg", "1234");
             ChamberRecipes.Add(cr);
-            cr = new ChamberRecipe(3, Chambers[0], "10 deg", "1234");
+            cr = new ChamberRecipeClass(3, Chambers[0], "10 deg", "1234");
             ChamberRecipes.Add(cr);
-            cr = new ChamberRecipe(4, Chambers[0], "20 deg", "1234");
+            cr = new ChamberRecipeClass(4, Chambers[0], "20 deg", "1234");
             ChamberRecipes.Add(cr);
-            cr = new ChamberRecipe(5, Chambers[0], "30 deg", "1234");
+            cr = new ChamberRecipeClass(5, Chambers[0], "30 deg", "1234");
             ChamberRecipes.Add(cr);
 
             Recipes = new List<RecipeClass>();

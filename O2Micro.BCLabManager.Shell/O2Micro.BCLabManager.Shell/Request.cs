@@ -14,6 +14,7 @@ namespace O2Micro.BCLabManager.Shell
         Failed,
         Completed
     }
+
     public class ResultClass
     {
         public TestStatus Status { get; set; }
@@ -37,21 +38,18 @@ namespace O2Micro.BCLabManager.Shell
         }
     }
 
-    public class RequestedProgramClass
+    public class RequestedRecipeClass
     {
-        public ProgramClass Program { get; set; }
+        public RecipeClass Recipe { get; set; }
         public Int32 Priority { get; set; }
-        public List<RequestedSubProgramClass> RequestedSubPrograms { get; set; }
+        public List<ResultClass> Results { get; set; }
 
-        public RequestedProgramClass(ProgramClass pro, Int32 Priority)
+        public RequestedRecipeClass(RecipeClass Recipe, Int32 Priority)
         {
-            this.Program = pro;
+            this.Recipe = Recipe;
             this.Priority = Priority;
-            this.RequestedSubPrograms = new List<RequestedSubProgramClass>();
-            foreach (var sp in pro.SubPrograms)
-            {
-                RequestedSubPrograms.Add(new RequestedSubProgramClass(sp, this.Priority));
-            }
+            this.Results = new List<ResultClass>();
+            this.Results.Add(new ResultClass());
         }
     }
 
@@ -73,20 +71,24 @@ namespace O2Micro.BCLabManager.Shell
         }
     }
 
-    public class RequestedRecipeClass
+    public class RequestedProgramClass
     {
-        public RecipeClass Recipe { get; set; }
+        public ProgramClass Program { get; set; }
         public Int32 Priority { get; set; }
-        public List<ResultClass> Results { get; set; }
+        public List<RequestedSubProgramClass> RequestedSubPrograms { get; set; }
 
-        public RequestedRecipeClass(RecipeClass rec, Int32 Priority)
+        public RequestedProgramClass(ProgramClass pro, Int32 Priority)
         {
-            this.Recipe = rec;
+            this.Program = pro;
             this.Priority = Priority;
-            this.Results = new List<ResultClass>();
-            this.Results.Add( new ResultClass());
+            this.RequestedSubPrograms = new List<RequestedSubProgramClass>();
+            foreach (var sp in pro.SubPrograms)
+            {
+                RequestedSubPrograms.Add(new RequestedSubProgramClass(sp, this.Priority));
+            }
         }
     }
+
     // Summary:
     //     Represents a test request
     public class RequestClass

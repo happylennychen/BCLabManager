@@ -19,6 +19,18 @@ namespace O2Micro.BCLabManager.Shell
                 waitingRequestedSubPrograms = value;
             }
         }
+        private static List<RequestedSubProgramClass> runningRequestedSubPrograms = new List<RequestedSubProgramClass>();
+        public static List<RequestedSubProgramClass> RunningRequestedSubPrograms
+        {
+            get
+            {
+                return runningRequestedSubPrograms;
+            }
+            set
+            {
+                runningRequestedSubPrograms = value;
+            }
+        }
         public static RequestedSubProgramClass TopRequestedSubProgram 
         {
             get

@@ -185,13 +185,10 @@ namespace O2Micro.BCLabManager.Shell
 
             //Scheduler.AutoRun();
             Scheduler.AssignAssets(Batteries[0],Chambers[0],Testers[0].TesterChannels[0]);
-            Requests[0].RequestedProgram.RequestedSubPrograms[0].RequestedRecipes[0].Results[0].Status = TestStatus.Completed;
+            //Scheduler.ExecuteSubProgram();
+            //Scheduler.FinishSubProgram(ref ResultClass Result, 
+            //Scheduler.RunningRequestedSubPrograms[0].RequestedRecipes[0].Results[0].Status = TestStatus.Completed;
             //Scheduler.CloseRunningTask();
-            Requests[0].RequestedProgram.RequestedSubPrograms[1].RequestedRecipes[0].Results[0].Status = TestStatus.Completed;
-            Requests[0].RequestedProgram.RequestedSubPrograms[2].RequestedRecipes[0].Results[0].Status = TestStatus.Completed;
-            Requests[1].RequestedProgram.RequestedSubPrograms[0].RequestedRecipes[0].Results[0].Status = TestStatus.Completed;
-
-            Requests[0].RequestedProgram.RequestedSubPrograms[0].RequestedRecipes[0].Results[0].Status = TestStatus.Invalid;
         }
     }
 }

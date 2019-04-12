@@ -17,7 +17,22 @@ namespace O2Micro.BCLabManager.Shell
 
     public class ResultClass
     {
-        public TestStatus Status { get; set; }
+        private TestStatus status = TestStatus.Waiting;
+        public TestStatus Status 
+        {
+            get
+            {
+                return status;
+            }
+            set
+            {
+                if (value != status)
+                {
+                    status = value;
+                    OnRasieStatusChangedEvent();
+                }
+            }
+        }
         public String RedoReason { get; set; }
         public BatteryClass Battery { get; set; }
         //public TesterClass Tester { get; set; }
@@ -25,6 +40,18 @@ namespace O2Micro.BCLabManager.Shell
         public ChamberClass Chamber { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+
+        public event EventHandler StatusChanged;
+
+        protected virtual void OnRasieStatusChangedEvent()
+        {
+            EventHandler handler = StatusChanged;
+
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
+        }
 
         public ResultClass()
         {
@@ -43,13 +70,26 @@ namespace O2Micro.BCLabManager.Shell
         public RecipeClass Recipe { get; set; }
         public Int32 Priority { get; set; }
         public List<ResultClass> Results { get; set; }
+        public ResultClass ValidResult
+        {
+            get
+            {
+                return Results[Results.Count - 1];
+            }
+            set
+            {
+                Results[Results.Count - 1] = value;
+            }
+        }
 
         public RequestedRecipeClass(RecipeClass Recipe, Int32 Priority)
         {
             this.Recipe = Recipe;
             this.Priority = Priority;
             this.Results = new List<ResultClass>();
-            this.Results.Add(new ResultClass());
+            ResultClass Result = new ResultClass();
+            Result.StatusChanged += new EventHandler(Recipe.Result_StatusChanged);
+            this.Results.Add(Result);
         }
     }
 
@@ -66,7 +106,22 @@ namespace O2Micro.BCLabManager.Shell
             RequestedRecipes = new List<RequestedRecipeClass>();
             foreach (var rec in sp.Recipes)
             {
-                RequestedRecipes.Add(new RequestedRecipeClass(rec, this.Priority));
+                RequestedRecipeClass RequestedRecipe = new RequestedRecipeClass(rec, this.Priority);
+                RequestedRecipe.ValidResult.StatusChanged += new EventHandler(Result_StatusChanged);
+                RequestedRecipes.Add(RequestedRecipe);
+            }
+        }
+
+        public void Result_StatusChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                ResultClass Result = (ResultClass)sender;
+            }
+            catch
+            {
+                //sender is not a ResultClass type
+                return;
             }
         }
     }
@@ -93,7 +148,15 @@ namespace O2Micro.BCLabManager.Shell
     //     Represents a test request
     public class RequestClass
     {
-        //public Int32 ScheduledItemID { get; set; }
+        private static Int32 nextID = 1;
+        private Int32 NextID
+        {
+            get
+            {
+                nextID += 1;
+                return nextID - 1;
+            }
+        }
         public Int32 RequestID { get; set; }
         public ProgramClass Program { get; set; }
         public BatteryClass Battery { get; set; }        //0 means the program will run on a model, otherwise means run on a battery
@@ -117,6 +180,17 @@ namespace O2Micro.BCLabManager.Shell
         public RequestClass(Int32 RequestID, ProgramClass Program, String Requester, DateTime RequestDate, Int32 Priority, BatteryClass Battery = null)
         {
             this.RequestID = RequestID;
+            this.Program = Program;
+            this.Requester = Requester;
+            this.RequestDate = RequestDate;
+            this.Priority = Priority;
+            this.Battery = Battery;
+            this.RequestedProgram = new RequestedProgramClass(this.Program, this.Priority);
+            Scheduler.ImportTasks(RequestedProgram.RequestedSubPrograms);
+        }
+        public RequestClass(ProgramClass Program, String Requester, DateTime RequestDate, Int32 Priority, BatteryClass Battery = null)
+        {
+            this.RequestID = NextID;
             this.Program = Program;
             this.Requester = Requester;
             this.RequestDate = RequestDate;

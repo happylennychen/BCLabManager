@@ -19,20 +19,17 @@ namespace O2Micro.BCLabManager.Shell
             this.Stauts = StatusEnum.Idle;
         }
     }
-    //public class BatteryModels
-    //{
-    //    public List<BatteryModel> BMs { get; set; }
-    //    public void SaveToDB()
-    //    { }
-    //    public void LoadFromDB()
-    //    { }
-    //}
-
-
-    // Summary:
-    //     Represents a certain battery type
     public class BatteryModelClass
     {
+        private static Int32 nextID = 1;
+        private Int32 NextID
+        {
+            get
+            {
+                nextID += 1;
+                return nextID - 1;
+            }
+        }
         public Int32 BatteryModelID { get; set; }
         public String Manufactor { get; set; }
         public String Name { get; set; }
@@ -57,20 +54,31 @@ namespace O2Micro.BCLabManager.Shell
             this.TypicalCapacity = TypicalCapacity;
             this.CutoffDischargeVoltage = CutoffDischargeVoltage;
         }
+        public BatteryModelClass(String Manufactor, String Name, String Material, Int32 LimitedChargeVoltage, Int32 RatedCapacity, Int32 NominalVoltage, Int32 TypicalCapacity, Int32 CutoffDischargeVoltage)
+        {
+            this.BatteryModelID = NextID;
+            this.Manufactor = Manufactor;
+            this.Name = Name;
+            this.Material = Material;
+            this.LimitedChargeVoltage = LimitedChargeVoltage;
+            this.RatedCapacity = RatedCapacity;
+            this.NominalVoltage = NominalVoltage;
+            this.TypicalCapacity = TypicalCapacity;
+            this.CutoffDischargeVoltage = CutoffDischargeVoltage;
+        }
     }
 
-    //public class Batteries
-    //{
-    //    public List<Battery> Bs { get; set; }
-    //    public void SaveToDB()
-    //    { }
-    //    public void LoadFromDB()
-    //    { }
-    //}
-    // Summary:
-    //     Represents a specific battery pack
     public class BatteryClass : AssetClass
     {
+        private static Int32 nextID = 1;
+        private Int32 NextID
+        {
+            get
+            {
+                nextID += 1;
+                return nextID - 1;
+            }
+        }
         public Int32 BatteryID { get; set; }
         public String Name { get; set; }
         public BatteryModelClass BatteryModel { get; set; }
@@ -84,11 +92,27 @@ namespace O2Micro.BCLabManager.Shell
             this.BatteryModel = BatteryModel;
             this.CycleCount = CycleCount;
         }
+        public BatteryClass(String Name, BatteryModelClass BatteryModel, Double CycleCount = 0)
+        {
+            this.BatteryID = NextID;
+            this.Name = Name;
+            this.BatteryModel = BatteryModel;
+            this.CycleCount = CycleCount;
+        }
     }
 
 
     public class TesterClass
     {
+        private static Int32 nextID = 1;
+        private Int32 NextID
+        {
+            get
+            {
+                nextID += 1;
+                return nextID - 1;
+            }
+        }
         public Int32 TesterID { get; set; }
         public String Manufactor { get; set; }
         public String Name { get; set; }
@@ -101,9 +125,25 @@ namespace O2Micro.BCLabManager.Shell
             this.Name = Name;
             this.TesterChannels = TesterChannels;
         }
+        public TesterClass(String Manufactor, String Name, List<TesterChannelClass> TesterChannels)
+        {
+            this.TesterID = NextID;
+            this.Manufactor = Manufactor;
+            this.Name = Name;
+            this.TesterChannels = TesterChannels;
+        }
     }
     public class TesterChannelClass : AssetClass
     {
+        private static Int32 nextID = 1;
+        private Int32 NextID
+        {
+            get
+            {
+                nextID += 1;
+                return nextID - 1;
+            }
+        }
         public Int32 TesterChannelID { get; set; }
         public TesterClass Tester { get; set; }
 
@@ -112,10 +152,24 @@ namespace O2Micro.BCLabManager.Shell
             this.TesterChannelID = TesterChannelID;
             this.Tester = Tester;
         }
+        public TesterChannelClass(TesterClass Tester)
+        {
+            this.TesterChannelID = NextID;
+            this.Tester = Tester;
+        }
     }
 
     public class ChamberClass : AssetClass
     {
+        private static Int32 nextID = 1;
+        private Int32 NextID
+        {
+            get
+            {
+                nextID += 1;
+                return nextID - 1;
+            }
+        }
         public Int32 ChamberID { get; set; }
         public String Manufactor { get; set; }
         public String Name { get; set; }
@@ -124,6 +178,13 @@ namespace O2Micro.BCLabManager.Shell
         public ChamberClass(Int32 ChamberID, String Manufactor, String Name, String TemperatureRange)
         {
             this.ChamberID = ChamberID;
+            this.Manufactor = Manufactor;
+            this.Name = Name;
+            this.TemperatureRange = TemperatureRange;
+        }
+        public ChamberClass(String Manufactor, String Name, String TemperatureRange)
+        {
+            this.ChamberID = NextID;
             this.Manufactor = Manufactor;
             this.Name = Name;
             this.TemperatureRange = TemperatureRange;

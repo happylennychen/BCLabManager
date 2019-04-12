@@ -9,6 +9,15 @@ namespace O2Micro.BCLabManager.Shell
     //     Represents a test program which can be requested and executed over and over again
     public class ProgramClass
     {
+        private static Int32 nextID = 1;
+        private Int32 NextID
+        {
+            get
+            {
+                nextID += 1;
+                return nextID - 1;
+            }
+        }
         public Int32 ProgramID { get; set; }
         public BatteryModelClass BatteryModel { get; set; }
         public String Name { get; set; }
@@ -21,6 +30,34 @@ namespace O2Micro.BCLabManager.Shell
             this.BatteryModel = BatteryModel;
             this.Name = Name;
             this.SubPrograms = SubPrograms;
+            foreach (var SubProgram in SubPrograms)
+            {
+                SubProgram.EstimateDurationChanged+=new EventHandler(SubProgram_EstimateDurationChanged);
+            }
+        }
+        public ProgramClass(BatteryModelClass BatteryModel, String Name, List<SubProgramClass> SubPrograms)
+        {
+            this.ProgramID = NextID;
+            this.BatteryModel = BatteryModel;
+            this.Name = Name;
+            this.SubPrograms = SubPrograms;
+            foreach (var SubProgram in SubPrograms)
+            {
+                SubProgram.EstimateDurationChanged += new EventHandler(SubProgram_EstimateDurationChanged);
+            }
+        }
+
+        public void SubProgram_EstimateDurationChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                SubProgramClass Result = (SubProgramClass)sender;
+            }
+            catch
+            {
+                //sender is not a SubProgramClass type
+                return;
+            }
         }
     }
 
@@ -28,14 +65,77 @@ namespace O2Micro.BCLabManager.Shell
     //     Represents a sub program which can be united to form a program
     public class SubProgramClass
     {
+        private static Int32 nextID = 1;
+        private Int32 NextID
+        {
+            get
+            {
+                nextID += 1;
+                return nextID - 1;
+            }
+        }
         public Int32 SubProgramID { get; set; }
         public List<RecipeClass> Recipes { get; set; }
-        public TimeSpan EstimateDuration { get; set; }
+        private TimeSpan estimateDuration = new TimeSpan();
+        public TimeSpan EstimateDuration
+        {
+            get
+            {
+                return estimateDuration;
+            }
+            set
+            {
+                if (value != estimateDuration)
+                {
+                    estimateDuration = value;
+                    OnRasieEstimateDurationChangedEvent();
+                }
+            }
+        }
+
+        public event EventHandler EstimateDurationChanged;
+
+        protected virtual void OnRasieEstimateDurationChangedEvent()
+        {
+            EventHandler handler = EstimateDurationChanged;
+
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
+        }
 
         public SubProgramClass(Int32 SubProgramID, List<RecipeClass> Recipes)
         {
             this.SubProgramID = SubProgramID;
             this.Recipes = Recipes;
+            foreach (var Recipe in Recipes)
+            {
+                Recipe.EstimateDurationChanged += new EventHandler(Recipe_EstimateDurationChanged);
+            }
+        }
+
+        public SubProgramClass(List<RecipeClass> Recipes)
+        {
+            this.SubProgramID = NextID;
+            this.Recipes = Recipes;
+            foreach (var Recipe in Recipes)
+            {
+                Recipe.EstimateDurationChanged += new EventHandler(Recipe_EstimateDurationChanged);
+            }
+        }
+
+        public void Recipe_EstimateDurationChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                RecipeClass Result = (RecipeClass)sender;
+            }
+            catch
+            {
+                //sender is not a RecipeClass type
+                return;
+            }
         }
     }
 
@@ -43,10 +143,46 @@ namespace O2Micro.BCLabManager.Shell
     //     Represents a recipe which can be united to form a subprogram
     public class RecipeClass
     {
+        private static Int32 nextID = 1;
+        private Int32 NextID
+        {
+            get
+            {
+                nextID += 1;
+                return nextID - 1;
+            }
+        }
         public Int32 RecipeID { get; set; }
         public TesterRecipeClass TesterRecipe { get; set; }
         public ChamberRecipeClass ChamberRecipe { get; set; }
-        public TimeSpan EstimateDuration { get; set; }
+        private TimeSpan estimateDuration = new TimeSpan();
+        public TimeSpan EstimateDuration 
+        {
+            get
+            {
+                return estimateDuration;
+            }
+            set
+            {
+                if (value != estimateDuration)
+                {
+                    estimateDuration = value;
+                    OnRasieEstimateDurationChangedEvent();
+                }
+            }
+        }
+
+        public event EventHandler EstimateDurationChanged;
+
+        protected virtual void OnRasieEstimateDurationChangedEvent()
+        {
+            EventHandler handler = EstimateDurationChanged;
+
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
+        }
 
         public RecipeClass(Int32 RecipeID, TesterRecipeClass TesterRecipe, ChamberRecipeClass ChamberRecipe)
         {
@@ -54,10 +190,39 @@ namespace O2Micro.BCLabManager.Shell
             this.TesterRecipe = TesterRecipe;
             this.ChamberRecipe = ChamberRecipe;
         }
+
+        public RecipeClass(TesterRecipeClass TesterRecipe, ChamberRecipeClass ChamberRecipe)
+        {
+            this.RecipeID = NextID;
+            this.TesterRecipe = TesterRecipe;
+            this.ChamberRecipe = ChamberRecipe;
+        }
+
+        public void Result_StatusChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                ResultClass Result = (ResultClass)sender;
+            }
+            catch
+            {
+                //sender is not a ResultClass type
+                return;
+            }
+        }
     }
 
     public class TesterRecipeClass
     {
+        private static Int32 nextID = 1;
+        private Int32 NextID
+        {
+            get
+            {
+                nextID += 1;
+                return nextID - 1;
+            }
+        }
         public Int32 TesterRecipeID { get; set; }
         public TesterClass Tester { get; set; }
         public String Name { get; set; }
@@ -73,10 +238,28 @@ namespace O2Micro.BCLabManager.Shell
             this.BatteryModel = BatteryModel;
             this.Steps = Steps;
         }
+
+        public TesterRecipeClass(TesterClass Tester, String Name, BatteryModelClass BatteryModel, String Steps)
+        {
+            this.TesterRecipeID = NextID;
+            this.Tester = Tester;
+            this.Name = Name;
+            this.BatteryModel = BatteryModel;
+            this.Steps = Steps;
+        }
     }
 
     public class ChamberRecipeClass
     {
+        private static Int32 nextID = 1;
+        private Int32 NextID
+        {
+            get
+            {
+                nextID += 1;
+                return nextID - 1;
+            }
+        }
         public Int32 ChamberRecipeID { get; set; }
         public ChamberClass Chamber { get; set; }
         public String Name { get; set; }
@@ -85,6 +268,14 @@ namespace O2Micro.BCLabManager.Shell
         public ChamberRecipeClass(Int32 ChamberRecipeID, ChamberClass Chamber, String Name, String Steps)
         {
             this.ChamberRecipeID = ChamberRecipeID;
+            this.Chamber = Chamber;
+            this.Name = Name;
+            this.Steps = Steps;
+        }
+
+        public ChamberRecipeClass(ChamberClass Chamber, String Name, String Steps)
+        {
+            this.ChamberRecipeID = NextID;
             this.Chamber = Chamber;
             this.Name = Name;
             this.Steps = Steps;

@@ -130,21 +130,21 @@ namespace O2Micro.BCLabManager.Shell
             TesterRecipes.Add(tr);
 
             ChamberRecipes = new List<ChamberRecipeClass>();
-            ChamberRecipeClass cr = new ChamberRecipeClass(Chambers[0], "Stable -5", "1234");
+            ChamberRecipeClass cr = new ChamberRecipeClass(3, Chambers[0], "Stable -5", "1234");
             ChamberRecipes.Add(cr);
-            cr = new ChamberRecipeClass(Chambers[0], "Stable 35", "1234");
+            cr = new ChamberRecipeClass(2, Chambers[0], "Stable 35", "1234");
             ChamberRecipes.Add(cr);
-            cr = new ChamberRecipeClass(Chambers[0], "Stable -10", "1234");
+            cr = new ChamberRecipeClass(3, Chambers[0], "Stable -10", "1234");
             ChamberRecipes.Add(cr);
-            cr = new ChamberRecipeClass(Chambers[0], "Stable 0", "1234");
+            cr = new ChamberRecipeClass(2, Chambers[0], "Stable 0", "1234");
             ChamberRecipes.Add(cr);
-            cr = new ChamberRecipeClass(Chambers[0], "Stable 10", "1234");
+            cr = new ChamberRecipeClass(2, Chambers[0], "Stable 10", "1234");
             ChamberRecipes.Add(cr);
-            cr = new ChamberRecipeClass(Chambers[0], "Stable 20", "1234");
+            cr = new ChamberRecipeClass(2, Chambers[0], "Stable 20", "1234");
             ChamberRecipes.Add(cr);
-            cr = new ChamberRecipeClass(Chambers[0], "Stable 30", "1234");
+            cr = new ChamberRecipeClass(2, Chambers[0], "Stable 30", "1234");
             ChamberRecipes.Add(cr);
-            cr = new ChamberRecipeClass(Chambers[0], "Stable 40", "1234");
+            cr = new ChamberRecipeClass(2, Chambers[0], "Stable 40", "1234");
             ChamberRecipes.Add(cr);
 
             Recipes = new List<RecipeClass>();
@@ -323,15 +323,15 @@ namespace O2Micro.BCLabManager.Shell
             Requests.Add(Request);
             Request = new RequestClass(Programs[2], "Francis", DateTime.Now, 2);
             Requests.Add(Request);
-            Request = new RequestClass(Programs[3], "Francis", DateTime.Now, 2);
+            Request = new RequestClass(Programs[3], "Francis", DateTime.Now, 1);
             Requests.Add(Request);
-            Request = new RequestClass(Programs[4], "Francis", DateTime.Now, 2);
+            Request = new RequestClass(Programs[4], "Francis", DateTime.Now, 1);
             Requests.Add(Request);
-            Request = new RequestClass(Programs[5], "Francis", DateTime.Now, 2);
+            Request = new RequestClass(Programs[5], "Francis", DateTime.Now, 1);
             Requests.Add(Request);
-            Request = new RequestClass(Programs[6], "Francis", DateTime.Now, 2, Batteries[0]);
+            Request = new RequestClass(Programs[6], "Francis", DateTime.Now, 1, Batteries[0]);
             Requests.Add(Request);
-            Request = new RequestClass(Programs[7], "Francis", DateTime.Now, 2, Batteries[3]);
+            Request = new RequestClass(Programs[7], "Francis", DateTime.Now, 1, Batteries[3]);
             Requests.Add(Request);
             #endregion
         }
@@ -342,11 +342,19 @@ namespace O2Micro.BCLabManager.Shell
             #region init scheduler
             Scheduler.OrderTasks();
 
-            //Scheduler.AutoRun();
             Scheduler.AssignAssets(Batteries[0],Chambers[0],Testers[0].TesterChannels[0]);
-            //Scheduler.ExecuteSubProgram();
-            //Scheduler.FinishSubProgram(ref ResultClass Result, 
-            //Scheduler.RunningRequestedSubPrograms[0].RequestedRecipes[0].Results[0].Status = TestStatus.Completed;
+            //Scheduler.Run();
+            Scheduler.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
+            Scheduler.Run();
+            Scheduler.RunningRequestedSubPrograms[0].RequestedRecipes[0].ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, DateTime.Now);
+            Scheduler.RunningRequestedSubPrograms[0].RequestedRecipes[1].ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, DateTime.Now);
+            Scheduler.WaitingRequestedSubPrograms[2].RequestedRecipes[0].ValidExecutor.Abandon();
+            Scheduler.WaitingRequestedSubPrograms[0].RequestedRecipes[0].ValidExecutor.Invalid();
+            Scheduler.OrderTasks();
+            Scheduler.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
+            Scheduler.Run();
+            //Scheduler.FinishSubProgram(ref ExecutorClass Executor, 
+            //Scheduler.RunningRequestedSubPrograms[0].RequestedRecipes[0].Executors[0].Status = TestStatus.Completed;
             //Scheduler.CloseRunningTask();
             #endregion
 

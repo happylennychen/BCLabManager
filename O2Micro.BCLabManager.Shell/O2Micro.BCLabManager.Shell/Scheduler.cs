@@ -19,6 +19,17 @@ namespace O2Micro.BCLabManager.Shell
                 waitingRequestedSubPrograms = value;
             }
         }
+        public static RequestedSubProgramClass TopRequestedSubProgram 
+        {
+            get
+            {
+                return waitingRequestedSubPrograms[0];
+            }
+            set
+            {
+                waitingRequestedSubPrograms[0] = value;
+            }
+        }
         private static List<RequestedSubProgramClass> runningRequestedSubPrograms = new List<RequestedSubProgramClass>();
         public static List<RequestedSubProgramClass> RunningRequestedSubPrograms
         {
@@ -31,15 +42,16 @@ namespace O2Micro.BCLabManager.Shell
                 runningRequestedSubPrograms = value;
             }
         }
-        public static RequestedSubProgramClass TopRequestedSubProgram 
+        private static List<RequestedSubProgramClass> readyRequestedSubPrograms = new List<RequestedSubProgramClass>();
+        public static List<RequestedSubProgramClass> ReadyRequestedSubPrograms
         {
             get
             {
-                return waitingRequestedSubPrograms[0];
+                return readyRequestedSubPrograms;
             }
             set
             {
-                waitingRequestedSubPrograms[0] = value;
+                readyRequestedSubPrograms = value;
             }
         }
         public static void ImportTasks(List<RequestedSubProgramClass> newlist)
@@ -50,11 +62,29 @@ namespace O2Micro.BCLabManager.Shell
 
         public static void OrderTasks()
         {
-            waitingRequestedSubPrograms.OrderBy(o => o.Priority).ThenBy(o => o.RequestedRecipes[0].Recipe.ChamberRecipe);
+            //waitingRequestedSubPrograms = waitingRequestedSubPrograms.OrderBy(o => o.Priority).ThenBy(o=>o.RequestedRecipes[0].Recipe.ChamberRecipe.Priority).ToList();
+            waitingRequestedSubPrograms = waitingRequestedSubPrograms.OrderBy(o => o.Priority).ToList();
         }
 
         public static void AssignAssets(BatteryClass Battery, ChamberClass Chamber, TesterChannelClass TesterChannel)
         {
+            //Check if the assets is in use or not first
+            RequestedSubProgramClass RequestedSubProgram = TopRequestedSubProgram;
+            ExecutorClass validExecutor = TopRequestedSubProgram.TopRequestedRecipe.ValidExecutor;
+            validExecutor.AssignAssets(Battery, Chamber, TesterChannel);
+            ReadyRequestedSubPrograms.Add(RequestedSubProgram);
+            WaitingRequestedSubPrograms.Remove(RequestedSubProgram);
+        }
+
+        public static void Run()
+        {
+            foreach (var RequestedSubProgram in ReadyRequestedSubPrograms)
+            {
+                ExecutorClass validExecutor = RequestedSubProgram.TopRequestedRecipe.ValidExecutor;
+                validExecutor.Execute();
+                RunningRequestedSubPrograms.Add(RequestedSubProgram);
+            }
+            ReadyRequestedSubPrograms.Clear();
         }
     }
 }

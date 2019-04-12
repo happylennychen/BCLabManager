@@ -51,7 +51,8 @@ namespace O2Micro.BCLabManager.Shell
         {
             try
             {
-                SubProgramClass Result = (SubProgramClass)sender;
+                //SubProgramClass Executor = (SubProgramClass)sender;
+                EstimateDuration = TimeSpan.FromSeconds(this.SubPrograms.Sum(o => o.EstimateDuration.TotalSeconds));
             }
             catch
             {
@@ -129,7 +130,8 @@ namespace O2Micro.BCLabManager.Shell
         {
             try
             {
-                RecipeClass Result = (RecipeClass)sender;
+                //RecipeClass Recipe = (RecipeClass)sender;
+                EstimateDuration = TimeSpan.FromSeconds(this.Recipes.Sum(o => o.EstimateDuration.TotalSeconds));
             }
             catch
             {
@@ -198,15 +200,21 @@ namespace O2Micro.BCLabManager.Shell
             this.ChamberRecipe = ChamberRecipe;
         }
 
-        public void Result_StatusChanged(object sender, EventArgs e)
+        public void Executor_StatusChanged(object sender, EventArgs e)
         {
             try
             {
-                ResultClass Result = (ResultClass)sender;
+                ExecutorClass Executor = (ExecutorClass)sender;
+                switch (Executor.Status)
+                {
+                    case ExecutorStatus.Completed:
+                        EstimateDuration = Executor.EndTime - Executor.StartTime;   //Just use the last executor's value here. A better and more complex way is to use average value.
+                        break;
+                }
             }
             catch
             {
-                //sender is not a ResultClass type
+                //sender is not a ExecutorClass type
                 return;
             }
         }
@@ -261,21 +269,24 @@ namespace O2Micro.BCLabManager.Shell
             }
         }
         public Int32 ChamberRecipeID { get; set; }
+        public Int32 Priority { get; set; }
         public ChamberClass Chamber { get; set; }
         public String Name { get; set; }
         public String Steps { get; set; }
 
-        public ChamberRecipeClass(Int32 ChamberRecipeID, ChamberClass Chamber, String Name, String Steps)
+        public ChamberRecipeClass(Int32 ChamberRecipeID, Int32 Priority, ChamberClass Chamber, String Name, String Steps)
         {
             this.ChamberRecipeID = ChamberRecipeID;
+            this.Priority = Priority;
             this.Chamber = Chamber;
             this.Name = Name;
             this.Steps = Steps;
         }
 
-        public ChamberRecipeClass(ChamberClass Chamber, String Name, String Steps)
+        public ChamberRecipeClass(Int32 Priority, ChamberClass Chamber, String Name, String Steps)
         {
             this.ChamberRecipeID = NextID;
+            this.Priority = Priority;
             this.Chamber = Chamber;
             this.Name = Name;
             this.Steps = Steps;

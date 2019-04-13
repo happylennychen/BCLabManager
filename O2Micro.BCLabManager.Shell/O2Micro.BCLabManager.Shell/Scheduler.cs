@@ -8,9 +8,9 @@ namespace O2Micro.BCLabManager.Shell
     public static class Scheduler
     {
         private static List<RequestedSubProgramClass> waitingRequestedSubPrograms = new List<RequestedSubProgramClass>();
-        public static List<RequestedSubProgramClass> WaitingRequestedSubPrograms 
+        public static List<RequestedSubProgramClass> WaitingList
         {
-            get 
+            get
             {
                 return waitingRequestedSubPrograms;
             }
@@ -19,7 +19,7 @@ namespace O2Micro.BCLabManager.Shell
                 waitingRequestedSubPrograms = value;
             }
         }
-        public static RequestedSubProgramClass TopRequestedSubProgram 
+        public static RequestedSubProgramClass TopWaitingRequestedSubProgram
         {
             get
             {
@@ -31,7 +31,7 @@ namespace O2Micro.BCLabManager.Shell
             }
         }
         private static List<RequestedSubProgramClass> runningRequestedSubPrograms = new List<RequestedSubProgramClass>();
-        public static List<RequestedSubProgramClass> RunningRequestedSubPrograms
+        public static List<RequestedSubProgramClass> RunningList
         {
             get
             {
@@ -43,7 +43,7 @@ namespace O2Micro.BCLabManager.Shell
             }
         }
         private static List<RequestedSubProgramClass> readyRequestedSubPrograms = new List<RequestedSubProgramClass>();
-        public static List<RequestedSubProgramClass> ReadyRequestedSubPrograms
+        public static List<RequestedSubProgramClass> ReadyList
         {
             get
             {
@@ -54,10 +54,71 @@ namespace O2Micro.BCLabManager.Shell
                 readyRequestedSubPrograms = value;
             }
         }
+        private static List<RequestedSubProgramClass> completedRequestedSubPrograms = new List<RequestedSubProgramClass>();
+        public static List<RequestedSubProgramClass> CompletedList
+        {
+            get
+            {
+                return completedRequestedSubPrograms;
+            }
+            set
+            {
+                completedRequestedSubPrograms = value;
+            }
+        }
         public static void ImportTasks(List<RequestedSubProgramClass> newlist)
         {
             foreach (var sp in newlist)
-                WaitingRequestedSubPrograms.Add(sp);
+            {
+                foreach (var RequestedRecipe in sp.RequestedRecipes)
+                    RequestedRecipe.ValidExecutor.StatusChanged += new EventHandler(Executor_StatusChanged);
+                WaitingList.Add(sp);
+            }
+        }
+        private static void Executor_StatusChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                ExecutorClass Executor = (ExecutorClass)sender;
+                RequestedSubProgramClass root = Executor.RequestedRecipe.RequestedSubProgram;
+                switch (Executor.Status)
+                {
+                    case ExecutorStatus.Ready:
+                        WaitingList.Remove(root);
+                        ReadyList.Add(root);
+                        break;
+                    case ExecutorStatus.Executing:
+                        ReadyList.Remove(root);
+                        RunningList.Add(root);
+                        break;
+                    case ExecutorStatus.Completed:
+                        RunningList.Remove(root);
+                        if (root.RequestedRecipes.Count == 1)
+                            CompletedList.Add(root);
+                        else if (root.RequestedRecipes.Count > 1)
+                            WaitingList.Insert(0, root);
+                        break;
+                    case ExecutorStatus.Abandoned:
+                        if (ReadyList.Contains(root))
+                            ReadyList.Remove(root);
+                        else if (WaitingList.Contains(root))
+                            WaitingList.Remove(root);
+                        break;
+                    case ExecutorStatus.Invalid:
+                        Executor.RequestedRecipe.AddExecutor();
+                        if (CompletedList.Contains(root))
+                        {
+                            CompletedList.Remove(root);
+                            WaitingList.Insert(0, root);    //back to the top by default
+                        }
+                        break;
+                }
+            }
+            catch
+            {
+                //sender is not a ExecutorClass type
+                return;
+            }
         }
 
         public static void OrderTasks()
@@ -69,22 +130,25 @@ namespace O2Micro.BCLabManager.Shell
         public static void AssignAssets(BatteryClass Battery, ChamberClass Chamber, TesterChannelClass TesterChannel)
         {
             //Check if the assets is in use or not first
-            RequestedSubProgramClass RequestedSubProgram = TopRequestedSubProgram;
-            ExecutorClass validExecutor = TopRequestedSubProgram.TopRequestedRecipe.ValidExecutor;
+            RequestedSubProgramClass RequestedSubProgram = TopWaitingRequestedSubProgram;
+            ExecutorClass validExecutor = TopWaitingRequestedSubProgram.TopWaitingRequestedRecipe.ValidExecutor;
             validExecutor.AssignAssets(Battery, Chamber, TesterChannel);
-            ReadyRequestedSubPrograms.Add(RequestedSubProgram);
-            WaitingRequestedSubPrograms.Remove(RequestedSubProgram);
         }
 
-        public static void Run()
+        public static void Execute()
         {
-            foreach (var RequestedSubProgram in ReadyRequestedSubPrograms)
+            //Int32 count = ReadyList.Count;
+            RequestedSubProgramClass[] ReadyArray = ReadyList.ToArray();
+            foreach (var RequestedSubProgram in ReadyArray)
             {
-                ExecutorClass validExecutor = RequestedSubProgram.TopRequestedRecipe.ValidExecutor;
-                validExecutor.Execute();
-                RunningRequestedSubPrograms.Add(RequestedSubProgram);
+                //RequestedSubProgramClass RequestedSubProgram = ReadyList[i];
+                //ExecutorClass validExecutor = RequestedSubProgram.TopWaitingRequestedRecipe.ValidExecutor;
+                foreach (var RequestedRecipe in RequestedSubProgram.RequestedRecipes)
+                {
+                    if (RequestedRecipe.ValidExecutor.Status == ExecutorStatus.Ready)
+                        RequestedRecipe.ValidExecutor.Execute();
+                }
             }
-            ReadyRequestedSubPrograms.Clear();
         }
     }
 }

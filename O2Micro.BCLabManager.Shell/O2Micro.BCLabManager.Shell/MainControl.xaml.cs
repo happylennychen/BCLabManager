@@ -345,20 +345,17 @@ namespace O2Micro.BCLabManager.Shell
             Scheduler.AssignAssets(Batteries[0],Chambers[0],Testers[0].TesterChannels[0]);
             //Scheduler.Run();
             Scheduler.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
-            Scheduler.Run();
-            Scheduler.RunningRequestedSubPrograms[0].RequestedRecipes[0].ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, DateTime.Now);
-            Scheduler.RunningRequestedSubPrograms[0].RequestedRecipes[1].ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, DateTime.Now);
-            Scheduler.WaitingRequestedSubPrograms[2].RequestedRecipes[0].ValidExecutor.Abandon();
-            Scheduler.WaitingRequestedSubPrograms[0].RequestedRecipes[0].ValidExecutor.Invalid();
+            Scheduler.Execute();
+            Scheduler.RunningList[0].RequestedRecipes[0].ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, DateTime.Now);
+            Scheduler.RunningList[0].RequestedRecipes[0].ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, DateTime.Now);
+            Scheduler.WaitingList[2].RequestedRecipes[0].ValidExecutor.Abandon();
+            Scheduler.CompletedList[0].RequestedRecipes[0].ValidExecutor.Invalid();
             Scheduler.OrderTasks();
             Scheduler.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
-            Scheduler.Run();
+            Scheduler.Execute();
             //Scheduler.FinishSubProgram(ref ExecutorClass Executor, 
             //Scheduler.RunningRequestedSubPrograms[0].RequestedRecipes[0].Executors[0].Status = TestStatus.Completed;
             //Scheduler.CloseRunningTask();
-            #endregion
-
-            #region commit result
             #endregion
         }
 

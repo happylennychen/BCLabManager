@@ -208,7 +208,7 @@ namespace O2Micro.BCLabManager.Shell
                 switch (Executor.Status)
                 {
                     case ExecutorStatus.Completed:
-                        EstimateDuration = Executor.EndTime - Executor.StartTime;   //Just use the last executor's value here. A better and more complex way is to use average value.
+                        EstimateDuration = Executor.EndTime - Executor.StartTime;   //Just use the last executor's value here. A better and more complex way is to use historic average value.
                         break;
                 }
             }

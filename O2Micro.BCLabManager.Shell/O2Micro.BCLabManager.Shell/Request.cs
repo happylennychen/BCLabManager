@@ -11,7 +11,6 @@ namespace O2Micro.BCLabManager.Shell
         Abandoned,
         Ready,
         Executing,
-        Failed,
         Completed,
         Invalid,
     }
@@ -35,13 +34,13 @@ namespace O2Micro.BCLabManager.Shell
                 }
             }
         }
-        public String RedoReason { get; set; }
         public BatteryClass Battery { get; set; }
         //public TesterClass Tester { get; set; }
         public TesterChannelClass TesterChannel { get; set; }
         public ChamberClass Chamber { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+        public String Description { get; set; }
 
         public event EventHandler StatusChanged;
 
@@ -59,7 +58,7 @@ namespace O2Micro.BCLabManager.Shell
         {
             this.RequestedRecipe = RequestedRecipe;
             this.Status = ExecutorStatus.Waiting;
-            this.RedoReason = String.Empty;
+            this.Description = String.Empty;
             this.Battery = null;
             this.TesterChannel = null;
             this.Chamber = null;
@@ -80,39 +79,48 @@ namespace O2Micro.BCLabManager.Shell
 
         public void Execute()
         {
-            if (this.Status == ExecutorStatus.Waiting)
+            if (this.Status == ExecutorStatus.Ready)
             {
-                Battery.Stauts = StatusEnum.Using;
+                Battery.Status = AssetStatusEnum.Using;
                 if(Chamber != null)
-                    Chamber.Stauts = StatusEnum.Using;
-                TesterChannel.Stauts = StatusEnum.Using;
+                    Chamber.Status = AssetStatusEnum.Using;
+                TesterChannel.Status = AssetStatusEnum.Using;
                 Status = ExecutorStatus.Executing;
             }
         }
 
-        public void Commit(ExecutorStatus Status, DateTime StartTime, DateTime EndTime, String RedoReason = "")  //Need to check the Executor Status to make sure it is a executing
+        public void Commit(ExecutorStatus Status, DateTime StartTime, DateTime EndTime, String Description = "")  //Need to check the Executor Status to make sure it is executing
         {
             if (this.Status == ExecutorStatus.Executing)
             {
-                this.RedoReason = RedoReason;
+                this.Description = Description;
                 this.StartTime = StartTime;
                 this.EndTime = EndTime;
                 if (Chamber != null)
-                    Chamber.Stauts = StatusEnum.Idle;
-                TesterChannel.Stauts = StatusEnum.Idle;
-                Battery.Stauts = StatusEnum.Idle;
-                this.Status = Status;   //this has to be the last assignment because it will raise StatusChanged event so that duration will be updated using StartTime and EndTime
+                    Chamber.Status = AssetStatusEnum.Idle;
+                TesterChannel.Status = AssetStatusEnum.Idle;
+                Battery.Status = AssetStatusEnum.Idle;
+                if (Status == ExecutorStatus.Invalid || Status == ExecutorStatus.Completed)
+                {
+                    this.Status = Status;   //this has to be the last assignment because it will raise StatusChanged event so that duration will be updated using StartTime and EndTime
+                }
             }
         }
 
         public void Abandon()
         {
-            Status = ExecutorStatus.Abandoned;
+            if (this.Status == ExecutorStatus.Waiting || this.Status == ExecutorStatus.Ready)
+            {
+                Status = ExecutorStatus.Abandoned;
+            }
         }
 
         public void Invalid()
         {
-            Status = ExecutorStatus.Invalid;
+            if (this.Status == ExecutorStatus.Completed || this.Status == ExecutorStatus.Executing)
+            {
+                Status = ExecutorStatus.Invalid;
+            }
         }
     }
 
@@ -122,7 +130,7 @@ namespace O2Micro.BCLabManager.Shell
         public RecipeClass Recipe { get; set; }
         public Int32 Priority { get; set; }
         public List<ExecutorClass> Executors { get; set; }
-        public ExecutorClass ValidExecutor
+        public ExecutorClass ValidExecutor      //When set current executor status to Invalid, a new Executor will be created and added into Executors
         {
             get
             {
@@ -168,7 +176,7 @@ namespace O2Micro.BCLabManager.Shell
                 requestedRecipes = value;
             }
         }
-        public RequestedRecipeClass TopRequestedRecipe 
+        public RequestedRecipeClass TopWaitingRequestedRecipe 
         {
             get 
             {
@@ -181,7 +189,7 @@ namespace O2Micro.BCLabManager.Shell
             }
             set
             {
-                RequestedRecipeClass RequestedRecipe;// = requestedRecipes.Where(o=>o.ValidExecutor.Status == TestStatus.Waiting).ToArray()[0];
+                RequestedRecipeClass RequestedRecipe;
                 foreach (var rec in requestedRecipes)
                 {
                     if (rec.ValidExecutor.Status == ExecutorStatus.Waiting)
@@ -200,34 +208,8 @@ namespace O2Micro.BCLabManager.Shell
             foreach (var rec in sp.Recipes)
             {
                 RequestedRecipeClass RequestedRecipe = new RequestedRecipeClass(this, rec, this.Priority);
-                RequestedRecipe.ValidExecutor.StatusChanged += new EventHandler(Executor_StatusChanged);
+                //RequestedRecipe.ValidExecutor.StatusChanged += new EventHandler(Executor_StatusChanged);  //Scheduler subscribe this event instead of request
                 RequestedRecipes.Add(RequestedRecipe);
-            }
-        }
-
-        public void Executor_StatusChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                ExecutorClass Executor = (ExecutorClass)sender;
-                switch (Executor.Status)
-                {
-                    case ExecutorStatus.Invalid:
-                        foreach (var recipe in RequestedRecipes)
-                        {
-                            recipe.AddExecutor();
-                        }
-                        if (!Scheduler.WaitingRequestedSubPrograms.Contains(this))
-                        {
-                            Scheduler.ImportTasks(new List<RequestedSubProgramClass> { this });
-                        }
-                        break;
-                }
-            }
-            catch
-            {
-                //sender is not a ExecutorClass type
-                return;
             }
         }
     }
@@ -279,8 +261,8 @@ namespace O2Micro.BCLabManager.Shell
                 return RequestedProgram.RequestedSubPrograms.Count;
             }
         }
-        public Int32 RedoNumber { get; set; }
-        public Double RedoRate { get { return RedoNumber / SubProgramNumber; } }
+        public Double InvalidRate { get { return InvalidNumber / SubProgramNumber; } }
+
         public Int32 CompletedNumber 
         {
             get
@@ -337,7 +319,7 @@ namespace O2Micro.BCLabManager.Shell
                     ).Count();
             }
         }
-        public Int32 FailedNumber
+        public Int32 InvalidNumber
         {
             get
             {
@@ -346,7 +328,7 @@ namespace O2Micro.BCLabManager.Shell
                     from subpro in RequestedProgram.RequestedSubPrograms
                     from recipe in subpro.RequestedRecipes
                     from executor in recipe.Executors
-                    where executor.Status == ExecutorStatus.Failed
+                    where executor.Status == ExecutorStatus.Invalid
                     select executor
                     ).Count();
             }

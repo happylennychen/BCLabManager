@@ -5,18 +5,34 @@ using System.Text;
 
 namespace O2Micro.BCLabManager.Shell
 {
-    public enum StatusEnum
+    public enum AssetStatusEnum
     {
         Idle,
         Using,
     }
     public class AssetClass
     {
-        public StatusEnum Stauts { get; set; }
+        private AssetStatusEnum status = new AssetStatusEnum();
+        public AssetStatusEnum Status 
+        {
+            get
+            {
+                return status;
+            }
+            set
+            {
+                if (value != status)
+                    status = value;
+                else
+                {
+                    //Todo: throw exception here
+                }
+            }
+        }
 
         public AssetClass()
         {
-            this.Stauts = StatusEnum.Idle;
+            this.Status = AssetStatusEnum.Idle;
         }
     }
     public class BatteryModelClass

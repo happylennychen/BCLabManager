@@ -38,20 +38,201 @@ namespace O2Micro.BCLabManager.Shell
             InitializeComponent();
             //string folder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "BCLabManager Documents\\");
             //dbmanager.DBInit(folder);
-            FakeProcess();
+            //HistoricData();
+            //TestCase4_1();
+            //TestCase4_2();
+            TestCase4_3();
         }
 
         [Conditional("DEBUG")]
-        private void FakeProcess()
+        private void TestCase4_1()
         {
-            FakeInput();
-            FakeAction();
+            InitAssets();
+            TesterRecipeClass tstrec1 = new TesterRecipeClass(Testers[0], "tstrec1", BatteryModels[0], "Blablabla");
+            ChamberRecipeClass cbrrec1 = new ChamberRecipeClass(1, Chambers[0], "cbrrec", "Blablabla");
+            RecipeClass rec1 = new RecipeClass(tstrec1, cbrrec1);
+            SubProgramClass subpro1 = new SubProgramClass(new List<RecipeClass> { rec1 });
+            ProgramClass pro1 = new ProgramClass(BatteryModels[0], "pro1", new List<SubProgramClass> { subpro1 });
+            RequestClass req1 = new RequestClass(pro1, "A", DateTime.Now, 3);
+
+            TesterRecipeClass tstrec2 = new TesterRecipeClass(Testers[0], "tstrec2", BatteryModels[0], "Blablabla");
+            ChamberRecipeClass cbrrec2 = new ChamberRecipeClass(1, Chambers[0], "cbrrec2", "Blablabla");
+            RecipeClass rec2 = new RecipeClass(tstrec2, null);
+            TesterRecipeClass tstrec2_2 = new TesterRecipeClass(Testers[0], "tstrec2_2", BatteryModels[0], "Blablabla");
+            ChamberRecipeClass cbrrec2_2 = new ChamberRecipeClass(1, Chambers[0], "cbrrec2_2", "Blablabla");
+            RecipeClass rec2_2 = new RecipeClass(tstrec2_2, cbrrec2_2);
+            SubProgramClass subpro2 = new SubProgramClass(new List<RecipeClass> { rec2, rec2_2 });
+            ProgramClass pro2 = new ProgramClass(BatteryModels[0], "pro2", new List<SubProgramClass> { subpro2 });
+            RequestClass req2 = new RequestClass(pro2, "B", DateTime.Now, 2);
+
+            TesterRecipeClass tstrec3 = new TesterRecipeClass(Testers[0], "tstrec3", BatteryModels[0], "Blablabla");
+            ChamberRecipeClass cbrrec3 = new ChamberRecipeClass(1, Chambers[0], "cbrrec3", "Blablabla");
+            RecipeClass rec3 = new RecipeClass(tstrec3, cbrrec3);
+            SubProgramClass subpro3 = new SubProgramClass(new List<RecipeClass> { rec3 });
+            ProgramClass pro3 = new ProgramClass(BatteryModels[0], "pro3", new List<SubProgramClass> { subpro3 });
+            RequestClass req3 = new RequestClass(pro3, "C", DateTime.Now, 1);
+
+            TesterRecipeClass tstrec4 = new TesterRecipeClass(Testers[0], "tstrec4", BatteryModels[0], "Blablabla");
+            ChamberRecipeClass cbrrec4 = null;
+            RecipeClass rec4 = new RecipeClass(tstrec4, cbrrec4);
+            SubProgramClass subpro4 = new SubProgramClass(new List<RecipeClass> { rec4 });
+            ProgramClass pro4 = new ProgramClass(BatteryModels[0], "pro4", new List<SubProgramClass> { subpro4 });
+            RequestClass req4 = new RequestClass(pro4, "D", DateTime.Now, 0);
+            PrintScheduler();
+            Scheduler.OrderTasks();     //pro4,pro3,pro2,pro1
+            PrintScheduler();
+        }
+
+        [Conditional("DEBUG")]
+        private void TestCase4_2()
+        {
+            InitAssets();
+            TesterRecipeClass tstrec1 = new TesterRecipeClass(Testers[0], "tstrec1", BatteryModels[0], "Blablabla");
+            ChamberRecipeClass cbrrec1 = new ChamberRecipeClass(3, Chambers[0], "cbrrec", "Blablabla");
+            RecipeClass rec1 = new RecipeClass(tstrec1, cbrrec1);
+            SubProgramClass subpro1 = new SubProgramClass(new List<RecipeClass> { rec1 });
+            ProgramClass pro1 = new ProgramClass(BatteryModels[0], "pro1", new List<SubProgramClass> { subpro1 });
+            RequestClass req1 = new RequestClass(pro1, "A", DateTime.Now, 1);
+
+            TesterRecipeClass tstrec2 = new TesterRecipeClass(Testers[0], "tstrec2", BatteryModels[0], "Blablabla");
+            ChamberRecipeClass cbrrec2 = new ChamberRecipeClass(1, Chambers[0], "cbrrec2", "Blablabla");
+            RecipeClass rec2 = new RecipeClass(tstrec2, null);
+            TesterRecipeClass tstrec2_2 = new TesterRecipeClass(Testers[0], "tstrec2_2", BatteryModels[0], "Blablabla");
+            ChamberRecipeClass cbrrec2_2 = new ChamberRecipeClass(2, Chambers[0], "cbrrec2_2", "Blablabla");
+            RecipeClass rec2_2 = new RecipeClass(tstrec2_2, cbrrec2_2);
+            SubProgramClass subpro2 = new SubProgramClass(new List<RecipeClass> { rec2, rec2_2 });
+            ProgramClass pro2 = new ProgramClass(BatteryModels[0], "pro2", new List<SubProgramClass> { subpro2 });
+            RequestClass req2 = new RequestClass(pro2, "B", DateTime.Now, 1);
+
+            TesterRecipeClass tstrec3 = new TesterRecipeClass(Testers[0], "tstrec3", BatteryModels[0], "Blablabla");
+            ChamberRecipeClass cbrrec3 = new ChamberRecipeClass(1, Chambers[0], "cbrrec3", "Blablabla");
+            RecipeClass rec3 = new RecipeClass(tstrec3, cbrrec3);
+            SubProgramClass subpro3 = new SubProgramClass(new List<RecipeClass> { rec3 });
+            ProgramClass pro3 = new ProgramClass(BatteryModels[0], "pro3", new List<SubProgramClass> { subpro3 });
+            RequestClass req3 = new RequestClass(pro3, "C", DateTime.Now, 1);
+
+            TesterRecipeClass tstrec4 = new TesterRecipeClass(Testers[0], "tstrec4", BatteryModels[0], "Blablabla");
+            ChamberRecipeClass cbrrec4 = null;
+            RecipeClass rec4 = new RecipeClass(tstrec4, cbrrec4);
+            SubProgramClass subpro4 = new SubProgramClass(new List<RecipeClass> { rec4 });
+            ProgramClass pro4 = new ProgramClass(BatteryModels[0], "pro4", new List<SubProgramClass> { subpro4 });
+            RequestClass req4 = new RequestClass(pro4, "D", DateTime.Now, 1);
+            PrintScheduler();
+            Scheduler.OrderTasks();     //
+            PrintScheduler();
+        }
+
+        [Conditional("DEBUG")]
+        private void TestCase4_3()
+        {
+            InitAssets();
+            TesterRecipeClass tstrec1 = new TesterRecipeClass(Testers[0], "tstrec1", BatteryModels[0], "Blablabla");
+            ChamberRecipeClass cbrrec1 = new ChamberRecipeClass(3, Chambers[0], "cbrrec", "Blablabla");
+            RecipeClass rec1 = new RecipeClass(tstrec1, cbrrec1);
+            SubProgramClass subpro1 = new SubProgramClass(new List<RecipeClass> { rec1 });
+            ProgramClass pro1 = new ProgramClass(BatteryModels[0], "pro1", new List<SubProgramClass> { subpro1 });
+            RequestClass req1 = new RequestClass(pro1, "A", DateTime.Now, 1);
+
+            TesterRecipeClass tstrec2 = new TesterRecipeClass(Testers[0], "tstrec2", BatteryModels[0], "Blablabla");
+            ChamberRecipeClass cbrrec2 = new ChamberRecipeClass(1, Chambers[0], "cbrrec2", "Blablabla");
+            RecipeClass rec2 = new RecipeClass(tstrec2, null);
+            TesterRecipeClass tstrec2_2 = new TesterRecipeClass(Testers[0], "tstrec2_2", BatteryModels[0], "Blablabla");
+            ChamberRecipeClass cbrrec2_2 = new ChamberRecipeClass(2, Chambers[0], "cbrrec2_2", "Blablabla");
+            RecipeClass rec2_2 = new RecipeClass(tstrec2_2, cbrrec2_2);
+            SubProgramClass subpro2 = new SubProgramClass(new List<RecipeClass> { rec2, rec2_2 });
+            ProgramClass pro2 = new ProgramClass(BatteryModels[0], "pro2", new List<SubProgramClass> { subpro2 });
+            RequestClass req2 = new RequestClass(pro2, "B", DateTime.Now, 1);
+
+            TesterRecipeClass tstrec3 = new TesterRecipeClass(Testers[0], "tstrec3", BatteryModels[0], "Blablabla");
+            ChamberRecipeClass cbrrec3 = new ChamberRecipeClass(1, Chambers[0], "cbrrec3", "Blablabla");
+            RecipeClass rec3 = new RecipeClass(tstrec3, cbrrec3);
+            SubProgramClass subpro3 = new SubProgramClass(new List<RecipeClass> { rec3 });
+            ProgramClass pro3 = new ProgramClass(BatteryModels[0], "pro3", new List<SubProgramClass> { subpro3 });
+            RequestClass req3 = new RequestClass(pro3, "C", DateTime.Now, 1);
+
+            TesterRecipeClass tstrec4 = new TesterRecipeClass(Testers[0], "tstrec4", BatteryModels[0], "Blablabla");
+            ChamberRecipeClass cbrrec4 = null;
+            RecipeClass rec4 = new RecipeClass(tstrec4, cbrrec4);
+            SubProgramClass subpro4 = new SubProgramClass(new List<RecipeClass> { rec4 });
+            ProgramClass pro4 = new ProgramClass(BatteryModels[0], "pro4", new List<SubProgramClass> { subpro4 });
+            RequestClass req4 = new RequestClass(pro4, "D", DateTime.Now, 1);
+            //Scheduler.OrderTasks();
+
+            TesterRecipeClass tstrec5 = new TesterRecipeClass(Testers[0], "tstrec5", BatteryModels[0], "Blablabla");
+            ChamberRecipeClass cbrrec5 = new ChamberRecipeClass(1, Chambers[0], "cbrrec5", "Blablabla");
+            RecipeClass rec5 = new RecipeClass(tstrec5, cbrrec5);
+            SubProgramClass subpro5 = new SubProgramClass(new List<RecipeClass> { rec5 });
+            ProgramClass pro5 = new ProgramClass(BatteryModels[0], "pro5", new List<SubProgramClass> { subpro5 });
+            RequestClass req5 = new RequestClass(pro5, "A", DateTime.Now, 0);
+
+            TesterRecipeClass tstrec6 = new TesterRecipeClass(Testers[0], "tstrec6", BatteryModels[0], "Blablabla");
+            ChamberRecipeClass cbrrec6 = new ChamberRecipeClass(1, Chambers[0], "cbrrec6", "Blablabla");
+            RecipeClass rec6 = new RecipeClass(tstrec6, null);
+            TesterRecipeClass tstrec6_2 = new TesterRecipeClass(Testers[0], "tstrec6_2", BatteryModels[0], "Blablabla");
+            ChamberRecipeClass cbrrec6_2 = new ChamberRecipeClass(1, Chambers[0], "cbrrec6_2", "Blablabla");
+            RecipeClass rec6_2 = new RecipeClass(tstrec6_2, cbrrec6_2);
+            SubProgramClass subpro6 = new SubProgramClass(new List<RecipeClass> { rec6, rec6_2 });
+            ProgramClass pro6 = new ProgramClass(BatteryModels[0], "pro6", new List<SubProgramClass> { subpro6 });
+            RequestClass req6 = new RequestClass(pro6, "B", DateTime.Now, 0);
+
+            TesterRecipeClass tstrec7 = new TesterRecipeClass(Testers[0], "tstrec7", BatteryModels[0], "Blablabla");
+            ChamberRecipeClass cbrrec7 = new ChamberRecipeClass(1, Chambers[0], "cbrrec7", "Blablabla");
+            RecipeClass rec7 = new RecipeClass(tstrec7, cbrrec7);
+            SubProgramClass subpro7 = new SubProgramClass(new List<RecipeClass> { rec7 });
+            ProgramClass pro7 = new ProgramClass(BatteryModels[0], "pro7", new List<SubProgramClass> { subpro7 });
+            RequestClass req7 = new RequestClass(pro7, "C", DateTime.Now, 0);
+
+            TesterRecipeClass tstrec8 = new TesterRecipeClass(Testers[0], "tstrec8", BatteryModels[0], "Blablabla");
+            ChamberRecipeClass cbrrec8 = null;
+            RecipeClass rec8 = new RecipeClass(tstrec8, cbrrec8);
+            SubProgramClass subpro8 = new SubProgramClass(new List<RecipeClass> { rec8 });
+            ProgramClass pro8 = new ProgramClass(BatteryModels[0], "pro8", new List<SubProgramClass> { subpro8 });
+            RequestClass req8 = new RequestClass(pro8, "D", DateTime.Now, 0);
+            PrintScheduler();
+            Scheduler.OrderTasks(); //
+            PrintScheduler();
+        }
+
+        private void PrintScheduler()
+        {
+            Debug.WriteLine("-------------------Scheduler Printer-----------------");
+            Debug.WriteLine("Waiting List:");
+
+            foreach (var subpro in Scheduler.WaitingList)
+            {
+                string str = "\t\t---------------------------------\n";
+                str += "\t\t" + "SP ID:" + subpro.SubProgram.SubProgramID.ToString() + "\n";
+                foreach (var rec in subpro.RequestedRecipes)
+                {
+                    str += "\t\t\t" + "REC ID:" + rec.Recipe.RecipeID.ToString() + "\n";
+                    str += "\t\t\t" + "Tester Recipe:" + rec.Recipe.TesterRecipe.Name.ToString() + "\n";
+                    if (rec.Recipe.ChamberRecipe!=null)
+                    str += "\t\t\t" + "Chamber Recipe:" + rec.Recipe.ChamberRecipe.Name.ToString() + "\n";
+                    else
+                        str += "\t\t\t" + "Chamber Recipe:" + "null" + "\n";
+                }
+                str += "\t\t---------------------------------";
+                Debug.WriteLine(str);
+            }
+        }
+
+        [Conditional("DEBUG")]
+        private void HistoricData()
+        {
+            HistoricRegistration();
+            HistoricOperation();
             FakeView();
         }
 
-        private void FakeInput()
+        private void HistoricRegistration()
         {
-            #region init assets
+            InitAssets();
+            InitPrograms();
+            InitRequest();
+        }
+
+        private void InitAssets()
+        { 
             BatteryModels = new List<BatteryModelClass>();
             BatteryModelClass bm = new BatteryModelClass(1, "Oppo", "BLP663", "Li-on", 4400, 3350, 3700, 3450, 3200);
             BatteryModels.Add(bm);
@@ -80,9 +261,9 @@ namespace O2Micro.BCLabManager.Shell
                 new TesterChannelClass(3,Tester),
                 new TesterChannelClass(4,Tester)};
             Testers.Add(Tester);
-            #endregion
-
-            #region init program
+        }
+        private void InitPrograms()
+        { 
             TesterRecipes = new List<TesterRecipeClass>();
             TesterRecipeClass tr = new TesterRecipeClass(1, Testers[0], "Charge", BatteryModels[0], "1234");
             TesterRecipes.Add(tr);
@@ -313,9 +494,9 @@ namespace O2Micro.BCLabManager.Shell
             Programs.Add(pro);
             pro = new ProgramClass(BatteryModels[0], "5 Cycle", new List<SubProgramClass> { SubPrograms[29], SubPrograms[30], SubPrograms[31] });
             Programs.Add(pro);
-            #endregion
-
-            #region init request
+        }
+        private void InitRequest()
+        { 
             Requests = new List<RequestClass>();
             RequestClass Request = new RequestClass(Programs[0], "Francis", DateTime.Now, 2);
             Requests.Add(Request); 
@@ -333,13 +514,10 @@ namespace O2Micro.BCLabManager.Shell
             Requests.Add(Request);
             Request = new RequestClass(Programs[7], "Francis", DateTime.Now, 1, Batteries[3]);
             Requests.Add(Request);
-            #endregion
         }
 
-        private void FakeAction()
+        private void HistoricOperation()
         { 
-
-            #region init scheduler
             Scheduler.OrderTasks();
 
             Scheduler.AssignAssets(Batteries[0],Chambers[0],Testers[0].TesterChannels[0]);
@@ -349,14 +527,13 @@ namespace O2Micro.BCLabManager.Shell
             Scheduler.RunningList[0].RequestedRecipes[0].ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, DateTime.Now);
             Scheduler.RunningList[0].RequestedRecipes[0].ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, DateTime.Now);
             Scheduler.WaitingList[2].RequestedRecipes[0].ValidExecutor.Abandon();
-            Scheduler.CompletedList[0].RequestedRecipes[0].ValidExecutor.Invalid();
+            Scheduler.CompletedList[0].RequestedRecipes[0].ValidExecutor.Invalidated();
             Scheduler.OrderTasks();
             Scheduler.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
             Scheduler.Execute();
             //Scheduler.FinishSubProgram(ref ExecutorClass Executor, 
             //Scheduler.RunningRequestedSubPrograms[0].RequestedRecipes[0].Executors[0].Status = TestStatus.Completed;
             //Scheduler.CloseRunningTask();
-            #endregion
         }
 
         private void FakeView()

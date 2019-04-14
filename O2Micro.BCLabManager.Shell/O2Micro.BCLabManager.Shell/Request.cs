@@ -71,7 +71,8 @@ namespace O2Micro.BCLabManager.Shell
             if (this.Status == ExecutorStatus.Waiting)
             {
                 this.Battery = Battery;
-                this.Chamber = Chamber;
+                if(this.RequestedRecipe.Recipe.ChamberRecipe!=null) //If there is no chamber recipe, then we don't need to assign chamber at all.
+                    this.Chamber = Chamber;
                 this.TesterChannel = TesterChannel;
                 this.Status = ExecutorStatus.Ready;
             }
@@ -115,7 +116,7 @@ namespace O2Micro.BCLabManager.Shell
             }
         }
 
-        public void Invalid()
+        public void Invalidated()
         {
             if (this.Status == ExecutorStatus.Completed || this.Status == ExecutorStatus.Executing)
             {
@@ -128,7 +129,7 @@ namespace O2Micro.BCLabManager.Shell
     {
         public RequestedSubProgramClass RequestedSubProgram { get; set; }
         public RecipeClass Recipe { get; set; }
-        public Int32 Priority { get; set; }
+        public Int32 Priority { get; set; }   //Inherited from its chamber recipe
         public List<ExecutorClass> Executors { get; set; }
         public ExecutorClass ValidExecutor      //When set current executor status to Invalid, a new Executor will be created and added into Executors
         {
@@ -142,11 +143,15 @@ namespace O2Micro.BCLabManager.Shell
             }
         }
 
-        public RequestedRecipeClass(RequestedSubProgramClass RequestedSubProgram, RecipeClass Recipe, Int32 Priority)
+        public RequestedRecipeClass(RequestedSubProgramClass RequestedSubProgram, RecipeClass Recipe)
         {
             this.RequestedSubProgram = RequestedSubProgram;
             this.Recipe = Recipe;
-            this.Priority = Priority;
+            //this.Priority = Priority;
+            if (Recipe.ChamberRecipe != null)
+                this.Priority = Recipe.ChamberRecipe.Priority;
+            else
+                this.Priority = 0;      //If no chamber recipe, then make it the most priority task
             this.Executors = new List<ExecutorClass>();
             AddExecutor();
         }
@@ -176,26 +181,35 @@ namespace O2Micro.BCLabManager.Shell
                 requestedRecipes = value;
             }
         }
-        public RequestedRecipeClass TopWaitingRequestedRecipe 
+        public RequestedRecipeClass TopWaitingRequestedRecipe   //When assign assets to requested subprogram, we need to find the top waiting requested recipe
         {
             get 
             {
-                foreach (var rec in requestedRecipes)
+                //foreach (var rec in requestedRecipes)
+                //{
+                //    if (rec.ValidExecutor.Status == ExecutorStatus.Waiting)
+                //        return rec;
+                //}
+                //return null;    //No valid Executor, we may consider to throw exception here
+                try
                 {
-                    if (rec.ValidExecutor.Status == ExecutorStatus.Waiting)
-                        return rec;
+                    return requestedRecipes.First(rec => rec.ValidExecutor.Status == ExecutorStatus.Waiting);
                 }
-                return null;    //No valid Executor, we may consider to throw exception here
+                catch
+                {
+                    return null;
+                }
             }
             set
             {
-                RequestedRecipeClass RequestedRecipe;
-                foreach (var rec in requestedRecipes)
-                {
-                    if (rec.ValidExecutor.Status == ExecutorStatus.Waiting)
-                        RequestedRecipe = rec;
-                }
-                RequestedRecipe = value;
+                //RequestedRecipeClass RequestedRecipe;
+                //foreach (var rec in requestedRecipes)
+                //{
+                //    if (rec.ValidExecutor.Status == ExecutorStatus.Waiting)
+                //        RequestedRecipe = rec;
+                //}
+                //RequestedRecipe = value;
+                RequestedRecipeClass RequestedRecipe = requestedRecipes.First(rec => rec.ValidExecutor.Status == ExecutorStatus.Waiting);
             }
         }
 
@@ -203,11 +217,11 @@ namespace O2Micro.BCLabManager.Shell
         {
             this.RequestedProgram = RequestedProgram;
             this.SubProgram = sp;
-            this.Priority = Priority;
+            this.Priority = Priority;   //Inherited from requested program
             //RequestedRecipes = new List<RequestedRecipeClass>();
             foreach (var rec in sp.Recipes)
             {
-                RequestedRecipeClass RequestedRecipe = new RequestedRecipeClass(this, rec, this.Priority);
+                RequestedRecipeClass RequestedRecipe = new RequestedRecipeClass(this, rec);
                 //RequestedRecipe.ValidExecutor.StatusChanged += new EventHandler(Executor_StatusChanged);  //Scheduler subscribe this event instead of request
                 RequestedRecipes.Add(RequestedRecipe);
             }
@@ -224,7 +238,7 @@ namespace O2Micro.BCLabManager.Shell
         public RequestedProgramClass(RequestClass Request, ProgramClass pro, Int32 Priority)
         {
             this.Program = pro;
-            this.Priority = Priority;
+            this.Priority = Priority;      //Inherited from request
             this.RequestedSubPrograms = new List<RequestedSubProgramClass>();
             foreach (var sp in pro.SubPrograms)
             {

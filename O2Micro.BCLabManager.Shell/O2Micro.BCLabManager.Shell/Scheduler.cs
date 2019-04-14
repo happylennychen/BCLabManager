@@ -111,6 +111,11 @@ namespace O2Micro.BCLabManager.Shell
                             CompletedList.Remove(root);
                             WaitingList.Insert(0, root);    //back to the top by default
                         }
+                        else if (RunningList.Contains(root))
+                        {
+                            RunningList.Remove(root);
+                            WaitingList.Insert(0, root);    //back to the top by default
+                        }
                         break;
                 }
             }
@@ -123,8 +128,8 @@ namespace O2Micro.BCLabManager.Shell
 
         public static void OrderTasks()
         {
-            //waitingRequestedSubPrograms = waitingRequestedSubPrograms.OrderBy(o => o.Priority).ThenBy(o=>o.RequestedRecipes[0].Recipe.ChamberRecipe.Priority).ToList();
-            waitingRequestedSubPrograms = waitingRequestedSubPrograms.OrderBy(o => o.Priority).ToList();
+            WaitingList = WaitingList.OrderBy(o => o.Priority).ThenBy(o => o.TopWaitingRequestedRecipe.Priority).ToList();
+            //WaitingList = WaitingList.OrderBy(o => o.Priority).ToList();
         }
 
         public static void AssignAssets(BatteryClass Battery, ChamberClass Chamber, TesterChannelClass TesterChannel)

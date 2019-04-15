@@ -7,8 +7,9 @@ namespace O2Micro.BCLabManager.Shell
 {
     public enum AssetStatusEnum
     {
-        Idle,
-        Using,
+        IDLE,
+        ASSIGNED,
+        USING,
     }
     public class AssetClass
     {
@@ -32,7 +33,7 @@ namespace O2Micro.BCLabManager.Shell
 
         public AssetClass()
         {
-            this.Status = AssetStatusEnum.Idle;
+            this.Status = AssetStatusEnum.IDLE;
         }
     }
     public class BatteryModelClass
@@ -210,7 +211,32 @@ namespace O2Micro.BCLabManager.Shell
     public static class AssetsPool
     {
         public static List<AssetClass> AllAssets { get; set; }
-        public static List<AssetClass> IdleAssets { get; set; }
-        public static List<AssetClass> UsingAssets { get; set; }
+        public static List<AssetClass> IdleAssets 
+        { 
+            get
+            {
+                return (from asset in AllAssets
+                       where asset.Status == AssetStatusEnum.IDLE
+                       select asset).ToList();
+            }
+        }
+        public static List<AssetClass> AssignedAssets
+        {
+            get
+            {
+                return (from asset in AllAssets
+                        where asset.Status == AssetStatusEnum.ASSIGNED
+                        select asset).ToList();
+            }
+        }
+        public static List<AssetClass> UsingAssets
+        {
+            get
+            {
+                return (from asset in AllAssets
+                        where asset.Status == AssetStatusEnum.USING
+                        select asset).ToList();
+            }
+        }
     }
 }

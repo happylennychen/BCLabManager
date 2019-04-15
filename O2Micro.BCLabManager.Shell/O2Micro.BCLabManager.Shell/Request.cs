@@ -68,12 +68,68 @@ namespace O2Micro.BCLabManager.Shell
 
         public void AssignAssets(BatteryClass Battery, ChamberClass Chamber, TesterChannelClass TesterChannel)
         {
+
+            if (Battery.Status != AssetStatusEnum.IDLE)
+            {
+                //Todo: prompt warning message
+                System.Windows.MessageBox.Show("Battery is in use!");
+                return;
+            }
+
+            if (Chamber != null)
+            {
+                if (Chamber.Status != AssetStatusEnum.IDLE)
+                {
+                    //Todo: prompt warning message
+                    System.Windows.MessageBox.Show("Chamber is in use!");
+                    return;
+                }
+                if (this.RequestedRecipe.Recipe.ChamberRecipe == null)
+                {
+                    //Todo: prompt warning message but do not return
+                    System.Windows.MessageBox.Show("No chamber recipe but chamber is provided!");
+                    //return;
+                }
+            }
+            else if (this.RequestedRecipe.Recipe.ChamberRecipe != null)
+            {
+                //Todo: prompt warning message
+                System.Windows.MessageBox.Show("No chamber to be assigned to chamber recipe!");
+                return;
+            }
+
+            if (TesterChannel.Status != AssetStatusEnum.IDLE)
+            {
+                //Todo: prompt warning message
+                System.Windows.MessageBox.Show("Test Channel is in use!");
+                return;
+            }
+
+            if (TesterChannel.Tester != this.RequestedRecipe.Recipe.TesterRecipe.Tester)
+            {
+                //Todo: prompt warning message
+                System.Windows.MessageBox.Show("Recipe and Tester are not compatible!");
+                return;
+            }
+
+            if (Battery.BatteryModel != this.RequestedRecipe.Recipe.TesterRecipe.BatteryModel)
+            {
+                //Todo: prompt warning message
+                System.Windows.MessageBox.Show("Recipe and Battery are not compatible!");
+                return;
+            }
+
             if (this.Status == ExecutorStatus.Waiting)
             {
                 this.Battery = Battery;
-                if(this.RequestedRecipe.Recipe.ChamberRecipe!=null) //If there is no chamber recipe, then we don't need to assign chamber at all.
+                Battery.Status = AssetStatusEnum.ASSIGNED;
+                if (this.RequestedRecipe.Recipe.ChamberRecipe != null) //If there is no chamber recipe, then we don't need to assign chamber at all.
+                {
                     this.Chamber = Chamber;
+                    Chamber.Status = AssetStatusEnum.ASSIGNED;
+                }
                 this.TesterChannel = TesterChannel;
+                TesterChannel.Status = AssetStatusEnum.ASSIGNED;
                 this.Status = ExecutorStatus.Ready;
             }
         }
@@ -82,45 +138,72 @@ namespace O2Micro.BCLabManager.Shell
         {
             if (this.Status == ExecutorStatus.Ready)
             {
-                Battery.Status = AssetStatusEnum.Using;
+                Battery.Status = AssetStatusEnum.USING;
                 if(Chamber != null)
-                    Chamber.Status = AssetStatusEnum.Using;
-                TesterChannel.Status = AssetStatusEnum.Using;
+                    Chamber.Status = AssetStatusEnum.USING;
+                TesterChannel.Status = AssetStatusEnum.USING;
                 Status = ExecutorStatus.Executing;
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("Only ready tasks can be executed!");
             }
         }
 
         public void Commit(ExecutorStatus Status, DateTime StartTime, DateTime EndTime, String Description = "")  //Need to check the Executor Status to make sure it is executing
         {
+            if (Status != ExecutorStatus.Completed && Status != ExecutorStatus.Invalid)
+            {
+                System.Windows.MessageBox.Show("Only Completed and Invalid are available status to be commited");
+                return;
+            }
             if (this.Status == ExecutorStatus.Executing)
             {
                 this.Description = Description;
                 this.StartTime = StartTime;
                 this.EndTime = EndTime;
                 if (Chamber != null)
-                    Chamber.Status = AssetStatusEnum.Idle;
-                TesterChannel.Status = AssetStatusEnum.Idle;
-                Battery.Status = AssetStatusEnum.Idle;
+                    Chamber.Status = AssetStatusEnum.IDLE;
+                TesterChannel.Status = AssetStatusEnum.IDLE;
+                Battery.Status = AssetStatusEnum.IDLE;
                 if (Status == ExecutorStatus.Invalid || Status == ExecutorStatus.Completed)
                 {
                     this.Status = Status;   //this has to be the last assignment because it will raise StatusChanged event so that duration will be updated using StartTime and EndTime
                 }
             }
+            else
+            {
+                System.Windows.MessageBox.Show("Only executing tasks can be commited!"); 
+            }
         }
 
         public void Abandon()
         {
-            if (this.Status == ExecutorStatus.Waiting || this.Status == ExecutorStatus.Ready)
+            if (this.Status == ExecutorStatus.Abandoned)
             {
-                Status = ExecutorStatus.Abandoned;
+                System.Windows.MessageBox.Show("Abandoning Abandoned tasks is meaningless!");
+                return;
             }
+            this.Battery.Status = AssetStatusEnum.IDLE;
+            if (this.Chamber != null)
+                this.Chamber.Status = AssetStatusEnum.IDLE;
+            this.TesterChannel.Status = AssetStatusEnum.IDLE;
+            Status = ExecutorStatus.Abandoned;
         }
 
-        public void Invalidated()
+        public void Invalidate()
         {
             if (this.Status == ExecutorStatus.Completed || this.Status == ExecutorStatus.Executing)
             {
+                this.Battery.Status = AssetStatusEnum.IDLE;
+                if (this.Chamber != null)
+                    this.Chamber.Status = AssetStatusEnum.IDLE;
+                this.TesterChannel.Status = AssetStatusEnum.IDLE;
                 Status = ExecutorStatus.Invalid;
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("Only completed or executing tasks can be Invalidated!");
             }
         }
     }
@@ -210,6 +293,68 @@ namespace O2Micro.BCLabManager.Shell
                 //}
                 //RequestedRecipe = value;
                 RequestedRecipeClass RequestedRecipe = requestedRecipes.First(rec => rec.ValidExecutor.Status == ExecutorStatus.Waiting);
+            }
+        }
+        public RequestedRecipeClass TopReadyRequestedRecipe   //
+        {
+            get
+            {
+                //foreach (var rec in requestedRecipes)
+                //{
+                //    if (rec.ValidExecutor.Status == ExecutorStatus.Waiting)
+                //        return rec;
+                //}
+                //return null;    //No valid Executor, we may consider to throw exception here
+                try
+                {
+                    return requestedRecipes.First(rec => rec.ValidExecutor.Status == ExecutorStatus.Ready);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                //RequestedRecipeClass RequestedRecipe;
+                //foreach (var rec in requestedRecipes)
+                //{
+                //    if (rec.ValidExecutor.Status == ExecutorStatus.Waiting)
+                //        RequestedRecipe = rec;
+                //}
+                //RequestedRecipe = value;
+                RequestedRecipeClass RequestedRecipe = requestedRecipes.First(rec => rec.ValidExecutor.Status == ExecutorStatus.Ready);
+            }
+        }
+        public RequestedRecipeClass TopRunningRequestedRecipe   //When commit task, we need to find the top running requested recipe
+        {
+            get
+            {
+                //foreach (var rec in requestedRecipes)
+                //{
+                //    if (rec.ValidExecutor.Status == ExecutorStatus.Waiting)
+                //        return rec;
+                //}
+                //return null;    //No valid Executor, we may consider to throw exception here
+                try
+                {
+                    return requestedRecipes.First(rec => rec.ValidExecutor.Status == ExecutorStatus.Executing);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                //RequestedRecipeClass RequestedRecipe;
+                //foreach (var rec in requestedRecipes)
+                //{
+                //    if (rec.ValidExecutor.Status == ExecutorStatus.Waiting)
+                //        RequestedRecipe = rec;
+                //}
+                //RequestedRecipe = value;
+                RequestedRecipeClass RequestedRecipe = requestedRecipes.First(rec => rec.ValidExecutor.Status == ExecutorStatus.Executing);
             }
         }
 
@@ -328,7 +473,7 @@ namespace O2Micro.BCLabManager.Shell
                     from subpro in RequestedProgram.RequestedSubPrograms
                     from recipe in subpro.RequestedRecipes
                     from executor in recipe.Executors
-                    where executor.Status == ExecutorStatus.Waiting
+                    where executor.Status == ExecutorStatus.Abandoned
                     select executor
                     ).Count();
             }

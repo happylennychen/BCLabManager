@@ -103,6 +103,10 @@ namespace O2Micro.BCLabManager.Shell
                             ReadyList.Remove(root);
                         else if (WaitingList.Contains(root))
                             WaitingList.Remove(root);
+                        else if (RunningList.Contains(root))
+                            RunningList.Remove(root);
+                        else if (CompletedList.Contains(root))
+                            CompletedList.Remove(root);
                         break;
                     case ExecutorStatus.Invalid:
                         Executor.RequestedRecipe.AddExecutor();
@@ -128,6 +132,11 @@ namespace O2Micro.BCLabManager.Shell
 
         public static void OrderTasks()
         {
+            if (WaitingList.Count == 0) //Prompt warning
+            {
+                System.Windows.MessageBox.Show("No waiting tasks to be ordered!");
+                return;
+            }
             WaitingList = WaitingList.OrderBy(o => o.Priority).ThenBy(o => o.TopWaitingRequestedRecipe.Priority).ToList();
             //WaitingList = WaitingList.OrderBy(o => o.Priority).ToList();
         }
@@ -135,6 +144,11 @@ namespace O2Micro.BCLabManager.Shell
         public static void AssignAssets(BatteryClass Battery, ChamberClass Chamber, TesterChannelClass TesterChannel)
         {
             //Check if the assets is in use or not first
+            if (WaitingList.Count == 0) //Prompt warning
+            {
+                System.Windows.MessageBox.Show("No waiting tasks to assign assets to!");
+                return;
+            }
             RequestedSubProgramClass RequestedSubProgram = TopWaitingRequestedSubProgram;
             ExecutorClass validExecutor = TopWaitingRequestedSubProgram.TopWaitingRequestedRecipe.ValidExecutor;
             validExecutor.AssignAssets(Battery, Chamber, TesterChannel);
@@ -142,6 +156,11 @@ namespace O2Micro.BCLabManager.Shell
 
         public static void Execute()
         {
+            if (ReadyList.Count == 0) //Prompt warning
+            {
+                System.Windows.MessageBox.Show("No ready tasks to be executed!");
+                return;
+            }
             //Int32 count = ReadyList.Count;
             RequestedSubProgramClass[] ReadyArray = ReadyList.ToArray();
             foreach (var RequestedSubProgram in ReadyArray)

@@ -13,6 +13,17 @@ namespace O2Micro.BCLabManager.Shell
     }
     public class AssetClass
     {
+        private static Int32 nextID = 1;
+        private Int32 NextID
+        {
+            get
+            {
+                nextID += 1;
+                return nextID - 1;
+            }
+        }
+        public Int32 AssetID { get; set; }
+
         private AssetStatusEnum status = new AssetStatusEnum();
         public AssetStatusEnum Status 
         {
@@ -31,9 +42,29 @@ namespace O2Micro.BCLabManager.Shell
             }
         }
 
+        public class Record
+        {
+            DateTime Timestamp;
+            AssetStatusEnum Status;
+
+            public Record(DateTime Timestamp, AssetStatusEnum Status)
+            {
+                this.Timestamp = Timestamp;
+                this.Status = Status;
+            }
+        }
+        public List<Record> Records { get; set; }
+
         public AssetClass()
         {
+            this.AssetID = NextID;
             this.Status = AssetStatusEnum.IDLE;
+            Records = new List<Record>();
+        }
+
+        public void UpdateRecords(DateTime Timestamp, AssetStatusEnum Status)
+        {
+            Records.Add(new Record(Timestamp, Status));
         }
     }
     public class BatteryModelClass
@@ -190,21 +221,24 @@ namespace O2Micro.BCLabManager.Shell
         public Int32 ChamberID { get; set; }
         public String Manufactor { get; set; }
         public String Name { get; set; }
-        public String TemperatureRange { get; set; }
+        public Double LowestTemperature { get; set; }
+        public Double HighestTemperature { get; set; }
 
-        public ChamberClass(Int32 ChamberID, String Manufactor, String Name, String TemperatureRange)
+        public ChamberClass(Int32 ChamberID, String Manufactor, String Name, Double LowestTemperature, Double HighestTemperature)
         {
             this.ChamberID = ChamberID;
             this.Manufactor = Manufactor;
             this.Name = Name;
-            this.TemperatureRange = TemperatureRange;
+            this.LowestTemperature = LowestTemperature;
+            this.HighestTemperature = HighestTemperature;
         }
         public ChamberClass(String Manufactor, String Name, String TemperatureRange)
         {
             this.ChamberID = NextID;
             this.Manufactor = Manufactor;
             this.Name = Name;
-            this.TemperatureRange = TemperatureRange;
+            this.LowestTemperature = LowestTemperature;
+            this.HighestTemperature = HighestTemperature;
         }
     }
 

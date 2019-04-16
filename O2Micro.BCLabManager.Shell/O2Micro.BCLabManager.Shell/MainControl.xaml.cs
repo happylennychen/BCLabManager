@@ -316,7 +316,7 @@ namespace O2Micro.BCLabManager.Shell
             PrintScheduler();
             Scheduler.AssignAssets(Batteries[0], null, Testers[0].TesterChannels[0]);
             PrintScheduler();
-            Scheduler.Execute();
+            Scheduler.Execute(DateTime.Now);
             //PrintAssetsPool();
             PrintScheduler();
         }
@@ -366,7 +366,7 @@ namespace O2Micro.BCLabManager.Shell
             PrintScheduler();
             Scheduler.AssignAssets(Batteries[3], null, Testers[0].TesterChannels[3]);
             PrintScheduler();
-            Scheduler.Execute();
+            Scheduler.Execute(DateTime.Now);
             //PrintAssetsPool();
             PrintScheduler();
         }
@@ -386,7 +386,7 @@ namespace O2Micro.BCLabManager.Shell
             PrintScheduler();
             //Scheduler.AssignAssets(Batteries[0], null, Testers[0].TesterChannels[0]);
             //PrintScheduler();
-            Scheduler.Execute();
+            Scheduler.Execute(DateTime.Now);
             //PrintAssetsPool();
             PrintScheduler();
         }
@@ -406,11 +406,11 @@ namespace O2Micro.BCLabManager.Shell
             PrintScheduler();
             Scheduler.AssignAssets(Batteries[0], null, Testers[0].TesterChannels[0]);
             //PrintScheduler();
-            Scheduler.Execute();
+            Scheduler.Execute(DateTime.Now);
             //PrintAssetsPool();
             PrintScheduler();
             PrintAssetsPool();
-            Scheduler.RunningList[0].TopRunningRequestedRecipe.ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, DateTime.Now, "blablabla");
+            Scheduler.RunningList[0].TopRunningRequestedRecipe.ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, "blablabla");
             PrintScheduler();
             PrintAssetsPool();
         }
@@ -430,11 +430,11 @@ namespace O2Micro.BCLabManager.Shell
             PrintScheduler();
             Scheduler.AssignAssets(Batteries[0], null, Testers[0].TesterChannels[0]);
             //PrintScheduler();
-            Scheduler.Execute();
+            Scheduler.Execute(DateTime.Now);
             //PrintAssetsPool();
             PrintScheduler();
             PrintAssetsPool();
-            Scheduler.RunningList[0].TopRunningRequestedRecipe.ValidExecutor.Commit(ExecutorStatus.Invalid, DateTime.Now, DateTime.Now, "blablabla");
+            Scheduler.RunningList[0].TopRunningRequestedRecipe.ValidExecutor.Commit(ExecutorStatus.Invalid, DateTime.Now, "blablabla");
             PrintScheduler();
             PrintAssetsPool();
         }
@@ -454,17 +454,17 @@ namespace O2Micro.BCLabManager.Shell
             PrintScheduler();
             Scheduler.AssignAssets(Batteries[0], null, Testers[0].TesterChannels[0]);
             //PrintScheduler();
-            Scheduler.Execute();
+            Scheduler.Execute(DateTime.Now);
             //PrintAssetsPool();
             PrintScheduler();
             PrintAssetsPool();
             ExecutorClass exe = Scheduler.RunningList[0].TopRunningRequestedRecipe.ValidExecutor;
-            exe.Commit(ExecutorStatus.Waiting, DateTime.Now, DateTime.Now, "blablabla");
-            exe.Commit(ExecutorStatus.Ready, DateTime.Now, DateTime.Now, "blablabla");
-            exe.Commit(ExecutorStatus.Executing, DateTime.Now, DateTime.Now, "blablabla");
-            exe.Commit(ExecutorStatus.Abandoned, DateTime.Now, DateTime.Now, "blablabla");
-            exe.Commit(ExecutorStatus.Completed, DateTime.Now, DateTime.Now, "blablabla");
-            exe.Commit(ExecutorStatus.Completed, DateTime.Now, DateTime.Now, "blablabla");
+            exe.Commit(ExecutorStatus.Waiting, DateTime.Now, "blablabla");
+            exe.Commit(ExecutorStatus.Ready, DateTime.Now, "blablabla");
+            exe.Commit(ExecutorStatus.Executing, DateTime.Now, "blablabla");
+            exe.Commit(ExecutorStatus.Abandoned, DateTime.Now, "blablabla");
+            exe.Commit(ExecutorStatus.Completed, DateTime.Now, "blablabla");
+            exe.Commit(ExecutorStatus.Completed, DateTime.Now, "blablabla");
             PrintScheduler();
             PrintAssetsPool();
         }
@@ -483,17 +483,17 @@ namespace O2Micro.BCLabManager.Shell
             //PrintAssetsPool();
             PrintScheduler();
             PrintAssetsPool();
-            Scheduler.WaitingList[0].TopWaitingRequestedRecipe.ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, DateTime.Now, "blablabla");
+            Scheduler.WaitingList[0].TopWaitingRequestedRecipe.ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, "blablabla");
             PrintScheduler();
             PrintAssetsPool();
             Scheduler.AssignAssets(Batteries[0], null, Testers[0].TesterChannels[0]);
             PrintScheduler();
             PrintAssetsPool();
-            Scheduler.ReadyList[0].TopReadyRequestedRecipe.ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, DateTime.Now, "blablabla");
+            Scheduler.ReadyList[0].TopReadyRequestedRecipe.ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, "blablabla");
             //PrintScheduler();
             //Scheduler.Execute();
             //PrintAssetsPool();
-            //Scheduler.WaitingList[0].TopWaitingRequestedRecipe.ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, DateTime.Now, "blablabla");
+            //Scheduler.WaitingList[0].TopWaitingRequestedRecipe.ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, "blablabla");
             PrintScheduler();
             PrintAssetsPool();
         }
@@ -519,11 +519,11 @@ namespace O2Micro.BCLabManager.Shell
             Scheduler.AssignAssets(Batteries[1], null, Testers[0].TesterChannels[1]);
             PrintScheduler();
             PrintAssetsPool();
-            Scheduler.Execute();
+            Scheduler.Execute(DateTime.Now);
             PrintScheduler();
             PrintAssetsPool();
             RequestedRecipeClass rr = Scheduler.RunningList[0].TopRunningRequestedRecipe;
-            rr.ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, DateTime.Now, "blablabla");
+            rr.ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, "blablabla");
             PrintScheduler();
             PrintAssetsPool();
             rr.ValidExecutor.Invalidate();
@@ -662,7 +662,7 @@ namespace O2Micro.BCLabManager.Shell
             Batteries.Add(bat);
 
             Chambers = new List<ChamberClass>();
-            ChamberClass chm = new ChamberClass(1, "Hongzhan", "PUL-80", "40~150");
+            ChamberClass chm = new ChamberClass(1, "Hongzhan", "PUL-80", 40, 150);
             Chambers.Add(chm);
             
             Testers = new List<TesterClass>();
@@ -940,14 +940,14 @@ namespace O2Micro.BCLabManager.Shell
             Scheduler.AssignAssets(Batteries[0],Chambers[0],Testers[0].TesterChannels[0]);
             //Scheduler.Run();
             Scheduler.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
-            Scheduler.Execute();
-            Scheduler.RunningList[0].RequestedRecipes[0].ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, DateTime.Now);
-            Scheduler.RunningList[0].RequestedRecipes[0].ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, DateTime.Now);
+            Scheduler.Execute(DateTime.Now);
+            Scheduler.RunningList[0].RequestedRecipes[0].ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now);
+            Scheduler.RunningList[0].RequestedRecipes[0].ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now);
             Scheduler.WaitingList[2].RequestedRecipes[0].ValidExecutor.Abandon();
             Scheduler.CompletedList[0].RequestedRecipes[0].ValidExecutor.Invalidate();
             Scheduler.OrderTasks();
             Scheduler.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
-            Scheduler.Execute();
+            Scheduler.Execute(DateTime.Now);
             //Scheduler.FinishSubProgram(ref ExecutorClass Executor, 
             //Scheduler.RunningRequestedSubPrograms[0].RequestedRecipes[0].Executors[0].Status = TestStatus.Completed;
             //Scheduler.CloseRunningTask();

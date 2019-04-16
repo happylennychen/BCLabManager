@@ -154,7 +154,7 @@ namespace O2Micro.BCLabManager.Shell
             validExecutor.AssignAssets(Battery, Chamber, TesterChannel);
         }
 
-        public static void Execute()
+        public static void Execute(DateTime StartTime)
         {
             if (ReadyList.Count == 0) //Prompt warning
             {
@@ -170,7 +170,7 @@ namespace O2Micro.BCLabManager.Shell
                 foreach (var RequestedRecipe in RequestedSubProgram.RequestedRecipes)
                 {
                     if (RequestedRecipe.ValidExecutor.Status == ExecutorStatus.Ready)
-                        RequestedRecipe.ValidExecutor.Execute();
+                        RequestedRecipe.ValidExecutor.Execute(StartTime);
                 }
             }
         }

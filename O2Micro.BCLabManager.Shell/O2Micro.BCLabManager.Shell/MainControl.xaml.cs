@@ -53,7 +53,7 @@ namespace O2Micro.BCLabManager.Shell
             //TestCase7_1();
             //TestCase7_2();
             //TestCase7_3();
-            TestCase9();
+            //TestCase9();
         }
 
         [Conditional("DEBUG")]

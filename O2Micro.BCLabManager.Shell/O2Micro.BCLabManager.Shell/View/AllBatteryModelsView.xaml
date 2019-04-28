@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="O2Micro.BCLabManager.Shell.View.AllBatteryModelsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+
+        <LinearGradientBrush x:Key="Brush_HeaderBackground" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#66000088" Offset="0" />
+            <GradientStop Color="#BB000088" Offset="1" />
+        </LinearGradientBrush>
+        <CollectionViewSource
+      x:Key="BatteryModelGroups" 
+      Source="{Binding Path=AllBatteryModels}"
+      >
+        </CollectionViewSource>
+
+        <Style x:Key="BatteryModelItemStyle" TargetType="{x:Type ListViewItem}">
+            <!-- 
+      Stretch the content of each cell so that we can 
+      right-align text in the Total Sales column. 
+      -->
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        </Style>
+    </UserControl.Resources>
+
+    <ListView 
+      AlternationCount="2" 
+      DataContext="{StaticResource BatteryModelGroups}" 
+      ItemContainerStyle="{StaticResource BatteryModelItemStyle}"
+      ItemsSource="{Binding}"
+      >
+
+        <ListView.View>
+            <GridView>
+                <GridViewColumn 
+            Header="Name" 
+            DisplayMemberBinding="{Binding Path=DisplayName}" 
+            />
+                <GridViewColumn 
+            Header="Manufactor" 
+            DisplayMemberBinding="{Binding Path=Manufactor}" 
+            />
+                <GridViewColumn 
+            Header="Material" 
+            DisplayMemberBinding="{Binding Path=Material}" 
+            />
+            </GridView>
+        </ListView.View>
+    </ListView>
+</UserControl>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace O2Micro.BCLabManager.Shell
+namespace O2Micro.BCLabManager.Shell.Model
 {
     // Summary:
     //     Represents a test program which can be requested and executed over and over again

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using O2Micro.BCLabManager.Shell.Model;
 
 namespace O2Micro.BCLabManager.Shell.DataAccess
 {    
@@ -33,7 +34,7 @@ namespace O2Micro.BCLabManager.Shell.DataAccess
         /// <param name="customerDataFile">The relative path to an XML resource file that contains customer data.</param>
         /*public CustomerRepository(string customerDataFile)
         {
-            _customers = LoadCustomers(customerDataFile);
+            _batterymodels = LoadCustomers(customerDataFile);
         }*/
 
         public RepositoryBase()

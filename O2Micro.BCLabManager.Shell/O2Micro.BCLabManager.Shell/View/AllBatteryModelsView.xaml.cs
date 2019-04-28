@@ -12,17 +12,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace O2Micro.BCLabManager.App
+namespace O2Micro.BCLabManager.Shell.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for AllBatteryModelView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AllBatteryModelsView : UserControl
     {
-        public MainWindow()
+        public AllBatteryModelsView()
         {
             InitializeComponent();
-            MainContent.Child = new O2Micro.BCLabManager.Shell.View.MainControl();
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace O2Micro.BCLabManager.Shell
+namespace O2Micro.BCLabManager.Shell.Model
 {
     public enum AssetStatusEnum
     {
@@ -89,6 +89,9 @@ namespace O2Micro.BCLabManager.Shell
         public Int32 CutoffDischargeVoltage { get; set; }
         //public List<Battery> Batteries { get; set; }
         //public List<Program> TestPlans { get; set; }
+
+        public BatteryModelClass()
+        { }
 
         public BatteryModelClass(Int32 BatteryModelID, String Manufactor, String Name, String Material, Int32 LimitedChargeVoltage, Int32 RatedCapacity, Int32 NominalVoltage, Int32 TypicalCapacity, Int32 CutoffDischargeVoltage)
         {

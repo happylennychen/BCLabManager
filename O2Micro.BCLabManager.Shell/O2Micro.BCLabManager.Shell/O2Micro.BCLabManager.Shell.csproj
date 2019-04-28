@@ -49,10 +49,11 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets.cs" />
-    <Compile Include="Programs.cs" />
-    <Compile Include="Request.cs" />
-    <Compile Include="Scheduler.cs" />
+    <Compile Include="DataAccess\Repositories.cs" />
+    <Compile Include="Model\Assets.cs" />
+    <Compile Include="Model\Programs.cs" />
+    <Compile Include="Model\Request.cs" />
+    <Compile Include="Model\Scheduler.cs" />
     <Compile Include="ViewModel.cs" />
     <Page Include="MainControl.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -86,6 +87,10 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModel\" />
+    <Folder Include="View\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

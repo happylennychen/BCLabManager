@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 //using O2Micro.BCLabManager.Database;
 using System.Diagnostics;
+using O2Micro.BCLabManager.Shell.DataAccess;
 
 namespace O2Micro.BCLabManager.Shell
 {
@@ -22,20 +23,31 @@ namespace O2Micro.BCLabManager.Shell
     public partial class MainControl : UserControl
     {
         //private DBManager dbmanager = new DBManager();
-        public List<BatteryModelClass> BatteryModels { get; set; }
-        public List<BatteryClass> Batteries { get; set; }
-        public List<TesterClass> Testers { get; set; }
-        public List<ChamberClass> Chambers { get; set; }
-        public List<ProgramClass> Programs { get; set; }
-        public List<SubProgramClass> SubPrograms { get; set; }
-        public List<RecipeClass> Recipes { get; set; }
-        public List<ChamberRecipeClass> ChamberRecipes { get; set; }
-        public List<TesterRecipeClass> TesterRecipes { get; set; }
-        public List<RequestClass> Requests { get; set; }
+        private List<BatteryModelClass> BatteryModels;// { get; set; }
+        private List<BatteryClass> Batteries;// { get; set; }
+        private List<TesterClass> Testers;// { get; set; }
+        private List<ChamberClass> Chambers;// { get; set; }
+        private List<ProgramClass> Programs;// { get; set; }
+        private List<SubProgramClass> SubPrograms;// { get; set; }
+        private List<RecipeClass> Recipes;// { get; set; }
+        private List<ChamberRecipeClass> ChamberRecipes;// { get; set; }
+        private List<TesterRecipeClass> TesterRecipes;// { get; set; }
+        private List<RequestClass> Requests;// { get; set; }
 
         public MainControl()
         {
             InitializeComponent();
+            //BatteryModelRepository bms = new BatteryModelRepository();
+            var BMR = new BatteryModelRepository(BatteryModels);
+            var BR = new BatteryRepository(Batteries);
+            var TR = new TesterRepository(Testers);
+            var CR = new ChamberRepository(Chambers);
+            var PR = new ProgramRepository(Programs);
+            var SPR = new SubProgramRepository(SubPrograms);
+            var RR = new RecipeRepository(Recipes);
+            var CRR = new ChamberRecipeRepository(ChamberRecipes);
+            var TRR = new TesterRecipeRepository(TesterRecipes);
+            var RqR = new RequestRepository(Requests);
             //string folder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "BCLabManager Documents\\");
             //dbmanager.DBInit(folder);
             //HistoricData();

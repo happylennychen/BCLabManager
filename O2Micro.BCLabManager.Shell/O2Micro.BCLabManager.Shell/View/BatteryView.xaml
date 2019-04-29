@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="O2Micro.BCLabManager.Shell.View.BatteryModelView"
+﻿<UserControl x:Class="O2Micro.BCLabManager.Shell.View.BatteryView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -27,16 +27,20 @@
         <!-- CUSTOMER TYPE -->
         <Label 
       Grid.Row="0" Grid.Column="0" 
-      Content="_Manufactor:" 
+      Content="Battery _Model:" 
       HorizontalAlignment="Right"
-      Target="{Binding ElementName=ManufactorTxt}" 
+      Target="{Binding ElementName=batterymodelCmb}" 
       />
-        <TextBox 
-      x:Name="ManufactorTxt"
+        <ComboBox 
+      x:Name="batterymodelCmb"
       Grid.Row="0" Grid.Column="2" 
-      Text="{Binding Path=Manufactor, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+      ItemsSource="{Binding Path=AllBatteryTypes, Mode=OneTime}"
+      SelectedItem="{Binding Path=BatteryType, ValidatesOnDataErrors=True}"
       Validation.ErrorTemplate="{x:Null}"
-      />
+            ItemTemplate="{Binding Path=Name}"
+      >
+            
+        </ComboBox>
 
         <!-- FIRST NAME-->
         <Label 
@@ -55,14 +59,14 @@
         <!-- LAST NAME-->
         <Label 
       Grid.Row="4" Grid.Column="0" 
-      Content="_Material:" 
+      Content="_Cycle Count:" 
       HorizontalAlignment="Right"
-      Target="{Binding ElementName=MaterialTxt}" 
+      Target="{Binding ElementName=CycleCountTxt}" 
       />
         <TextBox 
-      x:Name="MaterialTxt"
+      x:Name="CycleCountTxt"
       Grid.Row="4" Grid.Column="2" 
-      Text="{Binding Path=Material, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+      Text="{Binding Path=CycleCount, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
       Validation.ErrorTemplate="{x:Null}"
       />
 

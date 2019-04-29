@@ -67,7 +67,7 @@ namespace O2Micro.BCLabManager.Shell.Model
             Records.Add(new Record(Timestamp, Status));
         }
     }
-    public class BatteryModelClass
+    public class BatteryTypeClass
     {
         private static Int32 nextID = 1;
         private Int32 NextID
@@ -78,7 +78,7 @@ namespace O2Micro.BCLabManager.Shell.Model
                 return nextID - 1;
             }
         }
-        public Int32 BatteryModelID { get; set; }
+        public Int32 BatteryTypeID { get; set; }
         public String Manufactor { get; set; }
         public String Name { get; set; }
         public String Material { get; set; }
@@ -90,12 +90,12 @@ namespace O2Micro.BCLabManager.Shell.Model
         //public List<Battery> Batteries { get; set; }
         //public List<Program> TestPlans { get; set; }
 
-        public BatteryModelClass()
+        public BatteryTypeClass()
         { }
 
-        public BatteryModelClass(Int32 BatteryModelID, String Manufactor, String Name, String Material, Int32 LimitedChargeVoltage, Int32 RatedCapacity, Int32 NominalVoltage, Int32 TypicalCapacity, Int32 CutoffDischargeVoltage)
+        public BatteryTypeClass(Int32 BatteryTypeID, String Manufactor, String Name, String Material, Int32 LimitedChargeVoltage, Int32 RatedCapacity, Int32 NominalVoltage, Int32 TypicalCapacity, Int32 CutoffDischargeVoltage)
         {
-            this.BatteryModelID = BatteryModelID;
+            this.BatteryTypeID = BatteryTypeID;
             this.Manufactor = Manufactor;
             this.Name = Name;
             this.Material = Material;
@@ -105,9 +105,9 @@ namespace O2Micro.BCLabManager.Shell.Model
             this.TypicalCapacity = TypicalCapacity;
             this.CutoffDischargeVoltage = CutoffDischargeVoltage;
         }
-        public BatteryModelClass(String Manufactor, String Name, String Material, Int32 LimitedChargeVoltage, Int32 RatedCapacity, Int32 NominalVoltage, Int32 TypicalCapacity, Int32 CutoffDischargeVoltage)
+        public BatteryTypeClass(String Manufactor, String Name, String Material, Int32 LimitedChargeVoltage, Int32 RatedCapacity, Int32 NominalVoltage, Int32 TypicalCapacity, Int32 CutoffDischargeVoltage)
         {
-            this.BatteryModelID = NextID;
+            this.BatteryTypeID = NextID;
             this.Manufactor = Manufactor;
             this.Name = Name;
             this.Material = Material;
@@ -132,22 +132,25 @@ namespace O2Micro.BCLabManager.Shell.Model
         }
         public Int32 BatteryID { get; set; }
         public String Name { get; set; }
-        public BatteryModelClass BatteryModel { get; set; }
+        public BatteryTypeClass BatteryType { get; set; }
         public Double CycleCount { get; set; }
         //public AssestStatus Stauts { get; set; }
 
-        public BatteryClass(Int32 BatteryID, String Name, BatteryModelClass BatteryModel, Double CycleCount = 0)
+        public BatteryClass()
+        { }
+
+        public BatteryClass(Int32 BatteryID, String Name, BatteryTypeClass BatteryType, Double CycleCount = 0)
         {
             this.BatteryID = BatteryID;
             this.Name = Name;
-            this.BatteryModel = BatteryModel;
+            this.BatteryType = BatteryType;
             this.CycleCount = CycleCount;
         }
-        public BatteryClass(String Name, BatteryModelClass BatteryModel, Double CycleCount = 0)
+        public BatteryClass(String Name, BatteryTypeClass BatteryType, Double CycleCount = 0)
         {
             this.BatteryID = NextID;
             this.Name = Name;
-            this.BatteryModel = BatteryModel;
+            this.BatteryType = BatteryType;
             this.CycleCount = CycleCount;
         }
     }

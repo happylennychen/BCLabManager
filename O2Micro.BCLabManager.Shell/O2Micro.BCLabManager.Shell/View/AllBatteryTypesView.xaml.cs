@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace O2Micro.BCLabManager.Shell.View
 {
     /// <summary>
-    /// Interaction logic for BatteryModelView.xaml
+    /// Interaction logic for AllBatteryModelView.xaml
     /// </summary>
-    public partial class BatteryModelView : UserControl
+    public partial class AllBatteryTypesView : UserControl
     {
-        public BatteryModelView()
+        public AllBatteryTypesView()
         {
             InitializeComponent();
         }

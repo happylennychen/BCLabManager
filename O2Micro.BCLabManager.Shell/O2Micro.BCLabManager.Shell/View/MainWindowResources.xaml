@@ -12,20 +12,30 @@ This resource dictionary is used by the MainWindow.
         <GradientStop Color="#66000088" Offset="0" />
         <GradientStop Color="#BB000088" Offset="1" />
     </LinearGradientBrush>
+    
     <!-- 
   This template applies an AllCustomersView to an instance 
   of the AllBatteryModelsViewModel class shown in the main window.
   -->
-    <DataTemplate DataType="{x:Type vm:AllBatteryModelsViewModel}">
-        <vw:AllBatteryModelsView />
+    <DataTemplate DataType="{x:Type vm:AllBatteryTypesViewModel}">
+        <vw:AllBatteryTypesView />
     </DataTemplate>
 
     <!-- 
   This template applies a CustomerView to an instance  
   of the BatteryModelViewModel class shown in the main window.
   -->
-    <DataTemplate DataType="{x:Type vm:BatteryModelViewModel}">
-        <vw:BatteryModelView />
+    <DataTemplate DataType="{x:Type vm:BatteryTypeViewModel}">
+        <vw:BatteryTypeView />
+    </DataTemplate>
+
+
+    <DataTemplate DataType="{x:Type vm:AllBatteriesViewModel}">
+        <vw:AllBatteriesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:BatteryViewModel}">
+        <vw:BatteryView />
     </DataTemplate>
 
     <!-- 

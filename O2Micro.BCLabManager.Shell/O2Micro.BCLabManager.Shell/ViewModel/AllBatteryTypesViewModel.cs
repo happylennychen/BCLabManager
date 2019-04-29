@@ -16,27 +16,27 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
     /// BatteryModelRepository.  This class also provides information
     /// related to multiple selected customers.
     /// </summary>
-    public class AllBatteryModelsViewModel : WorkspaceViewModel
+    public class AllBatteryTypesViewModel : WorkspaceViewModel
     {
         #region Fields
 
-        readonly BatteryModelRepository _batterymodelRepository;
+        readonly BatteryTypeRepository _batterytypeRepository;
 
         #endregion // Fields
 
         #region Constructor
 
-        public AllBatteryModelsViewModel(BatteryModelRepository batterymodelRepository)
+        public AllBatteryTypesViewModel(BatteryTypeRepository batterytypeRepository)
         {
-            if (batterymodelRepository == null)
-                throw new ArgumentNullException("batterymodelRepository");
+            if (batterytypeRepository == null)
+                throw new ArgumentNullException("batterytypeRepository");
 
-            base.DisplayName = Resources.AllBatteryModelsViewModel_DisplayName;            
+            base.DisplayName = Resources.AllBatteryTypesViewModel_DisplayName;            
 
-            _batterymodelRepository = batterymodelRepository;
+            _batterytypeRepository = batterytypeRepository;
 
             // Subscribe for notifications of when a new customer is saved.
-            _batterymodelRepository.ItemAdded += this.OnBatteryModelAddedToRepository;
+            _batterytypeRepository.ItemAdded += this.OnBatteryModelAddedToRepository;
 
             // Populate the AllCustomers collection with BatteryModelViewModels.
             this.CreateAllBatteryModels();           
@@ -44,14 +44,14 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
 
         void CreateAllBatteryModels()
         {
-            List<BatteryModelViewModel> all =
-                (from bat in _batterymodelRepository.GetItems()
-                 select new BatteryModelViewModel(bat, _batterymodelRepository)).ToList();
+            List<BatteryTypeViewModel> all =
+                (from bat in _batterytypeRepository.GetItems()
+                 select new BatteryTypeViewModel(bat, _batterytypeRepository)).ToList();
 
             //foreach (BatteryModelViewModel batmod in all)
                 //batmod.PropertyChanged += this.OnBatteryModelViewModelPropertyChanged;
 
-            this.AllBatteryModels = new ObservableCollection<BatteryModelViewModel>(all);
+            this.AllBatteryModels = new ObservableCollection<BatteryTypeViewModel>(all);
             //this.AllCustomers.CollectionChanged += this.OnCollectionChanged;
         }
 
@@ -62,7 +62,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
         /// <summary>
         /// Returns a collection of all the BatteryModelViewModel objects.
         /// </summary>
-        public ObservableCollection<BatteryModelViewModel> AllBatteryModels { get; private set; }
+        public ObservableCollection<BatteryTypeViewModel> AllBatteryModels { get; private set; }
 
 
         #endregion // Public Interface
@@ -71,13 +71,13 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
 
         protected override void OnDispose()
         {
-            foreach (BatteryModelViewModel custVM in this.AllBatteryModels)
+            foreach (BatteryTypeViewModel custVM in this.AllBatteryModels)
                 custVM.Dispose();
 
             this.AllBatteryModels.Clear();
             //this.AllBatteryModels.CollectionChanged -= this.OnCollectionChanged;
 
-            _batterymodelRepository.ItemAdded -= this.OnBatteryModelAddedToRepository;
+            _batterytypeRepository.ItemAdded -= this.OnBatteryModelAddedToRepository;
         }
 
         #endregion // Base Class Overrides
@@ -110,9 +110,9 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
                 this.OnPropertyChanged("TotalSelectedSales");
         }*/
 
-        void OnBatteryModelAddedToRepository(object sender, ItemAddedEventArgs<BatteryModelClass> e)
+        void OnBatteryModelAddedToRepository(object sender, ItemAddedEventArgs<BatteryTypeClass> e)
         {
-            var viewModel = new BatteryModelViewModel(e.NewItem, _batterymodelRepository);
+            var viewModel = new BatteryTypeViewModel(e.NewItem, _batterytypeRepository);
             this.AllBatteryModels.Add(viewModel);
         }
 

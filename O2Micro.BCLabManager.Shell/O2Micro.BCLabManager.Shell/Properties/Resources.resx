@@ -117,17 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AllBatteryModelsViewModel_DisplayName" xml:space="preserve">
-    <value>All battery models</value>
+  <data name="AllBatteriesViewModel_DisplayName" xml:space="preserve">
+    <value>All batteries</value>
   </data>
-  <data name="BatteryModelViewModel_DisplayName" xml:space="preserve">
-    <value>New battery model</value>
+  <data name="AllBatteryTypesViewModel_DisplayName" xml:space="preserve">
+    <value>All battery types</value>
   </data>
-  <data name="MainWindowViewModel_Command_CreateNewBatteryModel" xml:space="preserve">
-    <value>Create new battery model</value>
+  <data name="BatteryTypeViewModel_DisplayName" xml:space="preserve">
+    <value>New battery type</value>
   </data>
-  <data name="MainWindowViewModel_Command_ViewAllBatteryModels" xml:space="preserve">
-    <value>View all battery models</value>
+  <data name="BatteryViewModel_DisplayName" xml:space="preserve">
+    <value>New battery</value>
+  </data>
+  <data name="MainWindowViewModel_Command_CreateNewBattery" xml:space="preserve">
+    <value>Create new battery</value>
+  </data>
+  <data name="MainWindowViewModel_Command_CreateNewBatteryType" xml:space="preserve">
+    <value>Create new battery type</value>
+  </data>
+  <data name="MainWindowViewModel_Command_ViewAllBatteries" xml:space="preserve">
+    <value>View all batteries</value>
+  </data>
+  <data name="MainWindowViewModel_Command_ViewAllBatteryTypes" xml:space="preserve">
+    <value>View all battery types</value>
   </data>
   <data name="MainWindowViewModel_DisplayName" xml:space="preserve">
     <value>BC Lab Manager</value>

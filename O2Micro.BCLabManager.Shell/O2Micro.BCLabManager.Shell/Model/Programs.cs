@@ -19,15 +19,15 @@ namespace O2Micro.BCLabManager.Shell.Model
             }
         }
         public Int32 ProgramID { get; set; }
-        public BatteryModelClass BatteryModel { get; set; }
+        public BatteryTypeClass BatteryType { get; set; }
         public String Name { get; set; }
         public List<SubProgramClass> SubPrograms { get; set; }
         public TimeSpan EstimateDuration { get; set; }
 
-        public ProgramClass(Int32 ProgramID, BatteryModelClass BatteryModel, String Name, List<SubProgramClass> SubPrograms)
+        public ProgramClass(Int32 ProgramID, BatteryTypeClass BatteryType, String Name, List<SubProgramClass> SubPrograms)
         {
             this.ProgramID = ProgramID;
-            this.BatteryModel = BatteryModel;
+            this.BatteryType = BatteryType;
             this.Name = Name;
             this.SubPrograms = SubPrograms;
             foreach (var SubProgram in SubPrograms)
@@ -35,10 +35,10 @@ namespace O2Micro.BCLabManager.Shell.Model
                 SubProgram.EstimateDurationChanged+=new EventHandler(SubProgram_EstimateDurationChanged);
             }
         }
-        public ProgramClass(BatteryModelClass BatteryModel, String Name, List<SubProgramClass> SubPrograms)
+        public ProgramClass(BatteryTypeClass BatteryType, String Name, List<SubProgramClass> SubPrograms)
         {
             this.ProgramID = NextID;
-            this.BatteryModel = BatteryModel;
+            this.BatteryType = BatteryType;
             this.Name = Name;
             this.SubPrograms = SubPrograms;
             foreach (var SubProgram in SubPrograms)
@@ -234,25 +234,25 @@ namespace O2Micro.BCLabManager.Shell.Model
         public Int32 TesterRecipeID { get; set; }
         public TesterClass Tester { get; set; }
         public String Name { get; set; }
-        public BatteryModelClass BatteryModel { get; set; }
+        public BatteryTypeClass BatteryType { get; set; }
         public String Steps { get; set; }
         public TimeSpan EstimateDuration { get; set; }
 
-        public TesterRecipeClass(Int32 TesterRecipeID, TesterClass Tester, String Name, BatteryModelClass BatteryModel, String Steps)
+        public TesterRecipeClass(Int32 TesterRecipeID, TesterClass Tester, String Name, BatteryTypeClass BatteryType, String Steps)
         {
             this.TesterRecipeID = TesterRecipeID;
             this.Tester = Tester;
             this.Name = Name;
-            this.BatteryModel = BatteryModel;
+            this.BatteryType = BatteryType;
             this.Steps = Steps;
         }
 
-        public TesterRecipeClass(TesterClass Tester, String Name, BatteryModelClass BatteryModel, String Steps)
+        public TesterRecipeClass(TesterClass Tester, String Name, BatteryTypeClass BatteryType, String Steps)
         {
             this.TesterRecipeID = NextID;
             this.Tester = Tester;
             this.Name = Name;
-            this.BatteryModel = BatteryModel;
+            this.BatteryType = BatteryType;
             this.Steps = Steps;
         }
     }

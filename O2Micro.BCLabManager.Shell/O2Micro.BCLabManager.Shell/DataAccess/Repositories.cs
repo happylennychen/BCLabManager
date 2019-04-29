@@ -132,9 +132,9 @@ namespace O2Micro.BCLabManager.Shell.DataAccess
         #endregion // Private Helpers
     }
 
-    public class BatteryModelRepository : RepositoryBase<BatteryModelClass>
+    public class BatteryTypeRepository : RepositoryBase<BatteryTypeClass>
     {
-        public BatteryModelRepository(List<BatteryModelClass> items)
+        public BatteryTypeRepository(List<BatteryTypeClass> items)
             : base(items)
         { 
         }

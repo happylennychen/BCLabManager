@@ -54,11 +54,109 @@
     <Compile Include="Model\Programs.cs" />
     <Compile Include="Model\Request.cs" />
     <Compile Include="Model\Scheduler.cs" />
-    <Page Include="View\AllBatteryModelsView.xaml">
+    <Compile Include="ViewModel\AllBatteriesViewModel.cs" />
+    <Compile Include="ViewModel\BatteryViewModel.cs" />
+    <Compile Include="View\AllChamberRecipesView.xaml.cs">
+      <DependentUpon>AllChamberRecipesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AllChambersView.xaml.cs">
+      <DependentUpon>AllChambersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AllProgramsView.xaml.cs">
+      <DependentUpon>AllProgramsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AllRecipesView.xaml.cs">
+      <DependentUpon>AllRecipesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AllRequestsView.xaml.cs">
+      <DependentUpon>AllRequestsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AllSubProgramsView.xaml.cs">
+      <DependentUpon>AllSubProgramsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AllTesterRecipesView.xaml.cs">
+      <DependentUpon>AllTesterRecipesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AllTestersView.xaml.cs">
+      <DependentUpon>AllTestersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ChamberRecipeView.xaml.cs">
+      <DependentUpon>ChamberRecipeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ChamberView.xaml.cs">
+      <DependentUpon>ChamberView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ProgramView.xaml.cs">
+      <DependentUpon>ProgramView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RecipeView.xaml.cs">
+      <DependentUpon>RecipeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RequestView.xaml.cs">
+      <DependentUpon>RequestView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubProgramView.xaml.cs">
+      <DependentUpon>SubProgramView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TesterRecipeView.xaml.cs">
+      <DependentUpon>TesterRecipeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TesterView.xaml.cs">
+      <DependentUpon>TesterView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="View\AllBatteriesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\BatteryModelView.xaml">
+    <Page Include="View\AllBatteryTypesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AllChamberRecipesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AllChambersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AllProgramsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AllRecipesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AllRequestsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AllSubProgramsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AllTesterRecipesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AllTestersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BatteryTypeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BatteryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ChamberRecipeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ChamberView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -70,23 +168,53 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="ViewModel\AllBatteryModelsViewModel.cs" />
+    <Compile Include="ViewModel\AllBatteryTypesViewModel.cs" />
     <Compile Include="ViewModel\CommandViewModel.cs" />
-    <Compile Include="ViewModel\BatteryModelViewModel.cs" />
+    <Compile Include="ViewModel\BatteryTypeViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\WorkspaceViewModel.cs" />
-    <Compile Include="View\AllBatteryModelsView.xaml.cs">
-      <DependentUpon>AllBatteryModelsView.xaml</DependentUpon>
+    <Compile Include="View\AllBatteriesView.xaml.cs">
+      <DependentUpon>AllBatteriesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\BatteryModelView.xaml.cs">
-      <DependentUpon>BatteryModelView.xaml</DependentUpon>
+    <Compile Include="View\AllBatteryTypesView.xaml.cs">
+      <DependentUpon>AllBatteryTypesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BatteryTypeView.xaml.cs">
+      <DependentUpon>BatteryTypeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BatteryView.xaml.cs">
+      <DependentUpon>BatteryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainControl.xaml.cs">
       <DependentUpon>MainControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\ProgramView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RecipeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RequestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SubProgramView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TesterRecipeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TesterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

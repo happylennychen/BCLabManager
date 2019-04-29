@@ -123,7 +123,7 @@ namespace O2Micro.BCLabManager.Shell.Model
                 return;
             }
 
-            if (Battery.BatteryModel != this.RequestedRecipe.Recipe.TesterRecipe.BatteryModel)
+            if (Battery.BatteryType != this.RequestedRecipe.Recipe.TesterRecipe.BatteryType)
             {
                 //Todo: prompt warning message
                 System.Windows.MessageBox.Show("Recipe and Battery are not compatible!");

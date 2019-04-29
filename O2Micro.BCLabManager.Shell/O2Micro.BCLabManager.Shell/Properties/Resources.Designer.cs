@@ -61,38 +61,74 @@ namespace O2Micro.BCLabManager.Shell.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All battery models.
+        ///   Looks up a localized string similar to All batteries.
         /// </summary>
-        internal static string AllBatteryModelsViewModel_DisplayName {
+        internal static string AllBatteriesViewModel_DisplayName {
             get {
-                return ResourceManager.GetString("AllBatteryModelsViewModel_DisplayName", resourceCulture);
+                return ResourceManager.GetString("AllBatteriesViewModel_DisplayName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New battery model.
+        ///   Looks up a localized string similar to All battery types.
         /// </summary>
-        internal static string BatteryModelViewModel_DisplayName {
+        internal static string AllBatteryTypesViewModel_DisplayName {
             get {
-                return ResourceManager.GetString("BatteryModelViewModel_DisplayName", resourceCulture);
+                return ResourceManager.GetString("AllBatteryTypesViewModel_DisplayName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create new battery model.
+        ///   Looks up a localized string similar to New battery type.
         /// </summary>
-        internal static string MainWindowViewModel_Command_CreateNewBatteryModel {
+        internal static string BatteryTypeViewModel_DisplayName {
             get {
-                return ResourceManager.GetString("MainWindowViewModel_Command_CreateNewBatteryModel", resourceCulture);
+                return ResourceManager.GetString("BatteryTypeViewModel_DisplayName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to View all battery models.
+        ///   Looks up a localized string similar to New battery.
         /// </summary>
-        internal static string MainWindowViewModel_Command_ViewAllBatteryModels {
+        internal static string BatteryViewModel_DisplayName {
             get {
-                return ResourceManager.GetString("MainWindowViewModel_Command_ViewAllBatteryModels", resourceCulture);
+                return ResourceManager.GetString("BatteryViewModel_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new battery.
+        /// </summary>
+        internal static string MainWindowViewModel_Command_CreateNewBattery {
+            get {
+                return ResourceManager.GetString("MainWindowViewModel_Command_CreateNewBattery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new battery type.
+        /// </summary>
+        internal static string MainWindowViewModel_Command_CreateNewBatteryType {
+            get {
+                return ResourceManager.GetString("MainWindowViewModel_Command_CreateNewBatteryType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View all batteries.
+        /// </summary>
+        internal static string MainWindowViewModel_Command_ViewAllBatteries {
+            get {
+                return ResourceManager.GetString("MainWindowViewModel_Command_ViewAllBatteries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View all battery types.
+        /// </summary>
+        internal static string MainWindowViewModel_Command_ViewAllBatteryTypes {
+            get {
+                return ResourceManager.GetString("MainWindowViewModel_Command_ViewAllBatteryTypes", resourceCulture);
             }
         }
         

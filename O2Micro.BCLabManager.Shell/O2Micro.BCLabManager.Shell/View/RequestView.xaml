@@ -5,7 +5,108 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
+    <Grid Margin="4">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="6" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- CUSTOMER TYPE -->
+        <Label 
+      Grid.Row="0" Grid.Column="0" 
+      Content="_Program:" 
+      HorizontalAlignment="Right"
+      Target="{Binding ElementName=programCmb}" 
+      />
+        <ComboBox 
+      x:Name="programCmb"
+      Grid.Row="0" Grid.Column="2" 
+      ItemsSource="{Binding Path=AllPrograms, Mode=OneTime}"
+      SelectedItem="{Binding Path=Program, ValidatesOnDataErrors=True}"
+      Validation.ErrorTemplate="{x:Null}"
+      >
+        </ComboBox>
+
+        <!-- FIRST NAME-->
+        <Label 
+      Grid.Row="2" Grid.Column="0" 
+      Content="_Requester:" 
+      HorizontalAlignment="Right"
+      Target="{Binding ElementName=RequesterTxt}"
+      />
+        <TextBox 
+      x:Name="RequesterTxt"
+      Grid.Row="2" Grid.Column="2" 
+      Text="{Binding Path=Requester, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+      Validation.ErrorTemplate="{x:Null}"
+      />
+
+        <!-- LAST NAME-->
+        <Label 
+      Grid.Row="4" Grid.Column="0" 
+      Content="Request _Date:" 
+      HorizontalAlignment="Right"
+      Target="{Binding ElementName=reqDateTxt}" 
+      />
+        <DatePicker 
+      x:Name="reqDateTxt"
+      Grid.Row="4" Grid.Column="2" 
+      Text="{Binding Path=RequestDate, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+      Validation.ErrorTemplate="{x:Null}"
+      />
+
+        <!-- LAST NAME-->
+        <Label 
+      Grid.Row="6" Grid.Column="0" 
+      Content="Pri_ority:" 
+      HorizontalAlignment="Right"
+      Target="{Binding ElementName=priTxt}" 
+      />
+        <TextBox 
+      x:Name="priTxt"
+      Grid.Row="6" Grid.Column="2" 
+      Text="{Binding Path=Priority, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+      Validation.ErrorTemplate="{x:Null}"
+      />
+        <!-- CUSTOMER TYPE -->
+        <Label 
+      Grid.Row="8" Grid.Column="0" 
+      Content="_Battery:" 
+      HorizontalAlignment="Right"
+      Target="{Binding ElementName=batteryCmb}" 
+      />
+        <ComboBox 
+      x:Name="batteryCmb"
+      Grid.Row="8" Grid.Column="2" 
+      ItemsSource="{Binding Path=AllBatteries, Mode=OneTime}"
+      SelectedItem="{Binding Path=Battery, ValidatesOnDataErrors=True}"
+      Validation.ErrorTemplate="{x:Null}"
+      >
+        </ComboBox>
+
+        <!-- SAVE BUTTON -->
+        <Button 
+      Grid.Row="10" Grid.Column="2"
+      Command="{Binding Path=SaveCommand}"
+      Content="_Save"
+      HorizontalAlignment="Right"
+      Margin="4,2" 
+      MinWidth="60" 
+      />
     </Grid>
 </UserControl>

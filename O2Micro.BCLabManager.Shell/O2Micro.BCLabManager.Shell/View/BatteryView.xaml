@@ -37,7 +37,6 @@
       ItemsSource="{Binding Path=AllBatteryTypes, Mode=OneTime}"
       SelectedItem="{Binding Path=BatteryType, ValidatesOnDataErrors=True}"
       Validation.ErrorTemplate="{x:Null}"
-            ItemTemplate="{Binding Path=Name}"
       >
             
         </ComboBox>

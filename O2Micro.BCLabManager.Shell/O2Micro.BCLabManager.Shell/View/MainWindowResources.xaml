@@ -38,6 +38,15 @@ This resource dictionary is used by the MainWindow.
         <vw:BatteryView />
     </DataTemplate>
 
+
+    <DataTemplate DataType="{x:Type vm:AllRequestsViewModel}">
+        <vw:AllRequestsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:RequestViewModel}">
+        <vw:RequestView />
+    </DataTemplate>
+
     <!-- 
   This style configures both of the main content areas in the main window.
   -->

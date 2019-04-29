@@ -123,6 +123,9 @@
   <data name="AllBatteryTypesViewModel_DisplayName" xml:space="preserve">
     <value>All battery types</value>
   </data>
+  <data name="AllRequestsViewModel_DisplayName" xml:space="preserve">
+    <value>All requests</value>
+  </data>
   <data name="BatteryTypeViewModel_DisplayName" xml:space="preserve">
     <value>New battery type</value>
   </data>
@@ -135,14 +138,23 @@
   <data name="MainWindowViewModel_Command_CreateNewBatteryType" xml:space="preserve">
     <value>Create new battery type</value>
   </data>
+  <data name="MainWindowViewModel_Command_CreateNewRequest" xml:space="preserve">
+    <value>Create new request</value>
+  </data>
   <data name="MainWindowViewModel_Command_ViewAllBatteries" xml:space="preserve">
     <value>View all batteries</value>
   </data>
   <data name="MainWindowViewModel_Command_ViewAllBatteryTypes" xml:space="preserve">
     <value>View all battery types</value>
   </data>
+  <data name="MainWindowViewModel_Command_ViewAllRequests" xml:space="preserve">
+    <value>View all requests</value>
+  </data>
   <data name="MainWindowViewModel_DisplayName" xml:space="preserve">
     <value>BC Lab Manager</value>
     <comment>Title of the main window</comment>
+  </data>
+  <data name="RequestViewModel_DisplayName" xml:space="preserve">
+    <value>New request</value>
   </data>
 </root>

@@ -5,7 +5,81 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
-    </Grid>
+    <UserControl.Resources>
+
+        <LinearGradientBrush x:Key="Brush_HeaderBackground" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#66000088" Offset="0" />
+            <GradientStop Color="#BB000088" Offset="1" />
+        </LinearGradientBrush>
+        <CollectionViewSource
+      x:Key="RequestGroups" 
+      Source="{Binding Path=AllRequests}"
+      >
+        </CollectionViewSource>
+
+        <Style x:Key="RequestItemStyle" TargetType="{x:Type ListViewItem}">
+            <!-- 
+      Stretch the content of each cell so that we can 
+      right-align text in the Total Sales column. 
+      -->
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        </Style>
+    </UserControl.Resources>
+
+    <ListView 
+      AlternationCount="2" 
+      DataContext="{StaticResource RequestGroups}" 
+      ItemContainerStyle="{StaticResource RequestItemStyle}"
+      ItemsSource="{Binding}"
+      >
+
+        <ListView.View>
+            <GridView>
+                <GridViewColumn 
+            Header="Name" 
+            DisplayMemberBinding="{Binding Path=DisplayName}" 
+            />
+                <GridViewColumn 
+            Header="Requester" 
+            DisplayMemberBinding="{Binding Path=Requester}" 
+            />
+                <GridViewColumn 
+            Header="Program" 
+            DisplayMemberBinding="{Binding Path=Program}" 
+            />
+                <GridViewColumn 
+            Header="RequestDate" 
+            DisplayMemberBinding="{Binding Path=RequestDate}" 
+            />
+                <GridViewColumn 
+            Header="Priority" 
+            DisplayMemberBinding="{Binding Path=Priority}" 
+            />
+                <GridViewColumn 
+            Header="Battery" 
+            DisplayMemberBinding="{Binding Path=Battery}" 
+            />
+                <GridViewColumn 
+            Header="CompletedNumber" 
+            DisplayMemberBinding="{Binding Path=CompletedNumber}" 
+            />
+                <GridViewColumn 
+            Header="ExecutingNumber" 
+            DisplayMemberBinding="{Binding Path=ExecutingNumber}" 
+            />
+                <GridViewColumn 
+            Header="WaitingNumber" 
+            DisplayMemberBinding="{Binding Path=WaitingNumber}" 
+            />
+                <GridViewColumn 
+            Header="AbandonedNumber" 
+            DisplayMemberBinding="{Binding Path=AbandonedNumber}" 
+            />
+                <GridViewColumn 
+            Header="InvalidNumber" 
+            DisplayMemberBinding="{Binding Path=InvalidNumber}" 
+            />
+            </GridView>
+        </ListView.View>
+    </ListView>
 </UserControl>

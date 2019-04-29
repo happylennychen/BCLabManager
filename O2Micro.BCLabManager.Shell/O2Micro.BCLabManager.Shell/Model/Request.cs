@@ -523,6 +523,15 @@ namespace O2Micro.BCLabManager.Shell.Model
         }
         public DateTime CompleteDate { get; set; }
 
+        public RequestClass()
+        { }
+
+        public void CompleteRequest()
+        {
+            this.RequestID = NextID;
+            this.RequestedProgram = new RequestedProgramClass(this, this.Program, this.Priority);
+        }
+
         public RequestClass(Int32 RequestID, ProgramClass Program, String Requester, DateTime RequestDate, Int32 Priority, BatteryClass Battery = null)
         {
             this.RequestID = RequestID;

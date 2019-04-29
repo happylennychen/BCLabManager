@@ -55,7 +55,9 @@
     <Compile Include="Model\Request.cs" />
     <Compile Include="Model\Scheduler.cs" />
     <Compile Include="ViewModel\AllBatteriesViewModel.cs" />
+    <Compile Include="ViewModel\AllRequestsViewModel.cs" />
     <Compile Include="ViewModel\BatteryViewModel.cs" />
+    <Compile Include="ViewModel\RequestViewModel.cs" />
     <Compile Include="View\AllChamberRecipesView.xaml.cs">
       <DependentUpon>AllChamberRecipesView.xaml</DependentUpon>
     </Compile>

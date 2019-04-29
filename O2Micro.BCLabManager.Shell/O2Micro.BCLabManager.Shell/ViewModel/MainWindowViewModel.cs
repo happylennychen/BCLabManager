@@ -22,6 +22,8 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
         ReadOnlyCollection<CommandViewModel> _commands;
         readonly BatteryTypeRepository _batterymodelRepository;
         readonly BatteryRepository _batteryRepository;
+        readonly RequestRepository _requestRepository;
+        readonly ProgramRepository _programRepository;
         ObservableCollection<WorkspaceViewModel> _workspaces;
 
 
@@ -44,19 +46,20 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
         {
             base.DisplayName = Resources.MainWindowViewModel_DisplayName;
 
-            InitAssets();
+            HistoricRegistration();
             //_batteryModelRepository = new BatteryTypeRepository(customerDataFile);
             _batterymodelRepository = new BatteryTypeRepository(BatteryTypes);
             _batteryRepository = new BatteryRepository(Batteries);
-            var BR = new BatteryRepository(Batteries);
             var TR = new TesterRepository(Testers);
             var CR = new ChamberRepository(Chambers);
             var PR = new ProgramRepository(Programs);
+            _programRepository = new ProgramRepository(Programs);
             var SPR = new SubProgramRepository(SubPrograms);
             var RR = new RecipeRepository(Recipes);
             var CRR = new ChamberRecipeRepository(ChamberRecipes);
             var TRR = new TesterRecipeRepository(TesterRecipes);
             var RqR = new RequestRepository(Requests);
+            _requestRepository = new RequestRepository(Requests);
             //string folder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "BCLabManager Documents\\");
             //dbmanager.DBInit(folder);
             //HistoricData();
@@ -116,7 +119,15 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
 
                 new CommandViewModel(
                     Resources.MainWindowViewModel_Command_CreateNewBattery,
-                    new RelayCommand(param => this.CreateNewBattery()))
+                    new RelayCommand(param => this.CreateNewBattery())),
+                    
+                new CommandViewModel(
+                    Resources.MainWindowViewModel_Command_ViewAllRequests,
+                    new RelayCommand(param => this.ShowAllRequests())),
+
+                new CommandViewModel(
+                    Resources.MainWindowViewModel_Command_CreateNewRequest,
+                    new RelayCommand(param => this.CreateNewRequest()))
             };
         }
 
@@ -213,6 +224,29 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             if (workspace == null)
             {
                 workspace = new AllBatteriesViewModel(_batteryRepository);
+                this.Workspaces.Add(workspace);
+            }
+
+            this.SetActiveWorkspace(workspace);
+        }
+
+        void CreateNewRequest()
+        {
+            RequestClass newRequest = new RequestClass();
+            RequestViewModel workspace = new RequestViewModel(newRequest, _requestRepository, _programRepository, _batteryRepository);
+            this.Workspaces.Add(workspace);
+            this.SetActiveWorkspace(workspace);
+        }
+
+        void ShowAllRequests()
+        {
+            AllRequestsViewModel workspace =
+                this.Workspaces.FirstOrDefault(vm => vm is AllRequestsViewModel)
+                as AllRequestsViewModel;
+
+            if (workspace == null)
+            {
+                workspace = new AllRequestsViewModel(_requestRepository);
                 this.Workspaces.Add(workspace);
             }
 

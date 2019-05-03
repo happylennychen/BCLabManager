@@ -278,6 +278,8 @@ namespace O2Micro.BCLabManager.Shell.DataAccess
 
     public class RequestRepository : RepositoryBase<RequestClass>
     {
+        public RequestRepository()
+        {}
         public RequestRepository(List<RequestClass> items)
             : base(items)
         { 

@@ -526,7 +526,7 @@ namespace O2Micro.BCLabManager.Shell.Model
         public RequestClass()
         { }
 
-        public void CompleteRequest()
+        public void CommitRequest()
         {
             this.RequestID = NextID;
             this.RequestedProgram = new RequestedProgramClass(this, this.Program, this.Priority);
@@ -541,7 +541,7 @@ namespace O2Micro.BCLabManager.Shell.Model
             this.Priority = Priority;
             this.Battery = Battery;
             this.RequestedProgram = new RequestedProgramClass(this, this.Program, this.Priority);
-            Scheduler.ImportTasks(RequestedProgram.RequestedSubPrograms);
+            //sch.ImportTasks(RequestedProgram.RequestedSubPrograms);
         }
         public RequestClass(ProgramClass Program, String Requester, DateTime RequestDate, Int32 Priority, BatteryClass Battery = null)
         {
@@ -552,7 +552,7 @@ namespace O2Micro.BCLabManager.Shell.Model
             this.Priority = Priority;
             this.Battery = Battery;
             this.RequestedProgram = new RequestedProgramClass(this, this.Program, this.Priority);
-            Scheduler.ImportTasks(RequestedProgram.RequestedSubPrograms);
+            //sch.ImportTasks(RequestedProgram.RequestedSubPrograms);
         }
     }
 }

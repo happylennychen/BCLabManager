@@ -192,6 +192,15 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
         }
 
 
+        public Int32 TotalNumber
+        {
+            get
+            {
+                return _request.RequestedProgram.RequestedSubPrograms.Count;
+            }
+        }
+        public Double InvalidRate { get { return InvalidNumber / TotalNumber; } }
+
         public Int32 CompletedNumber
         {
             get
@@ -310,7 +319,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
 
             if (this.IsNewRequest)
             {
-                _request.CompleteRequest();
+                _request.CommitRequest();
                 _requestRepository.AddItem(_request);
             }
 

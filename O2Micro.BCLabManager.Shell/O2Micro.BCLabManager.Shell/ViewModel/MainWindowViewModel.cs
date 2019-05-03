@@ -20,10 +20,17 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
         #region Fields
 
         ReadOnlyCollection<CommandViewModel> _commands;
-        readonly BatteryTypeRepository _batterymodelRepository;
-        readonly BatteryRepository _batteryRepository;
-        readonly RequestRepository _requestRepository;
-        readonly ProgramRepository _programRepository;
+        BatteryTypeRepository _batterytypeRepository;
+        BatteryRepository _batteryRepository;
+        ChamberRepository _chamberRepository;
+        TesterRepository _testerRepository;
+
+        SubProgramRepository _subprogramRepository;
+        RecipeRepository _recipeRepository;
+        ChamberRecipeRepository _chamberrecipeRepository;
+        TesterRecipeRepository _testerrecipeRepository;
+        ProgramRepository _programRepository;
+        RequestRepository _requestRepository = new RequestRepository();
         ObservableCollection<WorkspaceViewModel> _workspaces;
 
 
@@ -46,20 +53,6 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
         {
             base.DisplayName = Resources.MainWindowViewModel_DisplayName;
 
-            HistoricRegistration();
-            //_batteryModelRepository = new BatteryTypeRepository(customerDataFile);
-            _batterymodelRepository = new BatteryTypeRepository(BatteryTypes);
-            _batteryRepository = new BatteryRepository(Batteries);
-            var TR = new TesterRepository(Testers);
-            var CR = new ChamberRepository(Chambers);
-            var PR = new ProgramRepository(Programs);
-            _programRepository = new ProgramRepository(Programs);
-            var SPR = new SubProgramRepository(SubPrograms);
-            var RR = new RecipeRepository(Recipes);
-            var CRR = new ChamberRecipeRepository(ChamberRecipes);
-            var TRR = new TesterRecipeRepository(TesterRecipes);
-            var RqR = new RequestRepository(Requests);
-            _requestRepository = new RequestRepository(Requests);
             //string folder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "BCLabManager Documents\\");
             //dbmanager.DBInit(folder);
             //HistoricData();
@@ -78,6 +71,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             //TestCase7_2();
             //TestCase7_3();
             //TestCase9();
+            HistoricRegistration();
         }
 
         #endregion // Constructor
@@ -187,7 +181,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
         void CreateNewBatteryType()
         {
             BatteryTypeClass newBatteryType = new BatteryTypeClass();
-            BatteryTypeViewModel workspace = new BatteryTypeViewModel(newBatteryType, _batterymodelRepository);
+            BatteryTypeViewModel workspace = new BatteryTypeViewModel(newBatteryType, _batterytypeRepository);
             this.Workspaces.Add(workspace);
             this.SetActiveWorkspace(workspace);
         }
@@ -200,7 +194,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
 
             if (workspace == null)
             {
-                workspace = new AllBatteryTypesViewModel(_batterymodelRepository);
+                workspace = new AllBatteryTypesViewModel(_batterytypeRepository);
                 this.Workspaces.Add(workspace);
             }
 
@@ -210,7 +204,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
         void CreateNewBattery()
         {
             BatteryClass newBattery = new BatteryClass();
-            BatteryViewModel workspace = new BatteryViewModel(newBattery, _batteryRepository, _batterymodelRepository);
+            BatteryViewModel workspace = new BatteryViewModel(newBattery, _batteryRepository, _batterytypeRepository);
             this.Workspaces.Add(workspace);
             this.SetActiveWorkspace(workspace);
         }
@@ -262,7 +256,8 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
                 collectionView.MoveCurrentTo(workspace);
         }
 
-
+        #endregion // Private Helpers
+        #region debugger
         [Conditional("DEBUG")]
         private void TestCase4_1()
         {
@@ -297,9 +292,16 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             SubProgramClass subpro4 = new SubProgramClass(new List<RecipeClass> { rec4 });
             ProgramClass pro4 = new ProgramClass(BatteryTypes[0], "pro4", new List<SubProgramClass> { subpro4 });
             RequestClass req4 = new RequestClass(pro4, "D", DateTime.Now, 0);
-            PrintScheduler();
-            Scheduler.OrderTasks();     //pro4,pro3,pro2,pro1
-            PrintScheduler();
+
+            Scheduler sch = new Scheduler(_requestRepository);
+            _requestRepository.AddItem(req1);
+            _requestRepository.AddItem(req2);
+            _requestRepository.AddItem(req3);
+            _requestRepository.AddItem(req4);
+            PrintScheduler(sch);
+            //sch.OrderTasks();     //pro4,pro3,pro2,pro1
+            sch.OrderTasks();
+            PrintScheduler(sch);
         }
 
         [Conditional("DEBUG")]
@@ -336,9 +338,15 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             SubProgramClass subpro4 = new SubProgramClass(new List<RecipeClass> { rec4 });
             ProgramClass pro4 = new ProgramClass(BatteryTypes[0], "pro4", new List<SubProgramClass> { subpro4 });
             RequestClass req4 = new RequestClass(pro4, "D", DateTime.Now, 1);
-            PrintScheduler();
-            Scheduler.OrderTasks();     //
-            PrintScheduler();
+
+            Scheduler sch = new Scheduler(_requestRepository);
+            _requestRepository.AddItem(req1);
+            _requestRepository.AddItem(req2);
+            _requestRepository.AddItem(req3);
+            _requestRepository.AddItem(req4);
+            PrintScheduler(sch);
+            sch.OrderTasks();
+            PrintScheduler(sch);
         }
 
         [Conditional("DEBUG")]
@@ -375,7 +383,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             SubProgramClass subpro4 = new SubProgramClass(new List<RecipeClass> { rec4 });
             ProgramClass pro4 = new ProgramClass(BatteryTypes[0], "pro4", new List<SubProgramClass> { subpro4 });
             RequestClass req4 = new RequestClass(pro4, "D", DateTime.Now, 1);
-            //Scheduler.OrderTasks();
+            //sch.OrderTasks();
 
             TesterRecipeClass tstrec5 = new TesterRecipeClass(Testers[0], "tstrec5", BatteryTypes[0], "Blablabla");
             ChamberRecipeClass cbrrec5 = new ChamberRecipeClass(1, Chambers[0], "cbrrec5", "Blablabla");
@@ -407,9 +415,19 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             SubProgramClass subpro8 = new SubProgramClass(new List<RecipeClass> { rec8 });
             ProgramClass pro8 = new ProgramClass(BatteryTypes[0], "pro8", new List<SubProgramClass> { subpro8 });
             RequestClass req8 = new RequestClass(pro8, "D", DateTime.Now, 0);
-            PrintScheduler();
-            Scheduler.OrderTasks(); //
-            PrintScheduler();
+
+            Scheduler sch = new Scheduler(_requestRepository);
+            _requestRepository.AddItem(req1);
+            _requestRepository.AddItem(req2);
+            _requestRepository.AddItem(req3);
+            _requestRepository.AddItem(req4);
+            _requestRepository.AddItem(req5);
+            _requestRepository.AddItem(req6);
+            _requestRepository.AddItem(req7);
+            _requestRepository.AddItem(req8);
+            PrintScheduler(sch);
+            sch.OrderTasks();
+            PrintScheduler(sch);
         }
 
         [Conditional("DEBUG")]
@@ -423,8 +441,10 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             ProgramClass pro1 = new ProgramClass(BatteryTypes[0], "pro1", new List<SubProgramClass> { subpro1 });
             RequestClass req1 = new RequestClass(pro1, "A", DateTime.Now, 1);
 
+            Scheduler sch = new Scheduler(_requestRepository);
+            _requestRepository.AddItem(req1);
             PrintAssetsPool();
-            Scheduler.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
+            sch.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
             PrintAssetsPool();
         }
 
@@ -446,9 +466,13 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             RequestClass req3 = new RequestClass(pro3, "C", DateTime.Now, 1);
 
             PrintAssetsPool();
-            Scheduler.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
+
+            Scheduler sch = new Scheduler(_requestRepository);
+            _requestRepository.AddItem(req1);
+            _requestRepository.AddItem(req3);
+            sch.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
             PrintAssetsPool();
-            Scheduler.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
+            sch.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
             PrintAssetsPool();
         }
 
@@ -468,8 +492,10 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             ProgramClass pro1 = new ProgramClass(BatteryTypes[0], "pro1", new List<SubProgramClass> { subpro1 });
             RequestClass req1 = new RequestClass(pro1, "A", DateTime.Now, 1);
 
+            Scheduler sch = new Scheduler(_requestRepository);
+            _requestRepository.AddItem(req1);
             PrintAssetsPool();
-            Scheduler.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
+            sch.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
             PrintAssetsPool();
         }
 
@@ -486,8 +512,10 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             ProgramClass pro1 = new ProgramClass(BatteryTypes[0], "pro1", new List<SubProgramClass> { subpro1 });
             RequestClass req1 = new RequestClass(pro1, "A", DateTime.Now, 1);
 
+            Scheduler sch = new Scheduler(_requestRepository);
+            _requestRepository.AddItem(req1);
             PrintAssetsPool();
-            Scheduler.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
+            sch.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
             PrintAssetsPool();
         }
 
@@ -502,9 +530,11 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             ProgramClass pro1 = new ProgramClass(BatteryTypes[0], "pro1", new List<SubProgramClass> { subpro1 });
             RequestClass req1 = new RequestClass(pro1, "A", DateTime.Now, 1);
 
+            Scheduler sch = new Scheduler(_requestRepository);
+            _requestRepository.AddItem(req1);
             PrintAssetsPool();
-            Scheduler.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
-            Scheduler.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
+            sch.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
+            sch.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
             PrintAssetsPool();
         }
 
@@ -519,13 +549,16 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             ProgramClass pro1 = new ProgramClass(BatteryTypes[0], "pro1", new List<SubProgramClass> { subpro1 });
             RequestClass req1 = new RequestClass(pro1, "A", DateTime.Now, 1);
 
+            Scheduler sch = new Scheduler(_requestRepository);
+            _requestRepository.AddItem(req1);
+
             //PrintAssetsPool();
-            PrintScheduler();
-            Scheduler.AssignAssets(Batteries[0], null, Testers[0].TesterChannels[0]);
-            PrintScheduler();
-            Scheduler.Execute(DateTime.Now);
+            PrintScheduler(sch);
+            sch.AssignAssets(Batteries[0], null, Testers[0].TesterChannels[0]);
+            PrintScheduler(sch);
+            sch.Execute(DateTime.Now);
             //PrintAssetsPool();
-            PrintScheduler();
+            PrintScheduler(sch);
         }
 
         [Conditional("DEBUG")]
@@ -563,19 +596,25 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             ProgramClass pro4 = new ProgramClass(BatteryTypes[0], "pro4", new List<SubProgramClass> { subpro4 });
             RequestClass req4 = new RequestClass(pro4, "D", DateTime.Now, 0);
 
+            Scheduler sch = new Scheduler(_requestRepository);
+            _requestRepository.AddItem(req1);
+            _requestRepository.AddItem(req2);
+            _requestRepository.AddItem(req3);
+            _requestRepository.AddItem(req4);
+
             //PrintAssetsPool();
-            PrintScheduler();
-            Scheduler.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
-            PrintScheduler();
-            Scheduler.AssignAssets(Batteries[1], null, Testers[0].TesterChannels[1]);
-            PrintScheduler();
-            Scheduler.AssignAssets(Batteries[2], null, Testers[0].TesterChannels[2]);
-            PrintScheduler();
-            Scheduler.AssignAssets(Batteries[3], null, Testers[0].TesterChannels[3]);
-            PrintScheduler();
-            Scheduler.Execute(DateTime.Now);
+            PrintScheduler(sch);
+            sch.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
+            PrintScheduler(sch);
+            sch.AssignAssets(Batteries[1], null, Testers[0].TesterChannels[1]);
+            PrintScheduler(sch);
+            sch.AssignAssets(Batteries[2], null, Testers[0].TesterChannels[2]);
+            PrintScheduler(sch);
+            sch.AssignAssets(Batteries[3], null, Testers[0].TesterChannels[3]);
+            PrintScheduler(sch);
+            sch.Execute(DateTime.Now);
             //PrintAssetsPool();
-            PrintScheduler();
+            PrintScheduler(sch);
         }
 
         [Conditional("DEBUG")]
@@ -589,13 +628,16 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             ProgramClass pro1 = new ProgramClass(BatteryTypes[0], "pro1", new List<SubProgramClass> { subpro1 });
             RequestClass req1 = new RequestClass(pro1, "A", DateTime.Now, 1);
 
+            Scheduler sch = new Scheduler(_requestRepository);
+            _requestRepository.AddItem(req1);
+
             //PrintAssetsPool();
-            PrintScheduler();
-            //Scheduler.AssignAssets(Batteries[0], null, Testers[0].TesterChannels[0]);
-            //PrintScheduler();
-            Scheduler.Execute(DateTime.Now);
+            PrintScheduler(sch);
+            //sch.AssignAssets(Batteries[0], null, Testers[0].TesterChannels[0]);
+            //PrintScheduler(sch);
+            sch.Execute(DateTime.Now);
             //PrintAssetsPool();
-            PrintScheduler();
+            PrintScheduler(sch);
         }
 
         [Conditional("DEBUG")]
@@ -609,16 +651,19 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             ProgramClass pro1 = new ProgramClass(BatteryTypes[0], "pro1", new List<SubProgramClass> { subpro1 });
             RequestClass req1 = new RequestClass(pro1, "A", DateTime.Now, 1);
 
+            Scheduler sch = new Scheduler(_requestRepository);
+            _requestRepository.AddItem(req1);
+
             //PrintAssetsPool();
-            PrintScheduler();
-            Scheduler.AssignAssets(Batteries[0], null, Testers[0].TesterChannels[0]);
-            //PrintScheduler();
-            Scheduler.Execute(DateTime.Now);
+            PrintScheduler(sch);
+            sch.AssignAssets(Batteries[0], null, Testers[0].TesterChannels[0]);
+            //PrintScheduler(sch);
+            sch.Execute(DateTime.Now);
             //PrintAssetsPool();
-            PrintScheduler();
+            PrintScheduler(sch);
             PrintAssetsPool();
-            Scheduler.RunningList[0].TopRunningRequestedRecipe.ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, "blablabla");
-            PrintScheduler();
+            sch.RunningList[0].TopRunningRequestedRecipe.ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, "blablabla");
+            PrintScheduler(sch);
             PrintAssetsPool();
         }
 
@@ -633,16 +678,19 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             ProgramClass pro1 = new ProgramClass(BatteryTypes[0], "pro1", new List<SubProgramClass> { subpro1 });
             RequestClass req1 = new RequestClass(pro1, "A", DateTime.Now, 1);
 
+            Scheduler sch = new Scheduler(_requestRepository);
+            _requestRepository.AddItem(req1);
+
             //PrintAssetsPool();
-            PrintScheduler();
-            Scheduler.AssignAssets(Batteries[0], null, Testers[0].TesterChannels[0]);
-            //PrintScheduler();
-            Scheduler.Execute(DateTime.Now);
+            PrintScheduler(sch);
+            sch.AssignAssets(Batteries[0], null, Testers[0].TesterChannels[0]);
+            //PrintScheduler(sch);
+            sch.Execute(DateTime.Now);
             //PrintAssetsPool();
-            PrintScheduler();
+            PrintScheduler(sch);
             PrintAssetsPool();
-            Scheduler.RunningList[0].TopRunningRequestedRecipe.ValidExecutor.Commit(ExecutorStatus.Invalid, DateTime.Now, "blablabla");
-            PrintScheduler();
+            sch.RunningList[0].TopRunningRequestedRecipe.ValidExecutor.Commit(ExecutorStatus.Invalid, DateTime.Now, "blablabla");
+            PrintScheduler(sch);
             PrintAssetsPool();
         }
 
@@ -657,22 +705,25 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             ProgramClass pro1 = new ProgramClass(BatteryTypes[0], "pro1", new List<SubProgramClass> { subpro1 });
             RequestClass req1 = new RequestClass(pro1, "A", DateTime.Now, 1);
 
+            Scheduler sch = new Scheduler(_requestRepository);
+            _requestRepository.AddItem(req1);
+
             //PrintAssetsPool();
-            PrintScheduler();
-            Scheduler.AssignAssets(Batteries[0], null, Testers[0].TesterChannels[0]);
-            //PrintScheduler();
-            Scheduler.Execute(DateTime.Now);
+            PrintScheduler(sch);
+            sch.AssignAssets(Batteries[0], null, Testers[0].TesterChannels[0]);
+            //PrintScheduler(sch);
+            sch.Execute(DateTime.Now);
             //PrintAssetsPool();
-            PrintScheduler();
+            PrintScheduler(sch);
             PrintAssetsPool();
-            ExecutorClass exe = Scheduler.RunningList[0].TopRunningRequestedRecipe.ValidExecutor;
+            ExecutorClass exe = sch.RunningList[0].TopRunningRequestedRecipe.ValidExecutor;
             exe.Commit(ExecutorStatus.Waiting, DateTime.Now, "blablabla");
             exe.Commit(ExecutorStatus.Ready, DateTime.Now, "blablabla");
             exe.Commit(ExecutorStatus.Executing, DateTime.Now, "blablabla");
             exe.Commit(ExecutorStatus.Abandoned, DateTime.Now, "blablabla");
             exe.Commit(ExecutorStatus.Completed, DateTime.Now, "blablabla");
             exe.Commit(ExecutorStatus.Completed, DateTime.Now, "blablabla");
-            PrintScheduler();
+            PrintScheduler(sch);
             PrintAssetsPool();
         }
 
@@ -687,21 +738,24 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             ProgramClass pro1 = new ProgramClass(BatteryTypes[0], "pro1", new List<SubProgramClass> { subpro1 });
             RequestClass req1 = new RequestClass(pro1, "A", DateTime.Now, 1);
 
+            Scheduler sch = new Scheduler(_requestRepository);
+            _requestRepository.AddItem(req1);
+
             //PrintAssetsPool();
-            PrintScheduler();
+            PrintScheduler(sch);
             PrintAssetsPool();
-            Scheduler.WaitingList[0].TopWaitingRequestedRecipe.ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, "blablabla");
-            PrintScheduler();
+            sch.WaitingList[0].TopWaitingRequestedRecipe.ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, "blablabla");
+            PrintScheduler(sch);
             PrintAssetsPool();
-            Scheduler.AssignAssets(Batteries[0], null, Testers[0].TesterChannels[0]);
-            PrintScheduler();
+            sch.AssignAssets(Batteries[0], null, Testers[0].TesterChannels[0]);
+            PrintScheduler(sch);
             PrintAssetsPool();
-            Scheduler.ReadyList[0].TopReadyRequestedRecipe.ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, "blablabla");
-            //PrintScheduler();
-            //Scheduler.Execute();
+            sch.ReadyList[0].TopReadyRequestedRecipe.ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, "blablabla");
+            //PrintScheduler(sch);
+            //sch.Execute();
             //PrintAssetsPool();
-            //Scheduler.WaitingList[0].TopWaitingRequestedRecipe.ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, "blablabla");
-            PrintScheduler();
+            //sch.WaitingList[0].TopWaitingRequestedRecipe.ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, "blablabla");
+            PrintScheduler(sch);
             PrintAssetsPool();
         }
 
@@ -719,34 +773,37 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             ProgramClass pro1 = new ProgramClass(BatteryTypes[0], "pro1", new List<SubProgramClass> { subpro1, subpro2 });
             RequestClass req1 = new RequestClass(pro1, "A", DateTime.Now, 1);
 
+            Scheduler sch = new Scheduler(_requestRepository);
+            _requestRepository.AddItem(req1);
+
             //PrintAssetsPool();
-            PrintScheduler();
+            PrintScheduler(sch);
             PrintAssetsPool();
-            Scheduler.AssignAssets(Batteries[0], null, Testers[0].TesterChannels[0]);
-            Scheduler.AssignAssets(Batteries[1], null, Testers[0].TesterChannels[1]);
-            PrintScheduler();
+            sch.AssignAssets(Batteries[0], null, Testers[0].TesterChannels[0]);
+            sch.AssignAssets(Batteries[1], null, Testers[0].TesterChannels[1]);
+            PrintScheduler(sch);
             PrintAssetsPool();
-            Scheduler.Execute(DateTime.Now);
-            PrintScheduler();
+            sch.Execute(DateTime.Now);
+            PrintScheduler(sch);
             PrintAssetsPool();
-            RequestedRecipeClass rr = Scheduler.RunningList[0].TopRunningRequestedRecipe;
+            RequestedRecipeClass rr = sch.RunningList[0].TopRunningRequestedRecipe;
             rr.ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, "blablabla");
-            PrintScheduler();
+            PrintScheduler(sch);
             PrintAssetsPool();
             rr.ValidExecutor.Invalidate();
-            PrintScheduler();
+            PrintScheduler(sch);
             PrintAssetsPool();
-            Scheduler.RunningList[0].TopRunningRequestedRecipe.ValidExecutor.Invalidate();
-            PrintScheduler();
+            sch.RunningList[0].TopRunningRequestedRecipe.ValidExecutor.Invalidate();
+            PrintScheduler(sch);
             PrintAssetsPool();
             rr.ValidExecutor.Invalidate();
-            PrintScheduler();
+            PrintScheduler(sch);
             PrintAssetsPool();
-            //Scheduler.AssignAssets(Batteries[2], null, Testers[0].TesterChannels[2]);
-            //Scheduler.AssignAssets(Batteries[3], null, Testers[0].TesterChannels[3]);
+            //sch.AssignAssets(Batteries[2], null, Testers[0].TesterChannels[2]);
+            //sch.AssignAssets(Batteries[3], null, Testers[0].TesterChannels[3]);
             //PrintAssetsPool();
-            //Scheduler.WaitingList[0].TopWaitingRequestedRecipe.ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, DateTime.Now, "blablabla");
-            //PrintScheduler();
+            //sch.WaitingList[0].TopWaitingRequestedRecipe.ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now, DateTime.Now, "blablabla");
+            //PrintScheduler(sch);
             //PrintAssetsPool();
         }
 
@@ -823,16 +880,16 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
                 Debug.WriteLine(str);
             }
         }
-        private void PrintScheduler()
+        private void PrintScheduler(Scheduler sch)
         {
             Debug.WriteLine("-------------------Scheduler Printer-----------------");
-            PrintSchedulerList("Waiting List:", Scheduler.WaitingList);
+            PrintSchedulerList("Waiting List:", sch.WaitingList);
 
-            PrintSchedulerList("Ready List:", Scheduler.ReadyList);
+            PrintSchedulerList("Ready List:", sch.ReadyList);
 
-            PrintSchedulerList("Running List:", Scheduler.RunningList);
+            PrintSchedulerList("Running List:", sch.RunningList);
 
-            PrintSchedulerList("Completed List:", Scheduler.CompletedList);
+            PrintSchedulerList("Completed List:", sch.CompletedList);
         }
 
         [Conditional("DEBUG")]
@@ -885,6 +942,12 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             IEnumerable<AssetClass> chambers = from chamber in Chambers select chamber;
             IEnumerable<AssetClass> testerchannels = from testerchannel in Tester.TesterChannels select testerchannel;
             AssetsPool.AllAssets = (batteries.ToList().Concat(chambers.ToList()).Concat(testerchannels.ToList())).ToList();
+
+            _batterytypeRepository = new BatteryTypeRepository(BatteryTypes);
+            _batteryRepository = new BatteryRepository(Batteries);
+            _chamberRepository = new ChamberRepository(Chambers);
+            _testerRepository = new TesterRepository(Testers);
+
         }
         private void InitPrograms()
         {
@@ -1118,6 +1181,12 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             Programs.Add(pro);
             pro = new ProgramClass(BatteryTypes[0], "5 Cycle", new List<SubProgramClass> { SubPrograms[29], SubPrograms[30], SubPrograms[31] });
             Programs.Add(pro);
+
+            _testerrecipeRepository = new TesterRecipeRepository(TesterRecipes);
+            _chamberrecipeRepository = new ChamberRecipeRepository(ChamberRecipes);
+            _recipeRepository = new RecipeRepository(Recipes);
+            _subprogramRepository = new SubProgramRepository(SubPrograms);
+            _programRepository = new ProgramRepository(Programs);
         }
         private void InitRequest()
         {
@@ -1138,26 +1207,30 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             Requests.Add(Request);
             Request = new RequestClass(Programs[7], "Francis", DateTime.Now, 1, Batteries[3]);
             Requests.Add(Request);
+            _requestRepository = new RequestRepository(Requests);
         }
 
         private void HistoricOperation()
         {
-            Scheduler.OrderTasks();
 
-            Scheduler.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
-            //Scheduler.Run();
-            Scheduler.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
-            Scheduler.Execute(DateTime.Now);
-            Scheduler.RunningList[0].RequestedRecipes[0].ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now);
-            Scheduler.RunningList[0].RequestedRecipes[0].ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now);
-            Scheduler.WaitingList[2].RequestedRecipes[0].ValidExecutor.Abandon();
-            Scheduler.CompletedList[0].RequestedRecipes[0].ValidExecutor.Invalidate();
-            Scheduler.OrderTasks();
-            Scheduler.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
-            Scheduler.Execute(DateTime.Now);
-            //Scheduler.FinishSubProgram(ref ExecutorClass Executor, 
-            //Scheduler.RunningRequestedSubPrograms[0].RequestedRecipes[0].Executors[0].Status = TestStatus.Completed;
-            //Scheduler.CloseRunningTask();
+            Scheduler sch = new Scheduler(_requestRepository);
+            foreach(var r in Requests)
+                _requestRepository.AddItem(r);
+
+            sch.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
+            //sch.Run();
+            sch.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
+            sch.Execute(DateTime.Now);
+            sch.RunningList[0].RequestedRecipes[0].ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now);
+            sch.RunningList[0].RequestedRecipes[0].ValidExecutor.Commit(ExecutorStatus.Completed, DateTime.Now);
+            sch.WaitingList[2].RequestedRecipes[0].ValidExecutor.Abandon();
+            sch.CompletedList[0].RequestedRecipes[0].ValidExecutor.Invalidate();
+            sch.OrderTasks();
+            sch.AssignAssets(Batteries[0], Chambers[0], Testers[0].TesterChannels[0]);
+            sch.Execute(DateTime.Now);
+            //sch.FinishSubProgram(ref ExecutorClass Executor, 
+            //sch.RunningRequestedSubPrograms[0].RequestedRecipes[0].Executors[0].Status = TestStatus.Completed;
+            //sch.CloseRunningTask();
         }
 
         private void FakeView()
@@ -1212,6 +1285,6 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
                 Debug.WriteLine(str);
             }
         }
-        #endregion // Private Helpers
+        #endregion //debugger
     }
 }

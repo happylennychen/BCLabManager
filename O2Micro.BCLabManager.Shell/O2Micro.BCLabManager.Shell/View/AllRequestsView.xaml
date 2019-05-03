@@ -60,6 +60,10 @@
             DisplayMemberBinding="{Binding Path=Battery}" 
             />
                 <GridViewColumn 
+            Header="TotalNumber" 
+            DisplayMemberBinding="{Binding Path=TotalNumber}" 
+            />
+                <GridViewColumn 
             Header="CompletedNumber" 
             DisplayMemberBinding="{Binding Path=CompletedNumber}" 
             />
@@ -78,6 +82,10 @@
                 <GridViewColumn 
             Header="InvalidNumber" 
             DisplayMemberBinding="{Binding Path=InvalidNumber}" 
+            />
+                <GridViewColumn 
+            Header="InvalidRate" 
+            DisplayMemberBinding="{Binding Path=InvalidRate}" 
             />
             </GridView>
         </ListView.View>

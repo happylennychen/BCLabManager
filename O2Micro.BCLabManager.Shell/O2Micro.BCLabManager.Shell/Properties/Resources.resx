@@ -123,6 +123,9 @@
   <data name="AllBatteryTypesViewModel_DisplayName" xml:space="preserve">
     <value>All battery types</value>
   </data>
+  <data name="AllExecutorsViewModel_DisplayName" xml:space="preserve">
+    <value>All executors</value>
+  </data>
   <data name="AllRequestsViewModel_DisplayName" xml:space="preserve">
     <value>All requests</value>
   </data>
@@ -146,6 +149,9 @@
   </data>
   <data name="MainWindowViewModel_Command_ViewAllBatteryTypes" xml:space="preserve">
     <value>View all battery types</value>
+  </data>
+  <data name="MainWindowViewModel_Command_ViewAllExecutors" xml:space="preserve">
+    <value>View all executors</value>
   </data>
   <data name="MainWindowViewModel_Command_ViewAllRequests" xml:space="preserve">
     <value>View all requests</value>

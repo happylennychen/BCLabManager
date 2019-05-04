@@ -31,6 +31,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
         TesterRecipeRepository _testerrecipeRepository;
         ProgramRepository _programRepository;
         RequestRepository _requestRepository = new RequestRepository();
+        ExecutorRepository _executorRepository;
         ObservableCollection<WorkspaceViewModel> _workspaces;
 
 
@@ -44,6 +45,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
         private List<ChamberRecipeClass> ChamberRecipes;// { get; set; }
         private List<TesterRecipeClass> TesterRecipes;// { get; set; }
         private List<RequestClass> Requests;// { get; set; }
+        private List<ExecutorClass> Executors;
 
         #endregion // Fields
 
@@ -121,7 +123,11 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
 
                 new CommandViewModel(
                     Resources.MainWindowViewModel_Command_CreateNewRequest,
-                    new RelayCommand(param => this.CreateNewRequest()))
+                    new RelayCommand(param => this.CreateNewRequest())),
+
+                new CommandViewModel(
+                    Resources.MainWindowViewModel_Command_ViewAllExecutors,
+                    new RelayCommand(param => this.ShowAllExecutors()))
             };
         }
 
@@ -241,6 +247,21 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             if (workspace == null)
             {
                 workspace = new AllRequestsViewModel(_requestRepository);
+                this.Workspaces.Add(workspace);
+            }
+
+            this.SetActiveWorkspace(workspace);
+        }
+
+        void ShowAllExecutors()
+        {
+            AllExecutorsViewModel workspace =
+                this.Workspaces.FirstOrDefault(vm => vm is AllExecutorsViewModel)
+                as AllExecutorsViewModel;
+
+            if (workspace == null)
+            {
+                workspace = new AllExecutorsViewModel(_executorRepository, _requestRepository);
                 this.Workspaces.Add(workspace);
             }
 
@@ -904,7 +925,8 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
         {
             InitAssets();
             InitPrograms();
-            InitRequest();
+            InitRequests();
+            InitExecutors();
         }
 
         private void InitAssets()
@@ -1188,7 +1210,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             _subprogramRepository = new SubProgramRepository(SubPrograms);
             _programRepository = new ProgramRepository(Programs);
         }
-        private void InitRequest()
+        private void InitRequests()
         {
             Requests = new List<RequestClass>();
             RequestClass Request = new RequestClass(Programs[0], "Francis", DateTime.Now, 2);
@@ -1208,6 +1230,16 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             Request = new RequestClass(Programs[7], "Francis", DateTime.Now, 1, Batteries[3]);
             Requests.Add(Request);
             _requestRepository = new RequestRepository(Requests);
+        }
+        private void InitExecutors()
+        {
+            Executors = (from req in _requestRepository.GetItems()
+                       from subpro in req.RequestedProgram.RequestedSubPrograms
+                       from rec in subpro.RequestedRecipes
+                       from exe in rec.Executors
+                       select exe).ToList();
+                //from pro.
+            _executorRepository = new ExecutorRepository(Executors);
         }
 
         private void HistoricOperation()

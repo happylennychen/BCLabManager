@@ -79,6 +79,15 @@ namespace O2Micro.BCLabManager.Shell.Properties {
         }
         
         /// <summary>
+        ///   查找类似 All executors 的本地化字符串。
+        /// </summary>
+        internal static string AllExecutorsViewModel_DisplayName {
+            get {
+                return ResourceManager.GetString("AllExecutorsViewModel_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 All requests 的本地化字符串。
         /// </summary>
         internal static string AllRequestsViewModel_DisplayName {
@@ -147,6 +156,15 @@ namespace O2Micro.BCLabManager.Shell.Properties {
         internal static string MainWindowViewModel_Command_ViewAllBatteryTypes {
             get {
                 return ResourceManager.GetString("MainWindowViewModel_Command_ViewAllBatteryTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 View all executors 的本地化字符串。
+        /// </summary>
+        internal static string MainWindowViewModel_Command_ViewAllExecutors {
+            get {
+                return ResourceManager.GetString("MainWindowViewModel_Command_ViewAllExecutors", resourceCulture);
             }
         }
         

@@ -69,7 +69,6 @@ namespace O2Micro.BCLabManager.Shell.Model
             }
         }
 
-
         public Scheduler(RequestRepository requestRepository)
         {
             _requestRepository = requestRepository;

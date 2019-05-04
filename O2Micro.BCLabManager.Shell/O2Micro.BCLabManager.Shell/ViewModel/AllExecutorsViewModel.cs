@@ -13,45 +13,54 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
     /// <summary>
     /// Represents a container of RequestModelViewModel objects
     /// that has support for staying synchronized with the
-    /// RequestRepository.  This class also provides information
+    /// ExecutorRepository.  This class also provides information
     /// related to multiple selected customers.
     /// </summary>
-    public class AllRequestsViewModel : WorkspaceViewModel
+    public class AllExecutorsViewModel : WorkspaceViewModel
     {
         #region Fields
 
         readonly RequestRepository _requestRepository;
+        readonly ExecutorRepository _executorRepository;
 
         #endregion // Fields
 
         #region Constructor
 
-        public AllRequestsViewModel(RequestRepository RequestRepository)
+        public AllExecutorsViewModel(ExecutorRepository executorRepository, RequestRepository requestRepository)
         {
-            if (RequestRepository == null)
-                throw new ArgumentNullException("RequestRepository");
+            if (executorRepository == null)
+                throw new ArgumentNullException("executorRepository");
 
-            base.DisplayName = Resources.AllRequestsViewModel_DisplayName;
+            if (requestRepository == null)
+                throw new ArgumentNullException("requestRepository");
 
-            _requestRepository = RequestRepository;
+            base.DisplayName = Resources.AllExecutorsViewModel_DisplayName;
+
+            _executorRepository = executorRepository;
+
+            // Subscribe for notifications of when a new customer is saved.
+            _executorRepository.ItemAdded += this.OnExecutorAddedToRepository;
+
+            _requestRepository = requestRepository;
 
             // Subscribe for notifications of when a new customer is saved.
             _requestRepository.ItemAdded += this.OnRequestAddedToRepository;
 
             // Populate the AllCustomers collection with RequestModelViewModels.
-            this.CreateAllRequests();
+            this.CreateAllExecutors();
         }
 
-        void CreateAllRequests()
+        void CreateAllExecutors()
         {
-            List<RequestViewModel> all =
-                (from req in _requestRepository.GetItems()
-                 select new RequestViewModel(req, _requestRepository)).ToList();
+            List<ExecutorViewModel> all =
+                (from exe in _executorRepository.GetItems()
+                 select new ExecutorViewModel(exe, _executorRepository)).ToList();
 
             //foreach (RequestModelViewModel batmod in all)
             //batmod.PropertyChanged += this.OnRequestModelViewModelPropertyChanged;
 
-            this.AllRequests = new ObservableCollection<RequestViewModel>(all);
+            this.AllExecutors = new ObservableCollection<ExecutorViewModel>(all);
             //this.AllCustomers.CollectionChanged += this.OnCollectionChanged;
         }
 
@@ -60,9 +69,9 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
         #region Public Interface
 
         /// <summary>
-        /// Returns a collection of all the RequestViewModel objects.
+        /// Returns a collection of all the ExecutorViewModel objects.
         /// </summary>
-        public ObservableCollection<RequestViewModel> AllRequests { get; private set; }
+        public ObservableCollection<ExecutorViewModel> AllExecutors { get; private set; }
 
 
         #endregion // Public Interface
@@ -71,13 +80,13 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
 
         protected override void OnDispose()
         {
-            foreach (RequestViewModel reqVM in this.AllRequests)
+            foreach (ExecutorViewModel reqVM in this.AllExecutors)
                 reqVM.Dispose();
 
-            this.AllRequests.Clear();
+            this.AllExecutors.Clear();
             //this.AllRequestModels.CollectionChanged -= this.OnCollectionChanged;
 
-            _requestRepository.ItemAdded -= this.OnRequestAddedToRepository;
+            _executorRepository.ItemAdded -= this.OnExecutorAddedToRepository;
         }
 
         #endregion // Base Class Overrides
@@ -110,10 +119,22 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
                 this.OnPropertyChanged("TotalSelectedSales");
         }*/
 
+        void OnExecutorAddedToRepository(object sender, ItemAddedEventArgs<ExecutorClass> e)
+        {
+            var viewModel = new ExecutorViewModel(e.NewItem, _executorRepository);
+            this.AllExecutors.Add(viewModel);
+        }
+
         void OnRequestAddedToRepository(object sender, ItemAddedEventArgs<RequestClass> e)
         {
-            var viewModel = new RequestViewModel(e.NewItem, _requestRepository);
-            this.AllRequests.Add(viewModel);
+            //var viewModel = new RequestViewModel(e.NewItem, _requestRepository);
+            //this.AllRequests.Add(viewModel);
+            var executors = (from sp in e.NewItem.RequestedProgram.RequestedSubPrograms
+             from rec in sp.RequestedRecipes
+             from exe in rec.Executors
+             select exe).ToList();
+            foreach(var exe in executors)
+                _executorRepository.AddItem(exe);
         }
 
         #endregion // Event Handling Methods

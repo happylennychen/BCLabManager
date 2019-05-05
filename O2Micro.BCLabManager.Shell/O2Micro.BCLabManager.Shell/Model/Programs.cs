@@ -47,7 +47,7 @@ namespace O2Micro.BCLabManager.Shell.Model
             }
         }
 
-        public void SubProgram_EstimateDurationChanged(object sender, EventArgs e)
+        public void SubProgram_EstimateDurationChanged(object sender, EventArgs e)  //可以不用event，而是把这个直接放到EstimateDuration的get里去。而且这个属于view而非model
         {
             try
             {
@@ -200,7 +200,7 @@ namespace O2Micro.BCLabManager.Shell.Model
             this.ChamberRecipe = ChamberRecipe;
         }
 
-        public void Executor_StatusChanged(object sender, EventArgs e)
+        public void Executor_StatusChanged(object sender, EventArgs e)  //可以不用event，而是把这个直接放到EstimateDuration的get里去。而且这个属于view而非model
         {
             try
             {

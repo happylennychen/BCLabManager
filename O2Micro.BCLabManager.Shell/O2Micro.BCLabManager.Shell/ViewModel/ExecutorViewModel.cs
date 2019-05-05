@@ -56,7 +56,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             _testerRepository = testerRepository;
         }
 
-        public ExecutorViewModel(ExecutorClass executor, ExecutorRepository executorRepository)     //AllExecutorView需要
+        /*public ExecutorViewModel(ExecutorClass executor, ExecutorRepository executorRepository)     //AllExecutorView需要
         {
             if (executor == null)
                 throw new ArgumentNullException("executor");
@@ -66,7 +66,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
 
             _executor = executor;
             _executorRepository = executorRepository;
-        }
+        }*/
 
         /*void CreateAllBatteryTypes()
         {
@@ -227,7 +227,9 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             {
                 if (_tester == null)
                 {
-                    if (_executor.TesterChannel.Tester == null)
+                    if (_executor.TesterChannel == null)
+                        _tester = string.Empty;
+                    else if (_executor.TesterChannel.Tester == null)
                         _tester = string.Empty;
                     else
                         _tester = _executor.TesterChannel.Tester.Name;
@@ -290,12 +292,17 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
         {
             get
             {
-                List<TesterChannelClass> all = _testerRepository.GetItems().First(i => i.Name == _executor.TesterChannel.Tester.Name).TesterChannels;
-                List<string> allstring = (
-                    from i in all
-                    select i.TesterChannelID.ToString()).ToList();
+                if (_testerchannel == string.Empty || _testerchannel == null)
+                    return null;
+                else
+                {
+                    List<TesterChannelClass> all = _testerRepository.GetItems().First(i => i.Name == _testerchannel).TesterChannels;
+                    List<string> allstring = (
+                        from i in all
+                        select i.TesterChannelID.ToString()).ToList();
 
-                return new ObservableCollection<string>(allstring);
+                    return new ObservableCollection<string>(allstring);
+                }
             }
         }
 

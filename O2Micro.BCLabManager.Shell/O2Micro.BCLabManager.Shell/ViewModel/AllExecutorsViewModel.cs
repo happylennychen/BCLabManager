@@ -20,32 +20,41 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
     {
         #region Fields
 
-        readonly RequestRepository _requestRepository;
         readonly ExecutorRepository _executorRepository;
+        readonly BatteryRepository _batteryRepository;
+        readonly ChamberRepository _chamberRepository;
+        readonly TesterRepository _testerRepository;
 
         #endregion // Fields
 
         #region Constructor
 
-        public AllExecutorsViewModel(ExecutorRepository executorRepository, RequestRepository requestRepository)
+        public AllExecutorsViewModel(ExecutorRepository executorRepository, BatteryRepository batteryRepository, ChamberRepository chamberRepository, TesterRepository testerRepository)
         {
             if (executorRepository == null)
                 throw new ArgumentNullException("executorRepository");
 
-            if (requestRepository == null)
-                throw new ArgumentNullException("requestRepository");
+            if (batteryRepository == null)
+                throw new ArgumentNullException("batteryRepository");
+
+            if (chamberRepository == null)
+                throw new ArgumentNullException("chamberRepository");
+
+            if (testerRepository == null)
+                throw new ArgumentNullException("testerRepository");
 
             base.DisplayName = Resources.AllExecutorsViewModel_DisplayName;
 
             _executorRepository = executorRepository;
 
+            _batteryRepository = batteryRepository;
+
+            _chamberRepository = chamberRepository;
+
+            _testerRepository = testerRepository;
+
             // Subscribe for notifications of when a new customer is saved.
             _executorRepository.ItemAdded += this.OnExecutorAddedToRepository;
-
-            _requestRepository = requestRepository;
-
-            // Subscribe for notifications of when a new customer is saved.
-            _requestRepository.ItemAdded += this.OnRequestAddedToRepository;
 
             // Populate the AllCustomers collection with RequestModelViewModels.
             this.CreateAllExecutors();
@@ -55,7 +64,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
         {
             List<ExecutorViewModel> all =
                 (from exe in _executorRepository.GetItems()
-                 select new ExecutorViewModel(exe, _executorRepository)).ToList();
+                 select new ExecutorViewModel(exe, _executorRepository, _batteryRepository, _chamberRepository, _testerRepository)).ToList();
 
             //foreach (RequestModelViewModel batmod in all)
             //batmod.PropertyChanged += this.OnRequestModelViewModelPropertyChanged;
@@ -121,20 +130,8 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
 
         void OnExecutorAddedToRepository(object sender, ItemAddedEventArgs<ExecutorClass> e)
         {
-            var viewModel = new ExecutorViewModel(e.NewItem, _executorRepository);
+            var viewModel = new ExecutorViewModel(e.NewItem, _executorRepository, _batteryRepository, _chamberRepository, _testerRepository);
             this.AllExecutors.Add(viewModel);
-        }
-
-        void OnRequestAddedToRepository(object sender, ItemAddedEventArgs<RequestClass> e)
-        {
-            //var viewModel = new RequestViewModel(e.NewItem, _requestRepository);
-            //this.AllRequests.Add(viewModel);
-            var executors = (from sp in e.NewItem.RequestedProgram.RequestedSubPrograms
-             from rec in sp.RequestedRecipes
-             from exe in rec.Executors
-             select exe).ToList();
-            foreach(var exe in executors)
-                _executorRepository.AddItem(exe);
         }
 
         #endregion // Event Handling Methods

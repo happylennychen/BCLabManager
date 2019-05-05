@@ -27,7 +27,7 @@
 
 
         <!--DataTemplate for Published Date column defined in Grid.Resources.  PublishDate is a property on the ItemsSource of type DateTime -->
-        <DataTemplate x:Key="DateTemplate" >
+        <DataTemplate x:Key="StartTimeTemplate" >
             <StackPanel Width="20" Height="30">
                 <Border Background="LightBlue" BorderBrush="Black" BorderThickness="1">
                     <TextBlock Text="{Binding StartTime, StringFormat={}{0:MMM}}" FontSize="8" HorizontalAlignment="Center" />
@@ -38,8 +38,55 @@
             </StackPanel>
         </DataTemplate>
         <!--DataTemplate for the Published Date column when in edit mode. -->
-        <DataTemplate x:Key="EditingDateTemplate">
-            <DatePicker SelectedDate="{Binding PublishDate}"  />
+        <DataTemplate x:Key="EditingStartTimeTemplate">
+            <DatePicker SelectedDate="{Binding StartTime}"  />
+        </DataTemplate>
+        <!--DataTemplate for Published Date column defined in Grid.Resources.  PublishDate is a property on the ItemsSource of type DateTime -->
+        <DataTemplate x:Key="EndTimeTemplate" >
+            <StackPanel Width="20" Height="30">
+                <Border Background="LightBlue" BorderBrush="Black" BorderThickness="1">
+                    <TextBlock Text="{Binding EndTime, StringFormat={}{0:MMM}}" FontSize="8" HorizontalAlignment="Center" />
+                </Border>
+                <Border Background="White" BorderBrush="Black" BorderThickness="1">
+                    <TextBlock Text="{Binding EndTime, StringFormat={}{0:yyyy}}" FontSize="8" FontWeight="Bold" HorizontalAlignment="Center" />
+                </Border>
+            </StackPanel>
+        </DataTemplate>
+        <!--DataTemplate for the Published Date column when in edit mode. -->
+        <DataTemplate x:Key="EditingEndTimeTemplate">
+            <DatePicker SelectedDate="{Binding EndTime}"  />
+        </DataTemplate>
+        <DataTemplate x:Key="BatteryTemplate">
+            <ComboBox 
+      ItemsSource="{Binding Path=AllBatteries, Mode=OneTime}"
+      SelectedItem="{Binding Path=Battery, ValidatesOnDataErrors=True}"
+      Validation.ErrorTemplate="{x:Null}"
+      >
+            </ComboBox>
+        </DataTemplate>
+        <DataTemplate x:Key="ChamberTemplate">
+            <ComboBox 
+      ItemsSource="{Binding Path=AllChambers, Mode=OneTime}"
+      SelectedItem="{Binding Path=Chamber, ValidatesOnDataErrors=True}"
+      Validation.ErrorTemplate="{x:Null}"
+      >
+            </ComboBox>
+        </DataTemplate>
+        <DataTemplate x:Key="TesterTemplate">
+            <ComboBox 
+      ItemsSource="{Binding Path=AllTesters, Mode=OneTime}"
+      SelectedItem="{Binding Path=Tester, ValidatesOnDataErrors=True}"
+      Validation.ErrorTemplate="{x:Null}"
+      >
+            </ComboBox>
+        </DataTemplate>
+        <DataTemplate x:Key="TesterChannelTemplate">
+            <ComboBox 
+      ItemsSource="{Binding Path=AllTesterChannels, Mode=OneTime}"
+      SelectedItem="{Binding Path=TesterChannel, ValidatesOnDataErrors=True}"
+      Validation.ErrorTemplate="{x:Null}"
+      >
+            </ComboBox>
         </DataTemplate>
     </UserControl.Resources>
     <DataGrid 
@@ -51,7 +98,16 @@
             <DataGridTextColumn Header="ID"  Binding="{Binding ExecutorID}" IsReadOnly="True"/>
             <DataGridTextColumn Header="Status" Binding="{Binding Status}" IsReadOnly="True"/>
             <DataGridTextColumn Header="Description" Binding="{Binding Description}" IsReadOnly="False"/>
-            <DataGridTemplateColumn Header="Start Time" CellTemplate="{StaticResource DateTemplate}" CellEditingTemplate="{StaticResource EditingDateTemplate}" />
+            <DataGridTemplateColumn Header="Start Time" CellTemplate="{StaticResource StartTimeTemplate}" CellEditingTemplate="{StaticResource EditingStartTimeTemplate}" />
+            <DataGridTemplateColumn Header="End Time" CellTemplate="{StaticResource EndTimeTemplate}" CellEditingTemplate="{StaticResource EditingEndTimeTemplate}" />
+            <DataGridTemplateColumn Header="Battery" CellTemplate="{StaticResource BatteryTemplate}"/>
+            <DataGridTemplateColumn Header="Chamber" CellTemplate="{StaticResource ChamberTemplate}"/>
+            <DataGridTemplateColumn Header="Tester" CellTemplate="{StaticResource TesterTemplate}"/>
+            <DataGridTemplateColumn Header="Tester Channel" CellTemplate="{StaticResource TesterChannelTemplate}"/>
+            <DataGridTextColumn Header="Request ID"  Binding="{Binding RequestID}" IsReadOnly="True"/>
+            <DataGridTextColumn Header="Program ID"  Binding="{Binding ProgramID}" IsReadOnly="True"/>
+            <DataGridTextColumn Header="SubProgram ID"  Binding="{Binding SubProgramID}" IsReadOnly="True"/>
+            <DataGridTextColumn Header="Recipe ID"  Binding="{Binding RecipeID}" IsReadOnly="True"/>
             <!--The Email property contains a URI.  For example "mailto:lucy0@adventure-works.com"
             <DataGridHyperlinkColumn Header="Email" Binding="{Binding Email}"  ContentBinding="{Binding Email, Converter={StaticResource EmailConverter}}" />
             <DataGridCheckBoxColumn Header="Member?" Binding="{Binding IsMember}" />

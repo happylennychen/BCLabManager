@@ -411,6 +411,7 @@ namespace O2Micro.BCLabManager.Shell.Model
 
         public RequestedProgramClass(RequestClass Request, ProgramClass pro, Int32 Priority)
         {
+            this.Request = Request;
             this.Program = pro;
             this.Priority = Priority;      //Inherited from request
             this.RequestedSubPrograms = new List<RequestedSubProgramClass>();
@@ -442,7 +443,7 @@ namespace O2Micro.BCLabManager.Shell.Model
         public Int32 Priority { get; set; }
         public RequestedProgramClass RequestedProgram { get; set; }
 
-        public Int32 SubProgramNumber 
+        public Int32 SubProgramNumber //view
         {
             get
             {
@@ -451,7 +452,7 @@ namespace O2Micro.BCLabManager.Shell.Model
         }
         public Double InvalidRate { get { return InvalidNumber / SubProgramNumber; } }
 
-        public Int32 CompletedNumber 
+        public Int32 CompletedNumber  //view
         {
             get
             {
@@ -465,7 +466,7 @@ namespace O2Micro.BCLabManager.Shell.Model
                     ).Count();
             }
         }
-        public Int32 ExecutingNumber
+        public Int32 ExecutingNumber //view
         {
             get
             {
@@ -479,7 +480,7 @@ namespace O2Micro.BCLabManager.Shell.Model
                     ).Count();
             }
         }
-        public Int32 WaitingNumber
+        public Int32 WaitingNumber //view
         {
             get
             {
@@ -493,7 +494,7 @@ namespace O2Micro.BCLabManager.Shell.Model
                     ).Count();
             }
         }
-        public Int32 AbandonedNumber
+        public Int32 AbandonedNumber //view
         {
             get
             {
@@ -507,7 +508,7 @@ namespace O2Micro.BCLabManager.Shell.Model
                     ).Count();
             }
         }
-        public Int32 InvalidNumber
+        public Int32 InvalidNumber //view
         {
             get
             {

@@ -88,6 +88,35 @@
       >
             </ComboBox>
         </DataTemplate>
+        <Style TargetType="ItemsControl">
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <DataTemplate x:Key="CommandsTemplate">
+            <ItemsControl IsTabStop="False" ItemsSource="{Binding}" Margin="6,2">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Margin="2,6">
+            <Button Command="{Binding Path=Command}">
+              <TextBlock Text="{Binding Path=DisplayName}" />
+            </Button>
+          </TextBlock>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </DataTemplate>
+        <DataTemplate x:Key="OperationsTemplate">
+            <ContentControl Content="{Binding Path=Commands}"
+          ContentTemplate="{StaticResource CommandsTemplate}">
+            </ContentControl>
+        </DataTemplate>
     </UserControl.Resources>
     <DataGrid 
       AlternationCount="2" 
@@ -108,6 +137,7 @@
             <DataGridTextColumn Header="Program ID"  Binding="{Binding ProgramID}" IsReadOnly="True"/>
             <DataGridTextColumn Header="SubProgram ID"  Binding="{Binding SubProgramID}" IsReadOnly="True"/>
             <DataGridTextColumn Header="Recipe ID"  Binding="{Binding RecipeID}" IsReadOnly="True"/>
+            <DataGridTemplateColumn Header="Operations" CellTemplate="{StaticResource OperationsTemplate}" IsReadOnly="True"/>
             <!--The Email property contains a URI.  For example "mailto:lucy0@adventure-works.com"
             <DataGridHyperlinkColumn Header="Email" Binding="{Binding Email}"  ContentBinding="{Binding Email, Converter={StaticResource EmailConverter}}" />
             <DataGridCheckBoxColumn Header="Member?" Binding="{Binding IsMember}" />

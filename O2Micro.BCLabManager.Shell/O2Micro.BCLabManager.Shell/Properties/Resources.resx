@@ -135,6 +135,21 @@
   <data name="BatteryViewModel_DisplayName" xml:space="preserve">
     <value>New battery</value>
   </data>
+  <data name="ExecutorViewModel_Command_Abandon" xml:space="preserve">
+    <value>Abandon</value>
+  </data>
+  <data name="ExecutorViewModel_Command_AssignAssets" xml:space="preserve">
+    <value>Assign Assets</value>
+  </data>
+  <data name="ExecutorViewModel_Command_Commit" xml:space="preserve">
+    <value>Commit</value>
+  </data>
+  <data name="ExecutorViewModel_Command_Execute" xml:space="preserve">
+    <value>Execute</value>
+  </data>
+  <data name="ExecutorViewModel_Command_Invalidate" xml:space="preserve">
+    <value>Invalidate</value>
+  </data>
   <data name="MainWindowViewModel_Command_CreateNewBattery" xml:space="preserve">
     <value>Create new battery</value>
   </data>

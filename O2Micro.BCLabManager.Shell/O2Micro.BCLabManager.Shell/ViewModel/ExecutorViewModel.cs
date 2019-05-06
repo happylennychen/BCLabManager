@@ -27,6 +27,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
         string _tester;
         string _testerchannel;
         RelayCommand _saveCommand;
+        ReadOnlyCollection<CommandViewModel> _commands;
 
         #endregion // Fields
 
@@ -354,6 +355,11 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             }
         }*/
 
+        #endregion // Presentation Properties
+
+        #region Commands
+
+
         /// <summary>
         /// Returns a command that saves the customer.
         /// </summary>
@@ -372,8 +378,49 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             }
         }
 
-        #endregion // Presentation Properties
+        /// <summary>
+        /// Returns a read-only list of commands 
+        /// that the UI can display and execute.
+        /// </summary>
+        public ReadOnlyCollection<CommandViewModel> Commands
+        {
+            get
+            {
+                if (_commands == null)
+                {
+                    List<CommandViewModel> cmds = this.CreateCommands();
+                    _commands = new ReadOnlyCollection<CommandViewModel>(cmds);
+                }
+                return _commands;
+            }
+        }
 
+        List<CommandViewModel> CreateCommands()
+        {
+            return new List<CommandViewModel>
+            {
+                new CommandViewModel(
+                    Resources.ExecutorViewModel_Command_Abandon,
+                    new RelayCommand(param => _executor.Abandon())),
+
+                new CommandViewModel(
+                    Resources.ExecutorViewModel_Command_AssignAssets,
+                    new RelayCommand(param => _executor.AssignAssets(_executor.Battery, _executor.Chamber, _executor.TesterChannel))),
+
+                new CommandViewModel(
+                    Resources.ExecutorViewModel_Command_Commit,
+                    new RelayCommand(param => _executor.Commit(_executor.Status, _executor.EndTime, _executor.Description))),
+
+                new CommandViewModel(
+                    Resources.ExecutorViewModel_Command_Execute,
+                    new RelayCommand(param => _executor.Execute(_executor.StartTime))),
+                    
+                new CommandViewModel(
+                    Resources.ExecutorViewModel_Command_Invalidate,
+                    new RelayCommand(param => _executor.Invalidate())),
+            };
+        }
+        #endregion //Commands
         #region Public Methods
 
         /// <summary>

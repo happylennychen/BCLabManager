@@ -362,7 +362,7 @@ namespace O2Micro.BCLabManager.Shell.DataAccess
             HistoricRegistration();
 
             // Subscribe for notifications of when a new customer is saved.
-            _requestRepository.ItemAdded += this.OnRequestAddedToRepository;
+            _requestRepository.ItemAdded += this.OnRequestAddedToRepository;    //对于添加新Request的事件，应该由_executorRepository来订阅
         }
 
         #region Event Handler

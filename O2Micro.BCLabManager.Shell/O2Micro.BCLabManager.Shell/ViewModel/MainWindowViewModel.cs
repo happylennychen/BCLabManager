@@ -131,16 +131,6 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
 
         #region Private Helpers
 
-        /*void CreateNewItem<TItemModel, TItemViewModel>()
-            where TItemModel : new()
-            where TItemViewModel:new(TItemModel)
-        {
-            TItemModel newItem = new TItemModel();
-            TItemViewModel workspace = new TItemViewModel(newItem);
-            this.Workspaces.Add(workspace);
-            this.SetActiveWorkspace(workspace);
-        }*/
-
         void CreateNewBatteryType()
         {
             BatteryTypeClass newBatteryType = new BatteryTypeClass();
@@ -218,7 +208,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
 
             if (workspace == null)
             {
-                workspace = new AllExecutorsViewModel(_repositories._executorRepository, _repositories._batteryRepository, _repositories._chamberRepository, _repositories._testerRepository);
+                workspace = new AllExecutorsViewModel(_repositories._requestRepository, _repositories._batteryRepository, _repositories._chamberRepository, _repositories._testerRepository);
                 this.Workspaces.Add(workspace);
             }
 

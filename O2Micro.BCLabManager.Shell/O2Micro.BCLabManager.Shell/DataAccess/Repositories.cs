@@ -294,7 +294,7 @@ namespace O2Micro.BCLabManager.Shell.DataAccess
             throw new NotImplementedException();
         }
     }
-
+    /*
     public class ExecutorRepository : RepositoryBase<ExecutorClass>
     {
         public ExecutorRepository(List<ExecutorClass> items)
@@ -310,7 +310,7 @@ namespace O2Micro.BCLabManager.Shell.DataAccess
             throw new NotImplementedException();
         }
     }
-
+    */
     public class Repositories
     {
         public BatteryTypeRepository _batterytypeRepository;
@@ -324,7 +324,7 @@ namespace O2Micro.BCLabManager.Shell.DataAccess
         public TesterRecipeRepository _testerrecipeRepository;
         public ProgramRepository _programRepository;
         public RequestRepository _requestRepository;// = new RequestRepository();
-        public ExecutorRepository _executorRepository;
+        //public ExecutorRepository _executorRepository;
 
 
         private List<BatteryTypeClass> BatteryTypes;// { get; set; }
@@ -362,13 +362,13 @@ namespace O2Micro.BCLabManager.Shell.DataAccess
             HistoricRegistration();
 
             // Subscribe for notifications of when a new customer is saved.
-            _requestRepository.ItemAdded += this.OnRequestAddedToRepository;    //对于添加新Request的事件，应该由_executorRepository来订阅
+            //_requestRepository.ItemAdded += this.OnRequestAddedToRepository;    //对于添加新Request的事件，应该由_executorRepository来订阅
         }
 
         #region Event Handler
 
 
-        void OnRequestAddedToRepository(object sender, ItemAddedEventArgs<RequestClass> e)
+        /*void OnRequestAddedToRepository(object sender, ItemAddedEventArgs<RequestClass> e)
         {
             //var viewModel = new RequestViewModel(e.NewItem, _requestRepository);
             //this.AllRequests.Add(viewModel);
@@ -378,7 +378,7 @@ namespace O2Micro.BCLabManager.Shell.DataAccess
                              select exe).ToList();
             foreach (var exe in executors)
                 _executorRepository.AddItem(exe);
-        }
+        }*/
         #endregion  // Event Handler
         #region debugger
         [Conditional("DEBUG")]
@@ -1028,7 +1028,7 @@ namespace O2Micro.BCLabManager.Shell.DataAccess
             InitAssets();
             InitPrograms();
             InitRequests();
-            InitExecutors();
+            //InitExecutors();  //用Requests就够了，如非必要勿增实体
         }
 
         private void InitAssets()
@@ -1312,7 +1312,7 @@ namespace O2Micro.BCLabManager.Shell.DataAccess
             _subprogramRepository = new SubProgramRepository(SubPrograms);
             _programRepository = new ProgramRepository(Programs);
         }
-        private void InitRequests()
+        private void InitRequests() //实际中，Requests来自database中的Requests和Executors两张表
         {
             Requests = new List<RequestClass>();
             RequestClass Request = new RequestClass(Programs[0], "Francis", DateTime.Now, 2);
@@ -1333,6 +1333,7 @@ namespace O2Micro.BCLabManager.Shell.DataAccess
             Requests.Add(Request);
             _requestRepository = new RequestRepository(Requests);
         }
+        /*
         private void InitExecutors()    //实际使用中，_executorRepository来自database，而不是从requestRepository生成
         {
             Executors = (from req in _requestRepository.GetItems()
@@ -1342,7 +1343,7 @@ namespace O2Micro.BCLabManager.Shell.DataAccess
                          select exe).ToList();
             //from pro.
             _executorRepository = new ExecutorRepository(Executors);
-        }
+        }*/
 
         private void HistoricOperation()
         {

@@ -18,7 +18,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
         #region Fields
 
         readonly ExecutorClass _executor;
-        readonly ExecutorRepository _executorRepository;
+        //readonly ExecutorRepository _executorRepository;
         readonly BatteryRepository _batteryRepository;
         readonly ChamberRepository _chamberRepository;
         readonly TesterRepository _testerRepository;
@@ -26,20 +26,20 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
         string _chamber;
         string _tester;
         string _testerchannel;
-        RelayCommand _saveCommand;
+        //RelayCommand _saveCommand;
         ReadOnlyCollection<CommandViewModel> _commands;
 
         #endregion // Fields
 
         #region Constructor
 
-        public ExecutorViewModel(ExecutorClass executor, ExecutorRepository executorRepository, BatteryRepository batteryRepository, ChamberRepository chamberRepository, TesterRepository testerRepository)     //ExecutorView需要
+        public ExecutorViewModel(ExecutorClass executor, /*ExecutorRepository executorRepository,*/ BatteryRepository batteryRepository, ChamberRepository chamberRepository, TesterRepository testerRepository)     //ExecutorView需要
         {
             if (executor == null)
                 throw new ArgumentNullException("executor");
 
-            if (executorRepository == null)
-                throw new ArgumentNullException("executorRepository");
+            //if (executorRepository == null)
+            //throw new ArgumentNullException("executorRepository");
 
             if (batteryRepository == null)
                 throw new ArgumentNullException("batteryRepository");
@@ -51,7 +51,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
                 throw new ArgumentNullException("testerRepository");
 
             _executor = executor;
-            _executorRepository = executorRepository;
+            //_executorRepository = executorRepository;
             _batteryRepository = batteryRepository;
             _chamberRepository = chamberRepository;
             _testerRepository = testerRepository;
@@ -88,12 +88,40 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             }
         }
 
-        public ExecutorStatus Status
+        public string Status
         {
             get
             {
-                return _executor.Status;
+                return _executor.Status.ToString();
             }
+            /*set
+            {
+                if (value == _executor.Status.ToString())
+                    return;
+                switch (value)
+                {
+                    case "Abandoned":
+                        _executor.Status = ExecutorStatus.Abandoned;
+                        break;
+                    case "Completed":
+                        _executor.Status = ExecutorStatus.Completed;
+                        break;
+                    case "Executing":
+                        _executor.Status = ExecutorStatus.Executing;
+                        break;
+                    case "Invalid":
+                        _executor.Status = ExecutorStatus.Invalid;
+                        break;
+                    case "Ready":
+                        _executor.Status = ExecutorStatus.Ready;
+                        break;
+                    case "Waiting":
+                        _executor.Status = ExecutorStatus.Waiting;
+                        break;
+                }
+
+                base.OnPropertyChanged("Status");
+            }*/
         }
 
         public string Description
@@ -177,6 +205,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
                 List<BatteryClass> all = _batteryRepository.GetItems();
                 List<string> allstring = (
                     from i in all
+                    where i.Status == AssetStatusEnum.IDLE
                     select i.Name).ToList();
 
                 return new ObservableCollection<string>(allstring);
@@ -216,12 +245,20 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
                 List<ChamberClass> all = _chamberRepository.GetItems();
                 List<string> allstring = (
                     from i in all
+                    where i.Status == AssetStatusEnum.IDLE
                     select i.Name).ToList();
 
                 return new ObservableCollection<string>(allstring);
             }
         }
 
+        public bool IsChamberNeeded
+        {
+            get
+            {
+                return this._executor.RequestedRecipe.Recipe.ChamberRecipe != null;
+            }
+        }
         public String Tester
         {
             get
@@ -244,7 +281,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
 
                 _tester = value;
 
-                _executor.TesterChannel.Tester = _testerRepository.GetItems().First(i => i.Name == _tester);
+                //_executor.TesterChannel.Tester = _testerRepository.GetItems().First(i => i.Name == _tester);
 
                 base.OnPropertyChanged("Tester");
             }
@@ -283,8 +320,9 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
 
                 _testerchannel = value;
 
-                _executor.TesterChannel = _testerRepository.GetItems().First(i => i.Name == _executor.TesterChannel.Tester.Name).TesterChannels.First(j=>j.TesterChannelID == _executor.TesterChannel.TesterChannelID);
-
+                var tester = _testerRepository.GetItems().First(i => i.Name == _tester);
+                _executor.TesterChannel = tester.TesterChannels.First(j => j.TesterChannelID == Int32.Parse(_testerchannel));
+                //_executor.TesterChannel.Tester = tester;
                 base.OnPropertyChanged("TesterChannel");
             }
         }
@@ -293,13 +331,14 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
         {
             get
             {
-                if (_testerchannel == string.Empty || _testerchannel == null)
+                if (_tester == string.Empty || _tester == null)
                     return null;
                 else
                 {
-                    List<TesterChannelClass> all = _testerRepository.GetItems().First(i => i.Name == _testerchannel).TesterChannels;
+                    List<TesterChannelClass> all = _testerRepository.GetItems().First(i => i.Name == _tester).TesterChannels;
                     List<string> allstring = (
                         from i in all
+                        where i.Status == AssetStatusEnum.IDLE
                         select i.TesterChannelID.ToString()).ToList();
 
                     return new ObservableCollection<string>(allstring);
@@ -359,25 +398,6 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
 
         #region Commands
 
-
-        /// <summary>
-        /// Returns a command that saves the customer.
-        /// </summary>
-        public ICommand SaveCommand
-        {
-            get
-            {
-                if (_saveCommand == null)
-                {
-                    _saveCommand = new RelayCommand(
-                        param => { this.Save(); base.OnRequestClose(); },
-                        param => this.CanSave
-                        );
-                }
-                return _saveCommand;
-            }
-        }
-
         /// <summary>
         /// Returns a read-only list of commands 
         /// that the UI can display and execute.
@@ -401,63 +421,111 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             {
                 new CommandViewModel(
                     Resources.ExecutorViewModel_Command_Abandon,
-                    new RelayCommand(param => _executor.Abandon())),
+                    new RelayCommand(param => this.Abandon(),param => this.CanAbandon())),
 
                 new CommandViewModel(
                     Resources.ExecutorViewModel_Command_AssignAssets,
-                    new RelayCommand(param => _executor.AssignAssets(_executor.Battery, _executor.Chamber, _executor.TesterChannel))),
+                    new RelayCommand(param => this.AssignAssets(), param=>this.CanAssign())),
 
                 new CommandViewModel(
                     Resources.ExecutorViewModel_Command_Commit,
-                    new RelayCommand(param => _executor.Commit(_executor.Status, _executor.EndTime, _executor.Description))),
+                    new RelayCommand(param => this.Commit(), param=>this.CanCommit())),
 
                 new CommandViewModel(
                     Resources.ExecutorViewModel_Command_Execute,
-                    new RelayCommand(param => _executor.Execute(_executor.StartTime))),
+                    new RelayCommand(param => this.Execute(), param=>this.CanExecute())),
                     
                 new CommandViewModel(
                     Resources.ExecutorViewModel_Command_Invalidate,
-                    new RelayCommand(param => _executor.Invalidate())),
+                    new RelayCommand(param => this.Invalidate(), param=>this.CanInvalidate())),
             };
         }
         #endregion //Commands
+
         #region Public Methods
-
-        /// <summary>
-        /// Saves the customer to the repository.  This method is invoked by the SaveCommand.
-        /// </summary>
-        public void Save()
-        {
-            //if (!_batterymodel.IsValid)
-            //throw new InvalidOperationException(Resources.BatteryViewModel_Exception_CannotSave);
-
-            if (this.IsNewExecutor)
-                _executorRepository.AddItem(_executor);
-
-            base.OnPropertyChanged("DisplayName");
-        }
 
         #endregion // Public Methods
 
+        #region Event
+        /*public event EventHandler InvalidateInvoked;
+
+        protected virtual void OnRasieInvalidateInvokedEvent()
+        {
+            EventHandler handler = InvalidateInvoked;
+
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
+        }*/
+        #endregion  //Event
         #region Private Helpers
-
-        /// <summary>
-        /// Returns true if this customer was created by the user and it has not yet
-        /// been saved to the customer repository.
-        /// </summary>
-        bool IsNewExecutor
+        private void Abandon()
         {
-            get { return !_executorRepository.ContainsItem(_executor); }
+            this._executor.Abandon();
+            base.OnPropertyChanged("Status");
         }
-
-        /// <summary>
-        /// Returns true if the customer is valid and can be saved.
-        /// </summary>
-        bool CanSave
+        private bool CanAbandon()
         {
-            get { return true; }
+            if (this._executor.Status == ExecutorStatus.Abandoned)
+                return false;
+            else
+                return true;
         }
-
+        private void AssignAssets()
+        {
+            this._executor.AssignAssets(_executor.Battery, _executor.Chamber, _executor.TesterChannel);
+            base.OnPropertyChanged("Status");
+        }
+        private bool CanAssign()
+        {
+            if (this._executor.Status == ExecutorStatus.Waiting
+                && this._executor.Battery != null
+                && ((this._executor.Chamber != null) ^ (this._executor.RequestedRecipe.Recipe.ChamberRecipe == null))
+                && this._executor.TesterChannel != null)
+                return true;
+            else
+                return false;
+        }
+        private void Commit()
+        {
+            this._executor.Commit(ExecutorStatus.Completed, _executor.EndTime, _executor.Description);
+            base.OnPropertyChanged("Status");
+        }
+        private bool CanCommit()
+        {
+            if (this._executor.Status == ExecutorStatus.Executing
+                && this._executor.EndTime != null)
+                return true;
+            else
+                return false;
+        }
+        private void Execute()
+        {
+            this._executor.Execute(_executor.StartTime);
+            base.OnPropertyChanged("Status");
+        }
+        private bool CanExecute()
+        {
+            if (this._executor.Status == ExecutorStatus.Ready
+                && this._executor.StartTime != null)
+                return true;
+            else
+                return false;
+        }
+        private void Invalidate()
+        {
+            this._executor.Invalidate();
+            base.OnPropertyChanged("Status");
+            //this.OnRasieInvalidateInvokedEvent();
+        }
+        private bool CanInvalidate()
+        {
+            if (this._executor.Status == ExecutorStatus.Executing || this._executor.Status == ExecutorStatus.Completed)
+                return true;
+            else
+                return false;
+        }
         #endregion // Private Helpers
     }
 }

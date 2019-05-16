@@ -80,6 +80,13 @@ namespace O2Micro.BCLabManager.Shell.Model
         public void AssignAssets(BatteryClass Battery, ChamberClass Chamber, TesterChannelClass TesterChannel)
         {
 
+            if (this.Status != ExecutorStatus.Waiting)
+            {
+                //Todo: prompt warning message
+                System.Windows.MessageBox.Show("Only waiting task can be assign assets to!");
+                return;
+            }
+
             if (Battery.Status != AssetStatusEnum.IDLE)
             {
                 //Todo: prompt warning message
@@ -130,25 +137,16 @@ namespace O2Micro.BCLabManager.Shell.Model
                 return;
             }
 
-            if (this.Status == ExecutorStatus.Waiting)
+            this.Battery = Battery;
+            Battery.Status = AssetStatusEnum.ASSIGNED;
+            if (this.RequestedRecipe.Recipe.ChamberRecipe != null) //If there is no chamber recipe, then we don't need to assign chamber at all.
             {
-                this.Battery = Battery;
-                Battery.Status = AssetStatusEnum.ASSIGNED;
-                if (this.RequestedRecipe.Recipe.ChamberRecipe != null) //If there is no chamber recipe, then we don't need to assign chamber at all.
-                {
-                    this.Chamber = Chamber;
-                    Chamber.Status = AssetStatusEnum.ASSIGNED;
-                }
-                this.TesterChannel = TesterChannel;
-                TesterChannel.Status = AssetStatusEnum.ASSIGNED;
-                this.Status = ExecutorStatus.Ready;
+                this.Chamber = Chamber;
+                Chamber.Status = AssetStatusEnum.ASSIGNED;
             }
-            else
-            {
-                //Todo: prompt warning message
-                System.Windows.MessageBox.Show("Only waiting task can be assign assets to!");
-                return;
-            }
+            this.TesterChannel = TesterChannel;
+            TesterChannel.Status = AssetStatusEnum.ASSIGNED;
+            this.Status = ExecutorStatus.Ready;
         }
 
         public void Execute(DateTime StartTime)
@@ -213,10 +211,12 @@ namespace O2Micro.BCLabManager.Shell.Model
                 System.Windows.MessageBox.Show("Commit running task before abandon it!");
                 return;
             }
-            this.Battery.Status = AssetStatusEnum.IDLE;
+            if(this.Battery != null)
+                this.Battery.Status = AssetStatusEnum.IDLE;
             if (this.Chamber != null)
                 this.Chamber.Status = AssetStatusEnum.IDLE;
-            this.TesterChannel.Status = AssetStatusEnum.IDLE;
+            if (this.TesterChannel != null)
+                this.TesterChannel.Status = AssetStatusEnum.IDLE;
             this.Status = ExecutorStatus.Abandoned;
         }
 
@@ -229,6 +229,7 @@ namespace O2Micro.BCLabManager.Shell.Model
                     this.Chamber.Status = AssetStatusEnum.IDLE;
                 this.TesterChannel.Status = AssetStatusEnum.IDLE;
                 this.Status = ExecutorStatus.Invalid;
+                this.RequestedRecipe.AddExecutor();
             }
             else
             {

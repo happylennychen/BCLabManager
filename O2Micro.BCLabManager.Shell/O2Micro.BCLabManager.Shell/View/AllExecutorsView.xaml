@@ -6,17 +6,39 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-
+        
         <LinearGradientBrush x:Key="Brush_HeaderBackground" StartPoint="0.5,0" EndPoint="0.5,1">
             <GradientStop Color="#66000088" Offset="0" />
             <GradientStop Color="#BB000088" Offset="1" />
         </LinearGradientBrush>
-        <CollectionViewSource
-      x:Key="ExecutorGroups" 
+        <CollectionViewSource 
+      x:Key="AllGroup" 
       Source="{Binding Path=AllExecutors}"
       >
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Status"/>
+            </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
 
+        <!--<CollectionViewSource
+      x:Key="Batteries" 
+      Source="{Binding Path=AllBatteries}"
+      />-->
+        <GroupStyle x:Key="DataGridGroupStyle">
+            <GroupStyle.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock 
+            x:Name="txt" 
+            Background="{StaticResource Brush_HeaderBackground}"
+            FontWeight="Bold"
+            Foreground="White"
+            Margin="5"
+            Padding="4,2,0,2"
+            Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}" 
+            />
+                </DataTemplate>
+            </GroupStyle.HeaderTemplate>
+        </GroupStyle>
         <Style x:Key="ExecutorItemStyle" TargetType="{x:Type DataGridRow}">
             <!-- 
       Stretch the content of each cell so that we can 
@@ -57,33 +79,45 @@
             <DatePicker SelectedDate="{Binding EndTime}"  />
         </DataTemplate>
         <DataTemplate x:Key="BatteryTemplate">
+            <TextBlock Text="{Binding Battery}"></TextBlock>
+        </DataTemplate>
+        <DataTemplate x:Key="EditingBatteryTemplate">
             <ComboBox 
       ItemsSource="{Binding Path=AllBatteries, Mode=OneTime}"
-      SelectedItem="{Binding Path=Battery, ValidatesOnDataErrors=True}"
+      SelectedItem="{Binding Path=Battery, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}"
       Validation.ErrorTemplate="{x:Null}"
       >
             </ComboBox>
         </DataTemplate>
         <DataTemplate x:Key="ChamberTemplate">
-            <ComboBox 
+            <TextBlock Text="{Binding Chamber}"></TextBlock>
+        </DataTemplate>
+        <DataTemplate x:Key="EditingChamberTemplate">
+            <ComboBox IsEnabled="{Binding Path=IsChamberNeeded}"
       ItemsSource="{Binding Path=AllChambers, Mode=OneTime}"
-      SelectedItem="{Binding Path=Chamber, ValidatesOnDataErrors=True}"
+      SelectedItem="{Binding Path=Chamber, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}"
       Validation.ErrorTemplate="{x:Null}"
       >
             </ComboBox>
         </DataTemplate>
         <DataTemplate x:Key="TesterTemplate">
+            <TextBlock Text="{Binding Tester}"></TextBlock>
+        </DataTemplate>
+        <DataTemplate x:Key="EditingTesterTemplate">
             <ComboBox 
       ItemsSource="{Binding Path=AllTesters, Mode=OneTime}"
-      SelectedItem="{Binding Path=Tester, ValidatesOnDataErrors=True}"
+      SelectedItem="{Binding Path=Tester, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}"
       Validation.ErrorTemplate="{x:Null}"
       >
             </ComboBox>
         </DataTemplate>
         <DataTemplate x:Key="TesterChannelTemplate">
+            <TextBlock Text="{Binding TesterChannel}"></TextBlock>
+        </DataTemplate>
+        <DataTemplate x:Key="EditingTesterChannelTemplate">
             <ComboBox 
       ItemsSource="{Binding Path=AllTesterChannels, Mode=OneTime}"
-      SelectedItem="{Binding Path=TesterChannel, ValidatesOnDataErrors=True}"
+      SelectedItem="{Binding Path=TesterChannel, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}"
       Validation.ErrorTemplate="{x:Null}"
       >
             </ComboBox>
@@ -118,21 +152,28 @@
             </ContentControl>
         </DataTemplate>
     </UserControl.Resources>
-    <DataGrid 
+    <DataGrid
       AlternationCount="2" 
-      DataContext="{StaticResource ExecutorGroups}" 
+      DataContext="{StaticResource AllGroup}" 
       ItemContainerStyle="{StaticResource ExecutorItemStyle}"
       ItemsSource="{Binding}" AutoGenerateColumns="False" >
+        <DataGrid.GroupStyle>
+            <StaticResourceExtension 
+          ResourceKey="DataGridGroupStyle" 
+          />
+        </DataGrid.GroupStyle>
         <DataGrid.Columns>
             <DataGridTextColumn Header="ID"  Binding="{Binding ExecutorID}" IsReadOnly="True"/>
-            <DataGridTextColumn Header="Status" Binding="{Binding Status}" IsReadOnly="True"/>
-            <DataGridTextColumn Header="Description" Binding="{Binding Description}" IsReadOnly="False"/>
+            <DataGridTextColumn Header="Status" Binding="{Binding Status, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+            <DataGridTextColumn Header="Description" Binding="{Binding Description, UpdateSourceTrigger=LostFocus}" IsReadOnly="False"/>
             <DataGridTemplateColumn Header="Start Time" CellTemplate="{StaticResource StartTimeTemplate}" CellEditingTemplate="{StaticResource EditingStartTimeTemplate}" />
             <DataGridTemplateColumn Header="End Time" CellTemplate="{StaticResource EndTimeTemplate}" CellEditingTemplate="{StaticResource EditingEndTimeTemplate}" />
-            <DataGridTemplateColumn Header="Battery" CellTemplate="{StaticResource BatteryTemplate}"/>
-            <DataGridTemplateColumn Header="Chamber" CellTemplate="{StaticResource ChamberTemplate}"/>
-            <DataGridTemplateColumn Header="Tester" CellTemplate="{StaticResource TesterTemplate}"/>
-            <DataGridTemplateColumn Header="Tester Channel" CellTemplate="{StaticResource TesterChannelTemplate}"/>
+            <DataGridTemplateColumn Header="Battery" CellTemplate="{StaticResource BatteryTemplate}" CellEditingTemplate="{StaticResource EditingBatteryTemplate}"/>
+            <!--<DataGridComboBoxColumn Header="Battery2" ItemsSource="{StaticResource Batteries}"
+                                    SelectedItemBinding="{Binding Path=Battery, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}"/>-->
+            <DataGridTemplateColumn Header="Chamber" CellTemplate="{StaticResource ChamberTemplate}" CellEditingTemplate="{StaticResource EditingChamberTemplate}"/>
+            <DataGridTemplateColumn Header="Tester" CellTemplate="{StaticResource TesterTemplate}" CellEditingTemplate="{StaticResource EditingTesterTemplate}"/>
+            <DataGridTemplateColumn Header="Tester Channel" CellTemplate="{StaticResource TesterChannelTemplate}" CellEditingTemplate="{StaticResource EditingTesterChannelTemplate}"/>
             <DataGridTextColumn Header="Request ID"  Binding="{Binding RequestID}" IsReadOnly="True"/>
             <DataGridTextColumn Header="Program ID"  Binding="{Binding ProgramID}" IsReadOnly="True"/>
             <DataGridTextColumn Header="SubProgram ID"  Binding="{Binding SubProgramID}" IsReadOnly="True"/>
@@ -144,69 +185,4 @@
             <DataGridComboBoxColumn Header="Order Status"  SelectedItemBinding="{Binding Status}" ItemsSource="{Binding Source={StaticResource myEnum}}" />-->
         </DataGrid.Columns>
     </DataGrid>
-    <!--
-    <ListView 
-      AlternationCount="2" 
-      DataContext="{StaticResource ExecutorGroups}" 
-      ItemContainerStyle="{StaticResource ExecutorItemStyle}"
-      ItemsSource="{Binding}"
-      >
-
-        <ListView.View>
-            <GridView>
-                <GridViewColumn 
-            Header="ID" 
-            DisplayMemberBinding="{Binding Path=ExecutorID}" 
-            />
-                <GridViewColumn 
-            Header="Status" 
-            DisplayMemberBinding="{Binding Path=Status}" 
-            />
-                <GridViewColumn 
-            Header="Description" 
-            DisplayMemberBinding="{Binding Path=Description}" 
-            />
-                <GridViewColumn 
-            Header="StartTime" 
-            DisplayMemberBinding="{Binding Path=StartTime}" 
-            />
-                <GridViewColumn 
-            Header="EndTime" 
-            DisplayMemberBinding="{Binding Path=EndTime}" 
-            />
-                <GridViewColumn 
-            Header="Battery" 
-            DisplayMemberBinding="{Binding Path=Battery}" 
-            />
-                <GridViewColumn 
-            Header="TotalNumber" 
-            DisplayMemberBinding="{Binding Path=TotalNumber}" 
-            />
-                <GridViewColumn 
-            Header="CompletedNumber" 
-            DisplayMemberBinding="{Binding Path=CompletedNumber}" 
-            />
-                <GridViewColumn 
-            Header="ExecutingNumber" 
-            DisplayMemberBinding="{Binding Path=ExecutingNumber}" 
-            />
-                <GridViewColumn 
-            Header="WaitingNumber" 
-            DisplayMemberBinding="{Binding Path=WaitingNumber}" 
-            />
-                <GridViewColumn 
-            Header="AbandonedNumber" 
-            DisplayMemberBinding="{Binding Path=AbandonedNumber}" 
-            />
-                <GridViewColumn 
-            Header="InvalidNumber" 
-            DisplayMemberBinding="{Binding Path=InvalidNumber}" 
-            />
-                <GridViewColumn 
-            Header="InvalidRate" 
-            DisplayMemberBinding="{Binding Path=InvalidRate}" 
-            />
-            </GridView>
-        </ListView.View>
-    </ListView>-->
 </UserControl>

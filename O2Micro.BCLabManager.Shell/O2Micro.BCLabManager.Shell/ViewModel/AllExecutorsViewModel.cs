@@ -60,6 +60,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
 
             // Populate the AllCustomers collection with RequestModelViewModels.
             this.CreateAllExecutors();
+            this.BookExecutorAddedEvent();
         }
         void CreateAllExecutors()
         {
@@ -74,6 +75,26 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             //batmod.PropertyChanged += this.OnRequestModelViewModelPropertyChanged;
 
             this._allExecutors = new ObservableCollection<ExecutorViewModel>(all);
+        }
+        void BookExecutorAddedEvent()
+        {
+            var all =
+                (from req in _requestRepository.GetItems()
+                 from sub in req.RequestedProgram.RequestedSubPrograms
+                 from rec in sub.RequestedRecipes
+                 select rec).ToList();
+            foreach (var rec in all)
+            {
+                rec.ExecutorAdded += new EventHandler(rec_ExecutorAdded);
+            }
+        }
+
+        void rec_ExecutorAdded(object sender, EventArgs e)
+        {
+            ExecutorAddedEventArgs arg = e as ExecutorAddedEventArgs;
+            if (arg == null)
+                throw new ArgumentNullException("ExecutorAddedEventArgs");
+            this._allExecutors.Add(new ExecutorViewModel(arg.NewExecutor, _batteryRepository, _chamberRepository, _testerRepository));
         }
 
         #endregion // Constructor

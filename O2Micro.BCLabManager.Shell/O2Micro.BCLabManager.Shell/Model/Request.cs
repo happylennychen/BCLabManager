@@ -5,6 +5,19 @@ using System.Text;
 
 namespace O2Micro.BCLabManager.Shell.Model
 {
+    /// <summary>
+    /// Event arguments used by RepositoryBase's IItemAdded event.
+    /// </summary>
+    public class ExecutorAddedEventArgs : EventArgs
+    {
+        public ExecutorAddedEventArgs(ExecutorClass newExecutor)
+        {
+            this.NewExecutor = newExecutor;
+        }
+
+        public ExecutorClass NewExecutor { get; private set; }
+    }
+
     public enum ExecutorStatus
     {
         Waiting,
@@ -274,7 +287,22 @@ namespace O2Micro.BCLabManager.Shell.Model
             ExecutorClass Executor = new ExecutorClass(this);
             Executor.StatusChanged += new EventHandler(Recipe.Executor_StatusChanged);
             this.Executors.Add(Executor);
+            OnRasieExecutorAddedEvent(Executor);    //Notify viewmodel
         }
+        #region event   //Used by viewmodel
+        public event EventHandler ExecutorAdded;
+
+        protected virtual void OnRasieExecutorAddedEvent(ExecutorClass executor)
+        {
+            EventHandler handler = ExecutorAdded;
+            ExecutorAddedEventArgs arg = new ExecutorAddedEventArgs(executor);
+
+            if (handler != null)
+            {
+                handler(this, arg);
+            }
+        }
+        #endregion //event
     }
 
     public class RequestedSubProgramClass

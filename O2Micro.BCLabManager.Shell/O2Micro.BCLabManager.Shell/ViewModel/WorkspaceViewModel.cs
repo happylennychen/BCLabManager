@@ -13,6 +13,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
         #region Fields
 
         RelayCommand _closeCommand;
+        MainWindowViewModel _mainWindowViewModel;    //Sometimes closable tabs need to access the mainviewmodel so it can create new tabs
 
         #endregion // Fields
 
@@ -22,7 +23,24 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
         {
         }
 
+        //protected WorkspaceViewModel(MainWindowViewModel mainWindowViewModel)
+        //{
+        //    _mainWindowViewModel = mainWindowViewModel;
+        //}
+
         #endregion // Constructor
+
+        public MainWindowViewModel mainWindowViewModel 
+        {
+            get
+            {
+                return _mainWindowViewModel;
+            }
+            set
+            {
+                _mainWindowViewModel = value;
+            }
+        }
 
         #region CloseCommand
 

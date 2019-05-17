@@ -26,6 +26,15 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
 
         #region Constructor
 
+        public AllBatteryTypesViewModel(MainWindowViewModel mainWindowViewModel, BatteryTypeRepository batterytypeRepository)
+            : this(batterytypeRepository)
+        {
+            base.mainWindowViewModel = mainWindowViewModel;
+
+            // Populate the AllCustomers collection with BatteryModelViewModels.
+            this.CreateAllBatteryModels();      
+        }
+
         public AllBatteryTypesViewModel(BatteryTypeRepository batterytypeRepository)
         {
             if (batterytypeRepository == null)
@@ -36,17 +45,14 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             _batterytypeRepository = batterytypeRepository;
 
             // Subscribe for notifications of when a new customer is saved.
-            _batterytypeRepository.ItemAdded += this.OnBatteryModelAddedToRepository;
-
-            // Populate the AllCustomers collection with BatteryModelViewModels.
-            this.CreateAllBatteryModels();           
+            _batterytypeRepository.ItemAdded += this.OnBatteryModelAddedToRepository;     
         }
 
         void CreateAllBatteryModels()
         {
             List<BatteryTypeViewModel> all =
                 (from bat in _batterytypeRepository.GetItems()
-                 select new BatteryTypeViewModel(bat, _batterytypeRepository)).ToList();
+                 select new BatteryTypeViewModel(base.mainWindowViewModel, bat, _batterytypeRepository)).ToList();
 
             //foreach (BatteryModelViewModel batmod in all)
                 //batmod.PropertyChanged += this.OnBatteryModelViewModelPropertyChanged;
@@ -112,7 +118,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
 
         void OnBatteryModelAddedToRepository(object sender, ItemAddedEventArgs<BatteryTypeClass> e)
         {
-            var viewModel = new BatteryTypeViewModel(e.NewItem, _batterytypeRepository);
+            var viewModel = new BatteryTypeViewModel(base.mainWindowViewModel, e.NewItem, _batterytypeRepository);
             this.AllBatteryModels.Add(viewModel);
         }
 

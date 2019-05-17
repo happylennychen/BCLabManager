@@ -15,7 +15,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
     /// <summary>
     /// The ViewModel for the application's main window.
     /// </summary>
-    public class MainWindowViewModel : WorkspaceViewModel
+    public class MainWindowViewModel : ViewModelBase
     {
         #region Fields
 
@@ -129,6 +129,18 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
 
         #endregion // Workspaces
 
+        #region public interface
+        public void SetActiveWorkspace(WorkspaceViewModel workspace)
+        {
+            Debug.Assert(this.Workspaces.Contains(workspace));
+
+            ICollectionView collectionView = CollectionViewSource.GetDefaultView(this.Workspaces);
+            if (collectionView != null)
+                collectionView.MoveCurrentTo(workspace);
+        }
+
+        #endregion
+
         #region Private Helpers
 
         void CreateNewBatteryType()
@@ -147,7 +159,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
 
             if (workspace == null)
             {
-                workspace = new AllBatteryTypesViewModel(_repositories._batterytypeRepository);
+                workspace = new AllBatteryTypesViewModel(this, _repositories._batterytypeRepository);
                 this.Workspaces.Add(workspace);
             }
 
@@ -213,15 +225,6 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             }
 
             this.SetActiveWorkspace(workspace);
-        }
-
-        void SetActiveWorkspace(WorkspaceViewModel workspace)
-        {
-            Debug.Assert(this.Workspaces.Contains(workspace));
-
-            ICollectionView collectionView = CollectionViewSource.GetDefaultView(this.Workspaces);
-            if (collectionView != null)
-                collectionView.MoveCurrentTo(workspace);
         }
 
         #endregion // Private Helpers

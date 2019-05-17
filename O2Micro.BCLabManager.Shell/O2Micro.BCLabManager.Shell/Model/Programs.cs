@@ -22,7 +22,13 @@ namespace O2Micro.BCLabManager.Shell.Model
         public BatteryTypeClass BatteryType { get; set; }
         public String Name { get; set; }
         public List<SubProgramClass> SubPrograms { get; set; }
-        public TimeSpan EstimateDuration { get; set; }
+        public TimeSpan EstimateDuration
+        {
+            get
+            {
+                return TimeSpan.FromSeconds(this.SubPrograms.Sum(o => o.EstimateDuration.TotalSeconds));
+            }
+        }
 
         public ProgramClass(Int32 ProgramID, BatteryTypeClass BatteryType, String Name, List<SubProgramClass> SubPrograms)
         {
@@ -30,10 +36,10 @@ namespace O2Micro.BCLabManager.Shell.Model
             this.BatteryType = BatteryType;
             this.Name = Name;
             this.SubPrograms = SubPrograms;
-            foreach (var SubProgram in SubPrograms)
-            {
-                SubProgram.EstimateDurationChanged+=new EventHandler(SubProgram_EstimateDurationChanged);
-            }
+            //foreach (var SubProgram in SubPrograms)
+            //{
+            //    SubProgram.EstimateDurationChanged+=new EventHandler(SubProgram_EstimateDurationChanged);
+            //}
         }
         public ProgramClass(BatteryTypeClass BatteryType, String Name, List<SubProgramClass> SubPrograms)
         {
@@ -41,25 +47,25 @@ namespace O2Micro.BCLabManager.Shell.Model
             this.BatteryType = BatteryType;
             this.Name = Name;
             this.SubPrograms = SubPrograms;
-            foreach (var SubProgram in SubPrograms)
-            {
-                SubProgram.EstimateDurationChanged += new EventHandler(SubProgram_EstimateDurationChanged);
-            }
+            //foreach (var SubProgram in SubPrograms)
+            //{
+            //    SubProgram.EstimateDurationChanged += new EventHandler(SubProgram_EstimateDurationChanged);
+            //}
         }
 
-        public void SubProgram_EstimateDurationChanged(object sender, EventArgs e)  //可以不用event，而是把这个直接放到EstimateDuration的get里去。而且这个属于view而非model
-        {
-            try
-            {
-                //SubProgramClass Executor = (SubProgramClass)sender;
-                EstimateDuration = TimeSpan.FromSeconds(this.SubPrograms.Sum(o => o.EstimateDuration.TotalSeconds));
-            }
-            catch
-            {
-                //sender is not a SubProgramClass type
-                return;
-            }
-        }
+        //public void SubProgram_EstimateDurationChanged(object sender, EventArgs e)  //可以不用event，而是把这个直接放到EstimateDuration的get里去。而且这个属于view而非model
+        //{
+        //    try
+        //    {
+        //        //SubProgramClass Executor = (SubProgramClass)sender;
+        //        EstimateDuration = TimeSpan.FromSeconds(this.SubPrograms.Sum(o => o.EstimateDuration.TotalSeconds));
+        //    }
+        //    catch
+        //    {
+        //        //sender is not a SubProgramClass type
+        //        return;
+        //    }
+        //}
     }
 
     // Summary:
@@ -77,68 +83,60 @@ namespace O2Micro.BCLabManager.Shell.Model
         }
         public Int32 SubProgramID { get; set; }
         public List<RecipeClass> Recipes { get; set; }
-        private TimeSpan estimateDuration = new TimeSpan();
+        //private TimeSpan estimateDuration = new TimeSpan();
         public TimeSpan EstimateDuration
         {
             get
             {
-                return estimateDuration;
-            }
-            set
-            {
-                if (value != estimateDuration)
-                {
-                    estimateDuration = value;
-                    OnRasieEstimateDurationChangedEvent();
-                }
+                return TimeSpan.FromSeconds(this.Recipes.Sum(o => o.EstimateDuration.TotalSeconds)); ;
             }
         }
 
-        public event EventHandler EstimateDurationChanged;
+        //public event EventHandler EstimateDurationChanged;
 
-        protected virtual void OnRasieEstimateDurationChangedEvent()
-        {
-            EventHandler handler = EstimateDurationChanged;
+        //protected virtual void OnRasieEstimateDurationChangedEvent()
+        //{
+        //    EventHandler handler = EstimateDurationChanged;
 
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
-        }
+        //    if (handler != null)
+        //    {
+        //        handler(this, EventArgs.Empty);
+        //    }
+        //}
 
         public SubProgramClass(Int32 SubProgramID, List<RecipeClass> Recipes)
         {
             this.SubProgramID = SubProgramID;
             this.Recipes = Recipes;
-            foreach (var Recipe in Recipes)
-            {
-                Recipe.EstimateDurationChanged += new EventHandler(Recipe_EstimateDurationChanged);
-            }
+            //foreach (var Recipe in Recipes)
+            //{
+            //    Recipe.EstimateDurationChanged += new EventHandler(Recipe_EstimateDurationChanged);
+            //}
         }
 
         public SubProgramClass(List<RecipeClass> Recipes)
         {
             this.SubProgramID = NextID;
             this.Recipes = Recipes;
-            foreach (var Recipe in Recipes)
-            {
-                Recipe.EstimateDurationChanged += new EventHandler(Recipe_EstimateDurationChanged);
-            }
+            //foreach (var Recipe in Recipes)
+            //{
+            //    Recipe.EstimateDurationChanged += new EventHandler(Recipe_EstimateDurationChanged);
+            //}
         }
 
-        public void Recipe_EstimateDurationChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                //RecipeClass Recipe = (RecipeClass)sender;
-                EstimateDuration = TimeSpan.FromSeconds(this.Recipes.Sum(o => o.EstimateDuration.TotalSeconds));
-            }
-            catch
-            {
-                //sender is not a RecipeClass type
-                return;
-            }
-        }
+        //public void Recipe_EstimateDurationChanged(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        //RecipeClass Recipe = (RecipeClass)sender;
+        //        EstimateDuration = TimeSpan.FromSeconds(this.Recipes.Sum(o => o.EstimateDuration.TotalSeconds));
+        //    }
+        //    catch
+        //    {
+        //        //sender is not a RecipeClass type
+        //        return;
+        //    }
+        //}
     }
 
     // Summary:
@@ -169,22 +167,22 @@ namespace O2Micro.BCLabManager.Shell.Model
                 if (value != estimateDuration)
                 {
                     estimateDuration = value;
-                    OnRasieEstimateDurationChangedEvent();
+                    //OnRasieEstimateDurationChangedEvent();
                 }
             }
         }
 
-        public event EventHandler EstimateDurationChanged;
+        //public event EventHandler EstimateDurationChanged;
 
-        protected virtual void OnRasieEstimateDurationChangedEvent()
-        {
-            EventHandler handler = EstimateDurationChanged;
+        //protected virtual void OnRasieEstimateDurationChangedEvent()
+        //{
+        //    EventHandler handler = EstimateDurationChanged;
 
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
-        }
+        //    if (handler != null)
+        //    {
+        //        handler(this, EventArgs.Empty);
+        //    }
+        //}
 
         public RecipeClass(Int32 RecipeID, TesterRecipeClass TesterRecipe, ChamberRecipeClass ChamberRecipe)
         {

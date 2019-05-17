@@ -18,10 +18,17 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
         readonly BatteryTypeRepository _batterytypeRepository;
         //bool _isSelected;
         RelayCommand _saveCommand;
+        RelayCommand _saveAsCommand;
 
         #endregion // Fields
 
         #region Constructor
+
+        public BatteryTypeViewModel(MainWindowViewModel mainWindowViewModel, BatteryTypeClass batterytype, BatteryTypeRepository batteryModelRepository)
+            : this(batterytype, batteryModelRepository)
+        {
+            base.mainWindowViewModel = mainWindowViewModel;
+        }
 
         public BatteryTypeViewModel(BatteryTypeClass batterytype, BatteryTypeRepository batteryModelRepository)
         {
@@ -118,6 +125,19 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
                 return _saveCommand;
             }
         }
+        public ICommand SaveAsCommand
+        {
+            get
+            {
+                if (_saveAsCommand == null)
+                {
+                    _saveAsCommand = new RelayCommand(
+                        param => { this.SaveAs();}
+                        );
+                }
+                return _saveAsCommand;
+            }
+        }
 
         #endregion // Presentation Properties
 
@@ -135,6 +155,26 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
                 _batterytypeRepository.AddItem(_batterytype);
             
             base.OnPropertyChanged("DisplayName");
+        }
+
+        /// <summary>
+        /// Create a new battery type, based on the given value.  This method is invoked by the SaveAsCommand.
+        /// </summary>
+        public void SaveAs()
+        {
+            BatteryTypeClass newBatteryType = 
+                new BatteryTypeClass(
+                    this._batterytype.Manufactor, 
+                    this._batterytype.Name, 
+                    this._batterytype.Material, 
+                    this._batterytype.LimitedChargeVoltage, 
+                    this._batterytype.RatedCapacity, 
+                    this._batterytype.NominalVoltage, 
+                    this._batterytype.TypicalCapacity, 
+                    this._batterytype.CutoffDischargeVoltage);
+            BatteryTypeViewModel workspace = new BatteryTypeViewModel(base.mainWindowViewModel, newBatteryType, this._batterytypeRepository);
+            this.mainWindowViewModel.Workspaces.Add(workspace);
+            this.mainWindowViewModel.SetActiveWorkspace(workspace);
         }
 
         #endregion // Public Methods

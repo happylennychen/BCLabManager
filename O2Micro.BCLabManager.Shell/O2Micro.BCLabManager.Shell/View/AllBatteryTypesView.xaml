@@ -47,6 +47,15 @@
             Header="Material" 
             DisplayMemberBinding="{Binding Path=Material}" 
             />
+                <GridViewColumn 
+            Header="Operation" 
+            >
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Save _As" Command="{Binding Path=SaveAsCommand}"></Button>
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
             </GridView>
         </ListView.View>
     </ListView>

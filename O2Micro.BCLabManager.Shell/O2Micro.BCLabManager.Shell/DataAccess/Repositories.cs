@@ -337,7 +337,7 @@ namespace O2Micro.BCLabManager.Shell.DataAccess
         private List<ChamberRecipeClass> ChamberRecipes;// { get; set; }
         private List<TesterRecipeClass> TesterRecipes;// { get; set; }
         private List<RequestClass> Requests;// { get; set; }
-        private List<ExecutorClass> Executors;
+        //private List<ExecutorClass> Executors;
 
         public Repositories()
         {

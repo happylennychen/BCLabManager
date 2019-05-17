@@ -4,6 +4,7 @@ using System.Windows.Input;
 using O2Micro.BCLabManager.Shell.DataAccess;
 using O2Micro.BCLabManager.Shell.Model;
 using O2Micro.BCLabManager.Shell.Properties;
+using System.Linq;
 
 namespace O2Micro.BCLabManager.Shell.ViewModel
 {
@@ -187,7 +188,16 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
         /// </summary>
         bool IsNewBatteryType
         {
-            get { return !_batterytypeRepository.ContainsItem(_batterytype); }
+            get 
+            { 
+                int number = (
+                    from bat in _batterytypeRepository.GetItems()
+                    where bat.Name == _batterytype.Name
+                    select bat).Count();
+                if (number != 0)
+                    return false;
+                return !_batterytypeRepository.ContainsItem(_batterytype); 
+            }
         }
 
         /// <summary>
@@ -195,7 +205,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
         /// </summary>
         bool CanSave
         {
-            get { return true; }
+            get { return IsNewBatteryType; }
         }
 
         #endregion // Private Helpers

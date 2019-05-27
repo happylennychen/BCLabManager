@@ -115,6 +115,15 @@ namespace O2Micro.BCLabManager.Shell.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dash Board.
+        /// </summary>
+        internal static string DashBoardViewModel_DisplayName {
+            get {
+                return ResourceManager.GetString("DashBoardViewModel_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Abandon.
         /// </summary>
         internal static string ExecutorViewModel_Command_Abandon {
@@ -219,6 +228,15 @@ namespace O2Micro.BCLabManager.Shell.Properties {
         internal static string MainWindowViewModel_Command_ViewAllRequests {
             get {
                 return ResourceManager.GetString("MainWindowViewModel_Command_ViewAllRequests", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Dash Board.
+        /// </summary>
+        internal static string MainWindowViewModel_Command_ViewDashBoard {
+            get {
+                return ResourceManager.GetString("MainWindowViewModel_Command_ViewDashBoard", resourceCulture);
             }
         }
         

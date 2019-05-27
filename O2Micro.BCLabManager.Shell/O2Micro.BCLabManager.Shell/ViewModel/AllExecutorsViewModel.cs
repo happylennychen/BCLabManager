@@ -94,7 +94,7 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             ExecutorAddedEventArgs arg = e as ExecutorAddedEventArgs;
             if (arg == null)
                 throw new ArgumentNullException("ExecutorAddedEventArgs");
-            this._allExecutors.Add(new ExecutorViewModel(arg.NewExecutor, _batteryRepository, _chamberRepository, _testerRepository));
+            this.AllExecutors.Add(new ExecutorViewModel(arg.NewExecutor, _batteryRepository, _chamberRepository, _testerRepository));
         }
 
         #endregion // Constructor

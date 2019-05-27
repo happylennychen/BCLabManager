@@ -196,7 +196,13 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
         {
             get
             {
-                return _request.RequestedProgram.RequestedSubPrograms.Count;
+                return
+                    (
+                    from subpro in _request.RequestedProgram.RequestedSubPrograms
+                    from recipe in subpro.RequestedRecipes
+                    from executor in recipe.Executors
+                    select executor
+                    ).Count();
             }
         }
         public Double InvalidRate { get { return InvalidNumber / TotalNumber; } }

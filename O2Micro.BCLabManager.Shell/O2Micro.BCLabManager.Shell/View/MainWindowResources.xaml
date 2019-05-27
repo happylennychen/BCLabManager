@@ -51,6 +51,10 @@ This resource dictionary is used by the MainWindow.
         <vw:AllExecutorsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type vm:DashBoardViewModel}">
+        <vw:DashBoardView />
+    </DataTemplate>
+
     <!-- 
   This style configures both of the main content areas in the main window.
   -->

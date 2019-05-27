@@ -135,6 +135,9 @@
   <data name="BatteryViewModel_DisplayName" xml:space="preserve">
     <value>New battery</value>
   </data>
+  <data name="DashBoardViewModel_DisplayName" xml:space="preserve">
+    <value>Dash Board</value>
+  </data>
   <data name="ExecutorViewModel_Command_Abandon" xml:space="preserve">
     <value>Abandon</value>
   </data>
@@ -170,6 +173,9 @@
   </data>
   <data name="MainWindowViewModel_Command_ViewAllRequests" xml:space="preserve">
     <value>View all requests</value>
+  </data>
+  <data name="MainWindowViewModel_Command_ViewDashBoard" xml:space="preserve">
+    <value>View Dash Board</value>
   </data>
   <data name="MainWindowViewModel_DisplayName" xml:space="preserve">
     <value>BC Lab Manager</value>

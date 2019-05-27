@@ -84,7 +84,11 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
 
                 new CommandViewModel(
                     Resources.MainWindowViewModel_Command_ViewAllExecutors,
-                    new RelayCommand(param => this.ShowAllExecutors()))
+                    new RelayCommand(param => this.ShowAllExecutors())),
+
+                new CommandViewModel(
+                    Resources.MainWindowViewModel_Command_ViewDashBoard,
+                    new RelayCommand(param => this.ShowDashBoard())),
             };
         }
 
@@ -221,6 +225,21 @@ namespace O2Micro.BCLabManager.Shell.ViewModel
             if (workspace == null)
             {
                 workspace = new AllExecutorsViewModel(_repositories._requestRepository, _repositories._batteryRepository, _repositories._chamberRepository, _repositories._testerRepository);
+                this.Workspaces.Add(workspace);
+            }
+
+            this.SetActiveWorkspace(workspace);
+        }
+
+        void ShowDashBoard()
+        {
+            DashBoardViewModel workspace =
+                this.Workspaces.FirstOrDefault(vm => vm is DashBoardViewModel)
+                as DashBoardViewModel;
+
+            if (workspace == null)
+            {
+                workspace = new DashBoardViewModel(_repositories);
                 this.Workspaces.Add(workspace);
             }
 

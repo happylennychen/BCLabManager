@@ -141,7 +141,7 @@
                     <TextBlock Grid.Row="4" Grid.Column="4" VerticalAlignment="Center" Text="{Binding Path=InvalidExeAmount}"></TextBlock>
                     <TextBlock Grid.Row="5" Grid.Column="4" VerticalAlignment="Center" Text="{Binding Path=AbandonedExeAmount}"></TextBlock>
                 </Grid>
-                <!--
+                
                 <Border x:Name="ChartBorder" MaxHeight="150">
                     <Grid Width="{Binding Path=ActualHeight,RelativeSource={RelativeSource Self}}"
                x:Name="PiesGrid">
@@ -183,7 +183,7 @@
                       StartAngle="{Binding Path=EndAngle, ElementName=InvalidPie, Mode=OneWay}"
                       Slice="{Binding Path=AbandonedExePercentage, Mode=OneWay}" />
                     </Grid>
-                </Border>-->
+                </Border>
             </DockPanel>
         </Border>
         <src:AllExecutorsView Grid.Row="2" Grid.ColumnSpan="3" Content="{Binding Path=allExecutorsViewModel}"></src:AllExecutorsView>

@@ -31,3 +31,7 @@ A : ÐèÒª£¬¶øÇÒ²»ÄÜÖ±½ÓÐÞ¸ÄRecipe£¬²»È»µÄ»°ËùÓÐÊ¹ÓÃ¹ý´ËRecipeµÄProgram¾Í»áÊÜÓ°Ïì¡
 KyleÌýµ½ÐÞ¸ÄRecipe»áÊ¹µÃËùÓÐProgramÊÜÓ°Ïìºó£¬Ã÷°×ÁËÎÒÊÇÓÃÖ±½ÓlinkµÄ·½Ê½×é½¨µÄProgram¡£ËûÈÏÎªÕâÑù»áÊ¹µÃ³ÌÐòµÄ¿É¸´ÓÃÐÔ½µµÍ¡£
 ÓÉ´ËKyleÌá³öÁËCRUDµÄÉè¼ÆÄ£Ê½¡£ÒÔ¼°ËûÄÔÖÐµÄÊµÏÖ·½Ê½¡£
 ÎÒÐèÒª½«Õâ¸öÎÊÌâË¼¿¼Çå³þÔÙ¸úKyleÌÖÂÛ¡£
+
+ÁíÍâ£¬»áÉÏKyle»¹Ìá³öÁËÒ»Ð©ÐèÇó£º
+1. ÓÃlinkµÄ·½Ê½£¬½«itemµÄÏêÏ¸ÐÅÏ¢ÏÔÊ¾³öÀ´¡£±ÈÈçµã»÷Ä³¸öitem£¬¾ÍÌø×ªµ½Ò»¸öÒ³ÃæÏÔÊ¾Ï¸½Ú¡£
+2. ½«ÕýÔÚ½øÐÐµÄÈÎÎñ£¬ÏÔÊ¾µ½AssetsÕâ±ßÀ´¡£

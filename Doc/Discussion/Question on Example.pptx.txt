@@ -1,0 +1,8 @@
+Q1. Can we call step 3.2 an "Update" operation? Because Program A has been changed after step 3.2
+A1. Yes
+Q2. In step 4.3, can we say it is a combination of Delete (Recipe A1) and Update (Program A)?
+A2. Yes
+Q3. If the answer of Q1 is yes, when do we need to Update a program (step 3), when do we need to create a new one (step 6)? 
+A3. 加菜，就是Update。再次点单，就是Create。
+Q4. When do we need to delete a Recipe in Repository? In your example I can only see Create in Repository.
+A4. 可以记录Recipe的使用情况，如果一直不怎么用，说明不需要。则将这个菜从菜单上拿掉。
